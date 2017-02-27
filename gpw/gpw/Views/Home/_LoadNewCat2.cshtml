@@ -1,0 +1,29 @@
+﻿@model List<gpw.Models.cat>
+
+@if (Model != null)
+{
+    foreach (var item in @Model)
+    {
+        <!--Our Agent Warp Start-->
+        <div class="col-md-4 item_dsnews">
+            <section class="kf_our_agent_bg box_giapha panel">
+                <!--Heading Wrap Start-->
+                <div class="kf_heading_1 panel-heading">
+                    <h3><a href="/News/tin/@item.cat_url">@item.cat_name</a></h3>
+                    <span class="kf_property_line"></span>
+                </div>
+                <!--Heading Wrap End-->
+                <!--Agent List Wrap Start-->
+                <div class="NewsLoad panel-body">
+                    <div class="row">
+                        @{Html.RenderAction("LoadNewInCat_top", new { cat_id = @item.id });}
+                        @{Html.RenderAction("LoadNewInCat2", new { cat_id = @item.id });}
+                    </div>
+                </div>
+                <!--Agent List Wrap End-->
+            </section>
+            <!--Our Agent Warp End-->
+        </div>
+    }
+}
+

@@ -1,0 +1,37 @@
+﻿@model gpw.Models.thong_tin_user
+@{
+    ViewBag.Title = "Trang thông tin cá nhân ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/css/style1.css" rel="stylesheet" />
+
+
+@if (Model != null)
+{
+    <div class="container">
+        <div class="row">
+            <h1>@ViewBag.Title</h1>
+            <div class="col-md-3">
+                <a title="Mert Salih Kaplan" href="/home/profile/@Model.user_id">
+                    <img alt="@Model.ho_ten" src="@Model.hinh_anh" class="img-responsive">
+                </a>
+            </div>
+            <div class="col-md-9">
+                <div class="panel panel-default">
+                    <div class="panel-heading kf_heading_1">
+                        <h3 class="panel-title" style="color: #fff;">
+                            Thông tin cá nhân
+                            <a href="/home/addfriend/@Model.user_id" class="btn btn-primary pull-right">Kết bạn</a>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <h3>Họ tên: @Model.ho_ten</h3>
+                        <p>Địa chỉ: @Model.dia_chi</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+}

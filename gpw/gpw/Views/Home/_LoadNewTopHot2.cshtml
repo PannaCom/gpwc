@@ -1,0 +1,26 @@
+﻿@model List<gpw.Models.news>
+
+@if (Model != null)
+{
+
+    <div class="hero-unit" id="hero_panel">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                string _link = "/News/Details/" + item.id;
+                <div class="item col-md-4">
+                    <div class="item_new">
+                        <a href="@_link" title="@item.new_title" class="thumb-zoom">
+                            <img src="@item.new_img" />
+                        </a>
+                        <div class="item-caption"><a href="@_link" title="@item.new_title">@item.new_title</a></div>
+                    </div>
+                </div>
+
+            }
+        </div>
+        
+    </div>
+
+}
+

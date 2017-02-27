@@ -1,0 +1,944 @@
+﻿#header {
+    background: #023008 url(/images/gia_pha_header_bg.png) center/cover;
+    background-size: 100% 100%;
+    border-top: 4px solid #dfb779;
+    border-bottom: 4px solid #dfb779;
+}
+
+.logo {
+    position: relative;
+    /* height: 310px; */
+    /* width: 100%; */
+    /* text-align: center; */
+    margin: 38px auto;
+}
+
+    .logo img {
+        width: 264px;
+        height: auto;
+        position: absolute;
+        z-index: 9999;
+        top: 6px;
+        left: 1px;
+    }
+
+.trongdong {
+    box-shadow: 0 0 7px 3px #f4e219;
+    background: #f6ed02 url(../images/trong-dong.png) no-repeat center/cover;
+    -moz-animation: xoayanh 30s infinite linear;
+    -o-animation: xoayanh 30s infinite linear;
+    -webkit-animation: xoayanh 30s infinite linear;
+    animation: xoayanh 30s infinite linear;
+    width: 280px;
+    height: 280px;
+    position: absolute;
+    top: -25px;
+    border-radius: 50%;
+}
+
+
+@-moz-keyframes xoayanh {
+    0% {
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -moz-transform: rotate(-360deg);
+        -ms-transform: rotate(-360deg);
+        -o-transform: rotate(-360deg);
+        -webkit-transform: rotate(-360deg);
+        transform: rotate(-360deg);
+    }
+}
+
+@-webkit-keyframes xoayanh {
+    0% {
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -moz-transform: rotate(-360deg);
+        -ms-transform: rotate(-360deg);
+        -o-transform: rotate(-360deg);
+        -webkit-transform: rotate(-360deg);
+        transform: rotate(-360deg);
+    }
+}
+
+@keyframes xoayanh {
+    0% {
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -moz-transform: rotate(-360deg);
+        -ms-transform: rotate(-360deg);
+        -o-transform: rotate(-360deg);
+        -webkit-transform: rotate(-360deg);
+        transform: rotate(-360deg);
+    }
+}
+
+@media(max-width: 512px) {
+    #header {
+        height: 100px;
+    }
+
+    .NewsLoad a {
+        font-size: 14px;
+    }
+
+    .logo {
+    }
+
+    .trongdong {
+    }
+
+    .logo img {
+        width: 100px;
+        top: -26px;
+    }
+}
+
+@media(min-width: 763px) {
+
+    #header {
+        height: 310px;
+    }
+
+    .item_new_top {
+        margin-right: 0;
+        display: inline-flex;
+        border-bottom: 1px dotted #cbcbcb;
+        padding-bottom: 0;
+        width: 100%;
+    }
+
+        .item_new_top figure {
+            padding-right: 6px;
+        }
+
+            .item_new_top figure img {
+                width: 188px;
+            }
+
+    .item_dsnews {
+        /*height: 390px;*/
+    }
+}
+
+#panel_newsitem .item_img {
+    height: 300px;
+}
+
+
+.item_new_top:hover {
+    text-decoration: none;
+    color: #333;
+}
+
+a:link, a {
+    color: #333;
+}
+
+
+
+.sp-left-thumbnails.sp-has-pointer .sp-thumbnail {
+    position: absolute;
+    right: 18px;
+    padding: 21px 0;
+    background: #f5f5f5;
+}
+
+.sp-left-thumbnails.sp-has-pointer .sp-selected-thumbnail:before,
+.sp-left-thumbnails.sp-has-pointer .sp-selected-thumbnail:after {
+    border-left-color: #e5c98c;
+}
+
+body {
+    padding-top: 0;
+    padding-bottom: 20px;
+    background: url(/images/bg_body_2.jpg) repeat;
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    line-height: 1.28;
+    color: #333;
+}
+
+#main {
+    margin-top: -2px;
+}
+
+/* Set padding to keep content from hitting the edges */
+/*.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}*/
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.blog-section {
+    margin: 0;
+}
+
+    .blog-section .blog-section-headline {
+        background: #e8500e;
+        text-transform: uppercase;
+        font-size: 1.1em;
+        padding: 8px 10px;
+        margin: 0;
+        color: #f4e932;
+    }
+
+        .blog-section .blog-section-headline a {
+            color: #f4e932;
+        }
+
+            .blog-section .blog-section-headline a:hover {
+                text-decoration: none;
+            }
+
+    .blog-section .hotnews {
+        height: 500px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
+
+        .blog-section .hotnews li {
+            border-bottom: 1px solid #eee;
+        }
+
+            .blog-section .hotnews li:last-child {
+                border: none;
+            }
+
+            .blog-section .hotnews li a {
+                color: #333;
+                padding-left: 10px;
+            }
+
+                .blog-section .hotnews li a:hover {
+                    color: #e8500e;
+                }
+
+    .blog-section .hotnews-wrapper {
+        border: 1px solid #eee;
+    }
+
+.carousel-item a {
+    color: #e8500e;
+    font-size: 18px;
+    display: block;
+}
+
+    .carousel-item a:hover {
+        text-decoration: none;
+    }
+
+.carousel-item img {
+    width: 100%;
+}
+
+.carousel-item .carousel-title {
+    margin: 10px 0;
+    /*white-space: nowrap;*/
+    overflow: hidden;
+}
+
+.description {
+    text-align: justify;
+    height: 3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.post-wrapper {
+    /*background: #fbfbfb;*/
+}
+
+.post-description {
+    text-align: justify;
+    height: 9em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.media-post-description {
+    text-align: justify;
+    height: 4.5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.post-title {
+    margin: 10px 0;
+    font-weight: 500;
+    color: #333;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 1.1em;
+}
+
+
+/*Carousel Style*/
+.kf_agent_slider .item {
+    padding: 0px 10px;
+}
+
+.kf_agent_slider .owl-wrapper {
+    padding-bottom: 10px;
+}
+
+.kf_agent_slider .owl-pagination {
+    display: none;
+}
+
+.kf_agent_slider.owl-theme .owl-controls .owl-buttons div {
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    top: 45%;
+    border-radius: 3px;
+    background-color: #fff;
+    box-shadow: 0 3px 3px 0px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    font-size: 0px;
+    opacity: 1;
+}
+
+    .kf_agent_slider.owl-theme .owl-controls .owl-buttons div:hover {
+        color: #fff;
+    }
+
+    .kf_agent_slider.owl-theme .owl-controls .owl-buttons div.owl-prev {
+        left: -50px;
+    }
+
+    .kf_agent_slider.owl-theme .owl-controls .owl-buttons div.owl-next {
+        right: -50px;
+    }
+
+        .kf_agent_slider.owl-theme .owl-controls .owl-buttons div.owl-prev:before,
+        .kf_agent_slider.owl-theme .owl-controls .owl-buttons div.owl-next:before {
+            content: "\f177";
+            position: absolute;
+            font-family: fontawesome;
+            color: #e0e0e0;
+            top: 9px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            font-size: 20px;
+        }
+
+        .kf_agent_slider.owl-theme .owl-controls .owl-buttons div.owl-next:before {
+            content: "\f178";
+            left: auto;
+            right: 0px;
+        }
+
+/*Carousel Style*/
+
+
+.kf_heading_1 {
+    background: url(/images/bg_header.png) repeat-x;
+    color: #fff;
+}
+
+    .kf_heading_1 h3 {
+        padding: 24px 10px 0;
+        margin-top: 0;
+        color: #fff;
+        font-size: 14px;
+    }
+
+    .kf_heading_1 a {
+        color: #fff;
+    }
+
+.kf_agent_wrap {
+    position: relative;
+}
+
+    .kf_agent_wrap .kf_agent_des {
+        position: absolute;
+        width: 100%;
+        background: rgba(2, 48, 8, 0.56);
+        bottom: 0;
+        padding: 6px;
+        color: #fff;
+        -webkit-transition: height ease .5s;
+        -moz-transition: height ease .5s;
+        -o-transition: height ease .5s;
+        transition: height ease .5s;
+    }
+
+        .kf_agent_wrap .kf_agent_des a {
+            color: #fff;
+        }
+
+.nav_xyz1 {
+    border-color: transparent;
+    background-color: #023008;
+    border-color: #022306;
+}
+
+/*@media (min-width: 763px) {
+        #header img#logo1{
+                height: 220px;
+                width: 100%;
+        }
+    }*/
+
+.nav_xyz1 {
+    /*background-color: #023008;
+    border-color: #022306;*/
+    border-radius: 0;
+    margin-bottom: 2px;
+}
+
+    .nav_xyz1 .navbar-nav > li > a:hover, .nav_xyz1 .navbar-nav > li > a:focus {
+        color: #fff;
+        background-color: #1e5524;
+        border-bottom-color: #bdad70;
+    }
+
+    .nav_xyz1 .navbar-nav > li > a, .nav_xyz1 .navbar-nav > li > a {
+        border-bottom: 2px solid transparent;
+        -moz-transition: all ease .5s;
+        -o-transition: all ease .5s;
+        -webkit-transition: all ease .5s;
+        transition: all ease .5s;
+        color: #fff;
+    }
+
+html, body {
+    min-height: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.wrapper_main {
+    background: #fff;
+}
+
+.search-bar {
+    position: relative;
+}
+
+    .search-bar button[type="submit"] {
+        background: none;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+        text-shadow: none;
+        color: #333;
+        position: absolute;
+        right: 0;
+        top: 2px;
+    }
+
+.box_giapha {
+    background: #fff;
+    border-color: #023008;
+    margin: 0 0 4px;
+    border-radius: 0;
+}
+
+    /*.box_giapha .kf_agent_slider {
+            margin-top: -10px;
+        background: #fff;
+        padding-top: 6px;
+        margin-bottom: 5px;
+    }*/
+
+    .box_giapha .panel-heading {
+        padding: 0 0 0;
+    }
+
+#person_flat {
+    list-style-type: none;
+    padding: 0;
+    display: inline-block;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+    #person_flat li a img {
+        width: 40px;
+        height: 40px;
+    }
+
+.item_thanhvien h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.item_thanhvien {
+    border-bottom: 1px solid #cbcbcb;
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+
+.border_w0 {
+    border-bottom-width: 0px;
+}
+
+#person_flat li {
+    margin: 3px;
+    display: inline-block;
+}
+
+#main .container .row .col-md-4,
+#main .container .row .col-md-12,
+#main .container .row .col-md-8 {
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+#main .NewsLoad > .row > .col-md-3 {
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+}
+
+.NewsLoad {
+    padding: 1px 16px;
+}
+
+.kf_agent_wrap:hover .kf_agent_des {
+    height: 70%;
+}
+
+#footer {
+    background: #095613;
+    color: #fff;
+    /*margin-top: 10px;*/
+    padding: 20px;
+    text-align: center;
+    border-top: 4px solid #023008;
+}
+
+.list_news {
+    padding-left: 19px;
+    min-height: 170px;
+    line-height: 1.7em;
+}
+
+#gia_pha_0 {
+    background: url(/images/caygiaphamay_bg.jpg) center no-repeat;
+    height: 600px;
+    width: 100%;
+    background-size: 102% 102%;
+}
+
+
+/*Now the CSS*/
+
+.tree ul {
+    padding-top: 20px;
+    position: relative;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+}
+
+.tree li {
+    float: left;
+    text-align: center;
+    list-style-type: none;
+    position: relative;
+    padding: 20px 0px 0 0px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+}
+
+    /*We will use ::before and ::after to draw the connectors*/
+
+    .tree li::before, .tree li::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 50%;
+        border-top: 3px solid #ccc;
+        width: 50%;
+        height: 20px;
+    }
+
+    .tree li::after {
+        right: auto;
+        left: 50%;
+        border-left: 3px solid #ccc;
+    }
+
+    /*We need to remove left-right connectors from elements without 
+any siblings*/
+    .tree li:only-child::after, .tree li:only-child::before {
+        display: none;
+    }
+
+    /*Remove space from the top of single children*/
+    .tree li:only-child {
+        padding-top: 0;
+    }
+
+    /*Remove left connector from first child and 
+right connector from last child*/
+    .tree li:first-child::before, .tree li:last-child::after {
+        border: 0 none;
+    }
+    /*Adding back the vertical connector to the last nodes*/
+    .tree li:last-child::before {
+        border-right: 1px solid #ccc;
+        border-radius: 0 5px 0 0;
+        -webkit-border-radius: 0 5px 0 0;
+        -moz-border-radius: 0 5px 0 0;
+    }
+
+    .tree li:first-child::after {
+        border-radius: 5px 0 0 0;
+        -webkit-border-radius: 5px 0 0 0;
+        -moz-border-radius: 5px 0 0 0;
+    }
+
+.tree {
+    height: 100%;
+}
+
+    /*Time to add downward connectors from parents*/
+    .tree ul ul::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        border-left: 3px solid #ccc;
+        width: 0;
+        height: 20px;
+    }
+
+.tree_11::before {
+    border-left-width: 0px !important;
+}
+
+.tree li a {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #666;
+    font-family: arial, verdana, tahoma;
+    font-size: 11px;
+    display: inline-block;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+}
+
+    /*Time for some hover effects*/
+    /*We will apply the hover effect the the lineage of the element also*/
+    .tree li a:hover, .tree li a:hover + ul li a {
+        /*background: #c8e4f8;*/ color: #000;
+        border: 1px solid #94a0b4;
+    }
+        /*Connector styles on hover*/
+        .tree li a:hover + ul li::after,
+        .tree li a:hover + ul li::before,
+        .tree li a:hover + ul::before,
+        .tree li a:hover + ul ul::before {
+            border-color: #94a0b4;
+        }
+
+.tree_sub {
+    font-size: 11px !important;
+    width: 48px;
+    text-align: center;
+    padding: 5px !important;
+}
+
+    .tree_sub strong {
+        display: block;
+        text-align: left;
+    }
+
+/*Thats all. I hope you enjoyed it.
+Thanks :)*/
+
+
+.bg_ph {
+    background: url(/images/bg_gia_pha_2.png) no-repeat center;
+    background-size: cover;
+    padding: 62px 211px !important;
+    color: #fff !important;
+    border-width: 0px !important;
+    position: relative;
+}
+
+    .bg_ph span {
+        position: absolute;
+        width: 100%;
+        top: 30px;
+        left: 0;
+    }
+
+.tree_sub_0 {
+    text-transform: uppercase;
+    color: red !important;
+    background: yellow;
+    width: 200px;
+    height: 58px;
+    border: 2px solid red !important;
+    font-size: 17px !important;
+    font-weight: 600;
+}
+
+.tree_sub_1 {
+    text-transform: uppercase;
+    color: yellow !important;
+    background: red;
+    width: 65px;
+    height: 58px;
+    border: 2px solid red !important;
+    font-size: 11px !important;
+    font-weight: 600;
+}
+
+.tree_sub_2 {
+    text-transform: uppercase;
+    color: #333 !important;
+    background: yellow;
+    width: 87px;
+    height: 58px;
+    border: 2px solid #333 !important;
+    font-size: 10px !important;
+    font-weight: 600;
+    margin-right: 0px;
+}
+
+.tree_lv3:before {
+    left: 50% !important;
+}
+
+.tree_sub_3 {
+    text-transform: uppercase;
+    color: #333 !important;
+    background: #EE0F83;
+    width: 51px;
+    height: 63px;
+    border: 2px solid #333 !important;
+    font-size: 10px !important;
+    font-weight: 600;
+    margin-right: 3px;
+}
+
+.s_tree {
+    border: 1px solid #000 !important;
+    width: 2px !important;
+    padding: 0px 1px !important;
+    margin-left: -4px;
+    background: #000;
+}
+
+/*.sub_2 {
+        margin-right: 4px;
+}
+
+.sub_2:last-child {
+        margin-right: 0px;
+}*/
+
+.noPadding {
+    padding: 0;
+    padding-right: 10px;
+}
+
+
+.center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+
+#dang_ky_thanh_vien_moi {
+    background: url(/images/gia-pha.png) no-repeat center center;
+    background: url(/images/gia-pha.png) no-repeat center center;
+    background-color: #eee;
+}
+
+    #dang_ky_thanh_vien_moi .page-header,
+    #dang_ky_thanh_vien_moi #form_dang_ky_thanh_vien,
+    #dang_nhap_thanh_vien_moi .page-header,
+    #dang_nhap_thanh_vien_moi #form_dang_nhap_thanh_vien {
+        padding: 0 10px;
+    }
+
+#form_dang_ky_thanh_vien hr {
+    border-color: #cbcbcb;
+}
+
+.section_1 .page-header, .section_1 .form-horizontal {
+    padding: 0 10px;
+}
+
+.thumb-zoom {
+    position: relative;
+    overflow: hidden;
+}
+
+
+    .thumb-zoom img {
+        display: inline-block;
+        vertical-align: middle;
+        -webkit-transform: translateZ(0px);
+        -moz-transform: translateZ(0px);
+        -ms-transform: translateZ(0px);
+        -o-transform: translateZ(0px);
+        transform: translateZ(0px);
+        -moz-transition-duration: 1s;
+        -o-transition-duration: 1s;
+        -webkit-transition-duration: 1s;
+        transition-duration: 1s;
+        -webkit-duration: 1s;
+        -webkit-transition-property: transform;
+        -moz-transition-property: transform;
+        -o-transition-property: transform;
+        transition-property: transform;
+    }
+
+    .thumb-zoom:hover img {
+        display: inline-block;
+        -webkit-transform: scale(1.3) rotateZ(-5deg);
+        -moz-transform: scale(1.3) rotateZ(-5deg);
+        -ms-transform: scale(1.3) rotateZ(-5deg);
+        -o-transform: scale(1.3) rotateZ(-5deg);
+        transform: scale(1.3) rotateZ(-5deg);
+    }
+
+#panel_newsitem {
+    border-radius: 0;
+    margin: 0;
+}
+
+    #panel_newsitem .flex-caption {
+        width: 100%;
+        left: 0;
+        bottom: -10px;
+        background: none repeat scroll 0 0 rgba(0, 51, 80, 0.85);
+        text-shadow: 0 -1px 0 rgba(0,0,0,.3);
+        font-size: 14px;
+        line-height: 18px;
+        position: absolute;
+        text-transform: none;
+    }
+
+        #panel_newsitem .flex-caption a {
+            padding: 2%;
+            color: #fff;
+            font-size: 14px;
+            line-height: 18px;
+            display: block;
+        }
+
+#hero_panel .item {
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.item_new {
+    position: relative;
+}
+
+#hero_panel .item a {
+    display: block;
+}
+
+#hero_panel img {
+    max-width: 100%;
+    width: 100%;
+    height: 196px;
+}
+
+#hero_panel .item .item-caption {
+    width: 100%;
+    background: rgba(35, 50, 73, 0.58);
+    position: absolute;
+    bottom: 0;
+}
+
+    #hero_panel .item .item-caption a {
+        padding: 2%;
+        color: #fff;
+    }
+
+
+#hero_panel .row {
+        margin: 0 0 -1px;
+}
+
+#hero_panel {
+    background: #fff;
+    padding: 1px 3px;
+}
+
+.item_hot {
+           display: block;
+    min-height: 173px;
+}
+
+.item_hot img {
+         width: 150px;
+    height: 161px;
+}
+
+.item_hot > .item_hot_1 > a{
+        display: block;
+    float: left;
+    margin-right: 5px;
+}
+
+.item_title {
+        font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 106%;
+    display: block;
+}
+
+.item_hot_caption {
+    padding: 5px;
+}
+
+.main_wrapper {
+  
+}

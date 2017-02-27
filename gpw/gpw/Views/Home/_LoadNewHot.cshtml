@@ -1,0 +1,43 @@
+﻿@model List<gpw.Models.news>
+
+<div class="newshot">
+    <!--Our Agent Warp Start-->
+    <section class="kf_our_agent_bg box_giapha panel">
+        <!--Heading Wrap Start-->
+        <div class="kf_heading_1 panel-heading">
+            <h3>Tin tức nổi bật</h3>
+
+        </div>
+        <!--Heading Wrap End-->
+        <!--Agent List Wrap Start-->
+        <div class="panel-body">
+            <div class="kf_agent_slider owl-carousel owl-theme">
+                @if (Model.Count > 0)
+            {
+                foreach (var item in Model)
+                {
+                    string link_pro = string.Format("/News/Details/{0}", item.id);
+                    <div class="item">
+                        <div class="kf_agent_wrap">
+                            <a href="@link_pro" style="width: 265px;">
+                                <figure>
+                                    <img src="@item.new_img" alt="@item.new_title" style="width: 100%;height: 200px;">
+                                    <figcaption>
+                                        <span class="kf_listing_overlay"></span>
+                                    </figcaption>
+                                </figure>
+                            </a>
+                            <div class="kf_agent_des">
+                                <h6><a href="@link_pro">@item.new_title</a></h6>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+            </div>
+        </div>
+        <!--Agent List Wrap End-->
+    </section>
+    <!--Our Agent Warp End-->
+</div>

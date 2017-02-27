@@ -1,0 +1,142 @@
+﻿@using gpw.helpers;
+@model gpw.Models.thanh_vien
+
+@{
+    ViewBag.Title = "Trang cá nhân ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section meta {
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+}
+
+@*@{
+    if (configs.getCookie("ten_thanh_vien") != "")
+    {
+        ViewBag.Title += configs.getCookie("ten_thanh_vien");
+    }
+}*@
+
+
+<div class="row section_1" style="background: #fff;">
+    <div class="col-md-8">
+        <div class="page-header">
+            <h1>@ViewBag.Title</h1>
+        </div>
+        @if (configs.getCookie("thanhvien_id") != "")
+        {
+            <p>
+                @Html.ActionLink("Sửa thông tin cá nhân", "Edit", new { id = Model.id }) | <a href="/ThanhVien/TaoGiaPha/@Model.id">Khai báo gia phả</a>
+            </p>
+        }
+        
+        @if (Model != null)
+        {
+            <div class="thumbnail">
+                <img src="@Model.hinh_anh" alt="..." style="width: 100px; height: 125px;">
+                <div class="caption">
+                    <h3>Họ tên: @Model.ho_ten</h3>
+                    <p>Nơi sống: @Model.dia_chi</p>
+                    <p>Email: @Model.email</p>
+                    <p>Số điện thoại: @Model.so_dien_thoai</p>
+                    <p>Ngày sinh: @string.Format("{0:dd/MM/yyyy}", @Model.ngay_sinh)</p>
+                </div>
+            </div>
+            
+            { Html.RenderAction("LoadThanhVien", "ThanhVien", new { id = Model.id }); }
+        }
+
+    </div>
+    <div class="col-md-4">
+        @*<img src="~/images/caudoiphai.png" class="img-responsive" style="display: inline-block;" />
+            <img src="~/images/caudoitrai.png" class="img-responsive" style="display: inline-block;" />*@
+        <div class="panel panel-default box_giapha">
+            <div class="panel-heading kf_heading_1" style="padding: 0;">
+                <h3>Tìm kiếm</h3>
+            </div>
+
+            <div class="panel-body">
+                @*@using (Html.BeginForm("Search", "Home", FormMethod.Post, htmlAttributes: new { @class = "form-inline", role = "form", @id = "form_search" }))
+                    {
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="search" name="keyword" id="keyword" class="form-control" placeholder="Nhập địa chỉ email hoặc số điện thoại" required />
+                            </div>
+                        </div>
+                        <button class="btn btn-primary"><i class="fa fa-search"></i> Tìm kiếm</button>
+                    }*@
+                <div class="search-bar">
+                    <form action="/Home/Search" method="GET" role="form" id="form_search">
+                        <div class="form-group">
+                            <input style="max-width: 100%;" type="text" class="form-control" name="keyword" id="keyword" placeholder="Nhập từ khóa tìm kiếm">
+                        </div>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default box_giapha">
+            <div class="panel-heading kf_heading_1" style="padding-bottom: 0;">
+                <h3>Thống kê thành viên</h3>
+            </div>
+            <div class="panel-body">
+                @*@{Html.RenderAction("DsUser");}*@
+                <div class="col-md-12 item_thanhvien">
+                    <h3>Thành viên già nhất:</h3>
+                    <ul id="person_flat">
+                        <li><a href="#">Dương Trung Hiếu</a> <i>Ngày sinh: 4/11/1960</i></li>
+                    </ul>
+                </div>
+                <div class="col-md-12 item_thanhvien">
+                    <h3>Thành viên trẻ nhất:</h3>
+                    <ul id="person_flat">
+                        <li><a href="#">Dương Viết Xuân</a> <i>Ngày sinh: 23/11/2000</i></li>
+                    </ul>
+                </div>
+                <div class="col-md-12 item_thanhvien border_w0">
+                    <h3>Thành viên mới nhất:</h3>
+                    <ul id="person_flat">
+                        <li><a href="#">Dương Thị Mùi</a>, </li>
+                        <li><a href="#">Dương Văn Dần</a>, </li>
+                        <li><a href="#">Dương Thúy Mùi</a>, </li>
+                        <li><a href="#">Dương Văn Nhàn</a>, </li>
+                        <li><a href="#">Dương Thúy Nhàn</a>,</li>
+                        <li><span>...</span></li>
+                        @*<li><a href="#"><img src="~/images/person-girl-flat.png" /></a></li>*@
+                    </ul>
+                </div>
+
+                <a href="#" style="float: right;">Xem tất cả</a>
+            </div>
+        </div>
+
+        <div class="panel panel-default box_giapha">
+            <div class="panel-body">
+                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="height: 80px;">
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item active">
+                            <p>Đừng so sánh mình với bất cứ ai trong thế giới này. Nếu bạn làm như vậy có nghĩa bạn đang sỉ nhục chính bản thân mình. </p>
+                            <b style="float: right; margin-top: 5px;">Bill Gates</b>
+                        </div>
+                        <div class="item">
+                            <p>Ta không được chọn nơi mình sinh ra. Nhưng ta được chọn cách mình sẽ sống.</p>
+                            <b style="float: right; margin-top: 5px;">Khuyết danh</b>
+                        </div>
+                    </div>
+
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators" style="bottom: 0;">
+                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active" style="background: #333;"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="1" style="background: #333;"></li>
+                    </ol>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+

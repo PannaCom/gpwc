@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Tạo gia phả";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row section_1" style="background: #fff" ;>
+    <div class="col-md-8">
+        <div class="page-header">
+            <h2>@ViewBag.Title</h2>
+        </div>
+
+        <h3>Tạo thành viên đầu tiên</h3>
+
+        <div class="input-group">
+            <div class="input-group-addon">
+                <input type="text" name="tenthanhvien" id="tenthanhvien" class="form-control" />
+                <select class="form-control">
+                    <option>Quan hệ</option>
+                    <option value="1">Cha mẹ - con</option>
+                    <option value="2">Vợ - chồng</option>
+                </select>
+            </div>
+            
+            <div class="input-group-btn">
+                <button class="btn btn-default">Thêm</button>
+            </div>
+            
+        </div>
+       
+    </div>
+</div>

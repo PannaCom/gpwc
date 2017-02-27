@@ -1,0 +1,148 @@
+﻿@model PagedList.IPagedList<gpw.Models.news>
+@using PagedList.Mvc;
+@{
+    gpw.Models.gpwEntities db = new gpw.Models.gpwEntities();
+}
+
+@{
+    ViewBag.Title = "Quản lý tin tức";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Thêm mới tin tức", "Create")
+</p>
+
+@using (Html.BeginForm("Index", "News", FormMethod.Get, new { @class = "form-inline", role = "form", @id = "search-news", onsubmit = "return validate()" }))
+{
+    <div class="form-group">
+        <label for="searchQuery" class="control-label">Tìm kiếm: </label>
+        @Html.TextBox("search", "", new { @class = "form-control", placeholder = "Nhập từ khóa cần tìm " })
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-primary"><i class="fa fa-search"></i>Tìm kiếm</button>
+    </div>
+}
+
+<script>
+    function validate() {
+        if (document.getElementById("search").value === "") {
+            alert('Vui lòng nhập từ khóa tìm kiếm');
+            return false;
+        } else {
+            return true;
+        };
+    }
+</script>
+
+
+
+<div class="table-responsive">
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th style="width: 50px; text-align: center;">Số thứ tự</th>
+                <th>Ngày tháng</th>
+                <th>Tiêu đề</th>
+                <th>Ảnh</th>
+                <th>Danh mục</th>
+                <th>Loại tin</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                int i = 1;
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td>@item.ngay_tao</td>
+                        <td>@item.new_title</td>
+                        <td>
+                            <img style="width: 100px; height: 100px;" src="@item.new_img" />
+                        </td>
+                        <td>@db.cats.Find(item.cat_id).cat_name</td>
+                        <td>@if (item.isHot == 0)
+                            {
+                                <text>Tin thường</text>
+                            }
+                            else
+                            {
+                                <text>Tin nổi bật</text>
+                            }
+                            </td>
+                        <td><span id="active_@item.id" onclick="setNewHot(@item.id);">Đặt tin</span> ||
+                            <span id="removea_@item.id" onclick="removeNewHot(@item.id);">Loại bỏ tin</span>
+                        </td>
+                        <td>
+                            <a href="/News/Edit/@item.id" class="btn btn-primary"><i class="fa fa-edit"></i> Sửa</a>
+                            <a href="/News/Delete/@item.id" class="btn btn-danger"><i class="fa fa-close"></i> Xóa</a>
+                        </td>
+                    </tr>
+                    i++;
+                }
+            }
+        </tbody>
+        
+
+    </table>
+</div>
+
+@if (Model != null)
+{
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { pg = page, search = ViewBag.search }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+}
+
+@section scripts {
+    <script>
+        function setNewHot(id) {
+            if (confirm("Đặt tin này là tin nổi bật, chọn ok để đồng ý?")) {
+                document.getElementById("active_" + id).value = "Đang cập nhật xin chờ...";
+                document.getElementById("active_" + id).disabled = true;
+                $.ajax({
+                    url: "/News/setNewHot?id=" + id,
+                    cache: false
+                }).done(function (html) {
+                    if (html === "1") {
+                        alert("Bạn đã thiết lập thành công!");
+                        window.location.href = "/News/index";
+                    } else {
+                        alert("Chương trình đang cập nhật, xin quay lại sau!");
+                    }
+                    document.getElementById("active_" + id).value = "Đã thiết lập";
+                    document.getElementById("active_" + id).disabled = false;
+                });
+            }
+        }
+
+        function removeNewHot(id) {
+            if (confirm("Loại bỏ tin này khỏi danh sách tin nổi bật, chọn ok để đồng ý?")) {
+                document.getElementById("removea_" + id).value = "Đang cập nhật xin chờ...";
+                document.getElementById("removea_" + id).disabled = true;
+                $.ajax({
+                    url: "/News/removeNewHot?id=" + id,
+                    cache: false
+                }).done(function (html) {
+                    if (html === "1") {
+                        alert("Bạn đã thiết lập thành công!");
+                        window.location.href = "/News/index";
+                    } else {
+                        alert("Chương trình đang cập nhật, xin quay lại sau!");
+                    }
+                    document.getElementById("removea_" + id).value = "Đã thiết lập";
+                    document.getElementById("removea_" + id).disabled = false;
+                });
+            }
+        }                
+
+    </script>
+    }

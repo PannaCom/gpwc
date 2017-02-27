@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Web siêu thị MVC5">
+    <meta name="author" content="Nguyen Van Nam">
+    <title>@ViewBag.Title | Trang quản trị thiết bị công nghệ</title>
+    @RenderSection("metatags", false)
+    <!-- Bootstrap Core CSS -->
+    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
+    <!-- MetisMenu CSS -->
+    <link href="@Url.Content("~/Content/admin/vendor/metisMenu/metisMenu.min.css")" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="@Url.Content("~/Content/admin/css/sb-admin-2.css")" rel="stylesheet" />
+    <link href="~/Content/admin/css/styles.css" rel="stylesheet" />
+    <!-- Custom Fonts -->
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/admin/icomoon/icomoon.css" rel="stylesheet" />
+    @RenderSection("Styles", false)
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- jQuery -->
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    @*<link href="~/Scripts/jquery-confirm.min.css" rel="stylesheet" />*@
+    <script src="~/Scripts/jquery-1.12.4.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="~/Content/admin/vendor/metisMenu/metisMenu.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.0.min.js"></script>
+    @*<script src="~/Scripts/jquery-confirm.min.js"></script>*@
+</head>
+<body>
+    <noscript>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="page-header">
+                    <h3>Yêu cầu JavaScript</h3>
+                </div>
+                <p class="lead">
+                    Chúng tôi rất tiếc, nhưng hệ thống sẽ không hoạt động đúng nếu không bật JavaScript. Nếu trình duyệt không hỗ trợ JavaScript, hãy thử lại một trình duyệt mới hơn. 
+                </p>
+            </div>
+        </div>
+    </noscript>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/admin/dashboard">
+                    Administrator Panel
+                </a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    @Html.Partial("_LoginPartial")
+                </li>
+            </ul>
+
+            <!-- /.navbar-top-links -->
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    @Html.Partial("_MenuAdminPartial")                    
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    @RenderSection("PageTitleHeader", required: false)
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            @RenderBody()
+        </div>
+        <footer style="padding: 0 30px;">
+            <p style="padding-top: 10px;">&copy; 2016 copyright</p>
+        </footer>
+        <noscript>
+
+        </noscript>
+    </div>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="~/Content/admin/js/sb-admin-2.js"></script>
+    @RenderSection("scripts", required: false)
+
+
+    
+    
+
+</body>
+</html>

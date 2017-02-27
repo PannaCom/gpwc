@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    @RenderSection("meta", required: false)
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @*<meta name="viewport" content="width=device-width, initial-scale=1">*@
+    <title>@ViewBag.Title - Gia phả họ dương</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/owl.carousel.css" rel="stylesheet" />
+    <link href="~/Content/sld/css/slider-pro.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <header id="header">
+        <div class="container">
+            <div class="row" id="header_1">
+                <div class="logo">
+                    <img src="~/images/logo.png" alt="" class="img-responsive">
+                    <div class="trongdong center-block hidden-xs"></div>
+                </div>
+                
+            </div>
+        </div>
+    </header>
+
+
+    <nav class="navbar navbar-default nav_xyz1">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Trang chủ", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", style = "color: #fff;" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/Home/GiaPha">Gia phả</a></li>
+                    <li><a href="/News/tin/tin-hop-ho">Tin họp họ</a></li>
+                    <li><a href="/News/tin/tin-hoi-he">Tin hội hè</a></li>
+                    <li><a href="/News/tin/doanh-nghiep-ho-duong">Tin tức doanh nghiệp</a></li>
+                    <li>@Html.ActionLink("Liên hệ", "Contact", "Home")</li>
+                    @Html.Partial("_LoginPartial")
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+    <div id="main">
+        <div class="container main_wrapper">
+            @RenderBody()
+        </div>
+    </div>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12" style="font-size: 14px;">
+                    <h3>TRANG GIA PHẢ HỌ DƯƠNG VIỆT NAM</h3>
+                    <h4 style="font-size: 14px;">Chịu trách nhiệm nội dung : Ông Dương Đình Chiến - Chủ tịch Hội đồng Họ Dương Việt Nam</h4>
+
+                    @*<p>Biên tập trang tin điện tử: Văn phòng Họ Dương Việt Nam - Địa chỉ: Số 22, Lý Thái Tổ, Phường Đại Phúc, TP. Bắc Ninh - Điện thoại: 0241.3856.312 - Email: hoduongvn@gmail.com</p>*@
+
+                    <p>&copy; @DateTime.Now.Year - Thiết kế bởi công ty Minh Việt - Địa chỉ Duy Tân, Cầu Giấy, Hà Nội - Điện thoại: 097 977 6427</p>
+
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    @*<div class="cdtrai hidden-xs"></div>
+    <div class="cdphai hidden-xs"></div>*@
+
+    
+    <script src="~/Scripts/owl.carousel.js"></script>
+    <script src="~/Content/sld/js/jquery.sliderPro.min.js"></script>
+    <script src="~/Scripts/main.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

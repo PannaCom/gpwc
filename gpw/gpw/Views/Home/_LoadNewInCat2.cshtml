@@ -1,0 +1,16 @@
+﻿@model List<gpw.Models.news>
+
+
+@if (Model != null)
+{
+    <ul class="list_news">
+        @foreach (var item in Model)
+        {
+        <li class="kf_agent_des">
+            <h6><a href="@string.Format("/News/Details/{0}", item.id)" style="line-height: 1.5em;">@item.new_title</a></h6>
+        </li>
+        }
+    </ul>    
+}
+
+

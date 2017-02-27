@@ -1,0 +1,397 @@
+﻿@model gpw.Models.thong_tin_user
+@{
+    ViewBag.Title = "Thông tin tài khoản";
+}
+
+<link href="~/Scripts/dropzone/dropzone.css" rel="stylesheet" />
+<script src="~/Scripts/dropzone/dropzone.js"></script>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+<h2>@ViewBag.Title.</h2>
+
+@if (@TempData["update"] != null)
+{
+    <p class="text-success">@TempData["update"]</p>
+}
+
+@if (@TempData["error"] != null)
+{
+    <p class="text-danger">@TempData["error"]</p>
+}
+
+
+@using (Html.BeginForm("CapNhatThongTin", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                Họ tên:
+            </label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.ho_ten, new { @class = "form-control", placeholder = "Họ tên thành viên", required = "" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Ảnh đại diện</label>
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.hinh_anh)
+                <div class="anhuser1">
+                    <img id="anhuser1_1" src="@Model.hinh_anh" style="width: 100px; height: 100px;" />
+                </div>
+                <div id="hinhanh_user" class="dropzone" style="padding: 0; height: 27px; min-height: 0; width: 200px; background: #5993c5; color: #fff;">
+                    <div class="dz-default dz-message" data-dz-message style="margin: 0;">
+                        <span><i class="fa fa-plus fa-2x"></i> Tải ảnh lên.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                Tên thường gọi:
+            </label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.biet_danh, new { @class = "form-control", placeholder = "Biệt danh thành viên" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                Giới tính:
+            </label>
+            <div class="col-md-10">
+                <span>@Model.gioi_tinh</span>
+                <label><input type="radio" name="sgioi_tinh" value="Nam" /> Nam</label>
+                <label><input type="radio" name="sgioi_tinh" value="Nữ" /> Nữ</label>
+                @Html.HiddenFor(m => m.gioi_tinh)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                Học vấn:
+            </label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.hoc_van, new { @class = "form-control", placeholder = "Học vấn", onkeyup = "autogethocvan();" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                Địa chỉ:
+            </label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.dia_chi, new { @class = "form-control", placeholder = "Địa chỉ", required="" })
+                @Html.HiddenFor(m => m.lon)
+                @Html.HiddenFor(m => m.lat)
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                Ngày sinh:
+            </label>
+            <div class="col-md-10">
+                @*@Html.TextBoxFor(m => m.ngay_sinh, new { @class = "form-control", placeholder = "Ngày sinh thành viên", requred = "" })*@
+                <span>@string.Format("{0:dd/MM/yyyy}", Model.ngay_sinh)</span>
+                <input type="hidden" name="ngay_sinh2" id="ngay_sinh2" />
+                <div style="display: inline-flex;">
+                    <select name="ngay1" id="ngay1" class="form-control" style="width: 80px;" onchange="CongNgay();">
+                        <option value="">Ngày</option>
+                    </select>
+                    <select name="thang1" id="thang1" class="form-control" style="width: 90px;" onchange="CongNgay();">
+                        <option value="">Tháng</option>
+                    </select>
+                    <select name="nam1" id="nam1" class="form-control" style="width: 100px;" onchange="CongNgay();">
+                        <option value="">Năm</option>
+                    </select>
+                </div>
+                @*@Html.ValidationMessageFor(m => m.ngay_sinh, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                Cơ quan công tác
+            </label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.cq_ctac, new { @class = "form-control", placeholder = "Cơ quan công tác", required = "" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                Nghề nghiệp:
+            </label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.nghe_nghiep, new { @class = "form-control", placeholder = "Nghề nghiệp thành viên", onkeyup = "autogetnghenghiep();" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+                <label class="control-label col-md-2">
+                    Trạng thái:
+                </label>
+                <div class="col-md-10">
+                    <select class="form-control" id="trang_thai" name="trang_thai">
+                        <option value="">Trạng thái thành viên</option>
+                        <option value="1">Còn sống</option>
+                        <option value="2">Đã mất</option>
+                    </select>
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                Số cmt:
+            </label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.so_cmt, new { @class = "form-control", placeholder = "Số cmt thành viên" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                Quyền hạn
+            </label>
+            <div class="col-md-10">
+
+                <select class="form-control" id="quyen_han" name="quyen_han">
+                    <option value="">Chọn quyền hạn</option>
+                    <option value="1">Công khai</option>
+                    <option value="2">Bạn bè</option>
+                    <option value="3">Chỉ thành viên cùng dòng họ</option>
+                    <option value="4">Chỉ mình tôi</option>
+                </select>
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button class="btn btn-primary">Cập nhật thông tin</button>
+            </div>
+        </div>
+
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="page-header">
+            <h1>Chức năng</h1>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <ul>
+                    <li><a href="/News">Quản lý bài viết</a></li>
+                    <li><a href="/News/Create">Viết bài</a></li>
+                    <li><a href="/Cats">Quản lý danh mục</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="map-canvas" style="display: none;"></div>
+
+@section scripts {
+    <script src="/Scripts/jquery.geocomplete.js"></script>
+@*<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCChbUZVoOPuJ9akzdKn3RGUpcIdGxwD4k&libraries=places" type="text/javascript"></script>*@
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places" type="text/javascript"></script>
+    
+    <script>
+        ngay1();
+        function ngay1() {
+            var x = "";
+            for (var i = 1; i <= 31; i++) {
+                x += "<option value='" + i + "'>" + i + "</option>";
+            }
+            $('#ngay1').append(x);
+        }
+        thang1();
+        function thang1() {
+            var x = "";
+            for (var i = 1; i <= 12; i++) {
+                x += "<option value='" + i + "'>" + i + "</option>";
+            }
+            $('#thang1').append(x);
+        }
+        nam1();
+        function nam1() {
+            var x = "";
+            for (var i = 1920; i <= 2017; i++) {
+                x += "<option value='" + i + "'>" + i + "</option>";
+            }
+            $('#nam1').append(x);
+        }
+        function CongNgay() {
+            if (document.getElementById('ngay1').value !== "" && document.getElementById('thang1').value !== "" && document.getElementById('nam1').value !== "") {
+                var snt1 = document.getElementById('thang1').value + "/" + document.getElementById('ngay1').value + "/" + document.getElementById('nam1').value;
+                document.getElementById('ngay_sinh2').value = snt1;
+            }
+        }
+
+        @if (Model.quyen_han != null)
+        {
+            <text>$('#quyen_han').val('@Model.quyen_han');</text>
+        }
+        @if (Model.trang_thai != null)
+        {
+          <text>$('#trang_thai').val('@Model.trang_thai');</text>
+        }
+
+        @*@if (Model.ngay_sinh != null)
+        {
+            <text>$('#ngay_sinh_1').val('@string.Format("{0:dd/MM/yyyy}", Model.ngay_sinh)')</text>
+        }*@
+
+        $(document).ready(function () {
+            $('input[name^="sgioi_tinh"]').on('change', function () {
+                $('#gioi_tinh').val($(this).val());
+            })
+
+            
+
+            //$('#ngay_sinh_1').datepicker({
+            //    changeMonth: true,
+            //    changeYear: true,
+            //    showButtonPanel: true,
+            //    dateFormat: 'dd/mm/yy',
+            //    //onClose: function (dateText, inst) {
+            //    //    $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+            //    //}
+            //});
+
+            $('#CapNhatThongTin').submit(function () {
+                if ($('#lon').val() === "" || $('#lat').val() === "") {
+                    return false;
+                    alert('Vui lòng chọn lại địa chỉ.');
+
+                }
+            })
+
+        })
+
+        Dropzone.autoDiscover = false;
+        var hinhanh_user1 = new Dropzone("div#hinhanh_user", {
+            url: "/Manage/uploadimg",
+            addRemoveLinks: true,
+            maxFiles: 10,
+            maxFilesize: 5,
+            uploadMultiple: true,
+            acceptedFiles: "image/*",
+            dictFallbackMessage: "Trình duyệt của bạn không hỗ trợ kéo thả tệp để tải lên.",
+            dictFallbackText: "Please use the fallback form below to upload your files like in the olden days.",
+            dictFileTooBig: "Tệp có dung lượng quá lớn ({{filesize}}MiB). Dung lượng cho phép: {{maxFilesize}}MiB.",
+            dictInvalidFileType: "Tệp bạn chọn không được phép tải lên.",
+            dictResponseError: "Đã xảy ra lỗi {{statusCode}}.",
+            dictCancelUpload: "Hủy tải lên",
+            dictCancelUploadConfirmation: "Bạn chắc chắn muốn hủy tải lên?",
+            dictRemoveFile: "Loại bỏ tệp tin",
+            dictMaxFilesExceeded: "Bạn không thể tải lên quá 1 hình.",
+            success: function (file, response) {
+                var imgPath = response.Message;
+                if (imgPath !== "") {
+                    //file.previewElement.classList.add("dz-success");
+                    this.removeFile(file);
+                    $('#anhuser1_1').attr('src', imgPath);
+                    $('#hinh_anh').val(imgPath);
+                }
+            },
+            error: function (file, response) {
+                //file.previewElement.classList.add("dz-error");
+                //$(file.previewElement).find('.dz-error-message').text(response);
+                alert(response);
+                this.removeFile(file);
+            },
+            HiddenFilesPath: 'body'
+        });
+
+
+        $(function () {
+            var options = {
+                map: ".map-canvas"
+            };
+            $("#dia_chi").geocomplete(options)
+              .bind("geocode:result", function (event, result) {
+                  $("#lon").val(result.geometry.location.lng());
+                  $("#lat").val(result.geometry.location.lat());
+                  //alert("long" + result.geometry.location.lng() + ", lat=" + result.geometry.location.lat());
+              })
+              .bind("geocode:error", function (event, status) {
+                  $.log("ERROR: " + status);
+              })
+              .bind("geocode:multiple", function (event, results) {
+                  $.log("Multiple: " + results.length + " results found");
+              });
+        });
+
+        function autogethocvan() {
+            var keyword = document.getElementById("hoc_van").value;
+            var urlSearch = '/Manage/getHocVan?keyword=';
+            $('#hoc_van').autocomplete({
+                source: urlSearch + keyword,
+                select: function (event, ui) {
+                    //alert(ui.item.value);
+                    //console.log(ui.item.value);
+                    $(event.target).val(ui.item.value);
+                    return false;
+                },
+                minLength: 1
+            });
+        }
+
+        function autogetnghenghiep() {
+            var keyword = document.getElementById("nghe_nghiep").value;
+            var urlSearch = '/Manage/getNgheNghiep?keyword=';
+            $('#nghe_nghiep').autocomplete({
+                source: urlSearch + keyword,
+                select: function (event, ui) {
+                    //alert(ui.item.value);
+                    //console.log(ui.item.value);
+                    $(event.target).val(ui.item.value);
+                    return false;
+                },
+                minLength: 1
+            });
+        }
+
+        
+
+    </script>
+}
+
+
+@*4 cấp (độ sâu) - 4,3,2,1
+
+Cụ nội, cụ ngoại 4
+Ông nội,  3
+Ông ngoại,
+bà nội,
+bà ngoại,
+bố, 2
+mẹ
+anh trai, 1
+chị gái
+em trai
+em gái
+Chú
+bác
+Cậu
+dì
+Cô
+
+Người đã kết bạn
+Người kết bạn với nó
+
+Kết bạn*@
+
+

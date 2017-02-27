@@ -1,0 +1,136 @@
+﻿@model IEnumerable<gpw.Models.thanh_vien>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ho_ten)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dia_chi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.so_cmt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nghe_nghiep)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.hoc_van)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.hinh_anh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.biet_danh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.doi_thu)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.gioi_tinh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ngay_sinh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ngay_tao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.trang_thai)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.quyen_han)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lon)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lat)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cq_ctac)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pass)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ho_ten)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dia_chi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.so_cmt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.nghe_nghiep)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.hoc_van)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.hinh_anh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.biet_danh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.doi_thu)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.gioi_tinh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ngay_sinh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ngay_tao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.trang_thai)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.quyen_han)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lon)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.cq_ctac)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pass)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>

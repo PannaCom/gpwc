@@ -1,0 +1,30 @@
+﻿@model gpw.Models.news
+
+
+@if (Model != null)
+{
+    string link = string.Format("/News/Details/{0}", Model.id);
+    @*<a href="@string.Format("/News/Details/{0}", Model.id)" class="item_new_top">
+            <figure>
+                <img src="@Model.new_img" alt="@Model.new_title" style="height: 179px;padding: 5px;">
+                <figcaption>
+                    <span class="kf_listing_overlay">@Model.new_des</span>
+                </figcaption>
+            </figure>
+            @Model.new_title
+        </a>*@
+
+    <div class="item_hot">
+        <div class="item_hot_1">
+            <a href="@link" title="@Model.new_title" class="thumb-zoom">
+                <img src="@Model.new_img" />
+            </a>
+            <div class="item_hot_caption">
+                <a href="@link" title="@Model.new_title" class="item_title">@Model.new_title</a>
+                <p>@Model.new_des</p>
+            </div>
+        </div>
+    </div>
+}
+
+

@@ -1,0 +1,27 @@
+﻿@model List<gpw.Models.news>
+
+
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <div class="col-md-3">
+            <div class="kf_agent_wrap">
+                <a href="@string.Format("/News/Details/{0}", item.id)" style="width: 265px;">
+                    <figure>
+                        <img src="@item.new_img" alt="@item.new_title" style="width: 100%; height: 200px;">
+                        <figcaption>
+                            <span class="kf_listing_overlay"></span>
+                        </figcaption>
+                    </figure>
+                </a>
+                <div class="kf_agent_des">
+                    <h6><a href="@string.Format("/News/Details/{0}", item.id)">@item.new_title</a></h6>
+                    <span class="kf_property_line"></span>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+

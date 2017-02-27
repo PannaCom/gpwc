@@ -1,0 +1,234 @@
+﻿@model PagedList.IPagedList<gpw.Models.quan_he_thanh_vien>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Khai báo gia phả";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section meta {
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+}
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+<div class="row section_1" style="background: #fff" ;>
+    <div class="col-md-8">
+        <div class="page-header">
+            <h2>@ViewBag.Title @ViewBag.ten_thanh_vien.</h2>
+        </div>
+
+        <form class="form-horizontal" method="post" id="form_add_quanhe_tv" name="form_add_quanhe_tv" enctype="multipart/form-data" style="margin: 0 17px;">
+            <input type="hidden" name="thanh_vien_id" id="thanh_vien_id" value="@ViewBag.thanh_vien_id" />
+            <input type="hidden" name="thanh_vien_qh_id" id="thanh_vien_qh_id" value="" />
+            <div class="form-group">
+                <div class="col-md-4">
+                    <label class="control-label">Chọn quan hệ:</label>
+                    <select class="form-control" name="ten_quan_he" id="ten_quan_he">
+                        <option value="">Chọn quan hệ</option>
+                        <optgroup label="Đời trước">
+                            <option value="Cụ">Cụ</option>
+                            <option value="Ông">Ông</option>
+                            <option value="Bố">Bố</option>
+                        </optgroup>
+                        <optgroup label="Đời sau">
+                            <option value="Con">Con</option>
+                            <option value="Cháu">Cháu</option>
+                            <option value="Chắt">Chắt</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="control-label">Tên thành viên:</label>
+                    <input type="text" name="ten_thanh_vien" id="ten_thanh_vien" class="form-control" placeholder="Nhập vào tên thành viên từ gợi ý." onkeyup="autogetthanhvien();">
+
+                </div>
+
+                <div class="col-md-4">
+                    <label class="control-label">Quê quán:</label>
+                    <input type="text" name="que_quan" id="que_quan" class="form-control" placeholder="Nhập vào quê quán">
+                    <input type="hidden" name="qq_lon" id="qq_lon" />
+                    <input type="hidden" name="qq_lat" id="qq_lat" />
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-primary" id="btn_add_quanhe" onclick="saveTaoGiaPha();">Thêm</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row" style="background: #fff;">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Danh sách thành viên</h3>
+            </div>
+            <div class="panel-body">
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped" id="table_thanhvien_quanhe_1">
+                        <thead>
+                            <tr>
+                                <th>Tên thành viên</th>
+                                <th>Quan hệ</th>
+                                <th>Quê quán</th>
+                                <th>Chức năng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                if (Model.Count > 0)
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        <tr id="t_vien_@item.id">
+                                            @if (item.thanh_vien_qh_id != null)
+                                            {
+                                                <td><a href="/ThanhVien/Details/@item.thanh_vien_qh_id">@item.ten_thanh_vien</a></td>
+                                            }
+                                            else
+                                            {
+                                                <td>@item.ten_thanh_vien</td>
+                                            }
+                                            <td>@item.ten_quan_he</td>
+                                            <td>@item.que_quan</td>
+                                            <td><span class="btn btn-danger" onclick="xoaquanhe(@item.id);">Xóa quan hệ</span></td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+
+                @if (Model != null)
+                {
+                    @Html.PagedListPager(Model, page => Url.Action("TaoGiaPha", "ThanhVien", new { pg = page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+                }
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<div id="map_canvas" style="display: none;">
+    Bản đồ
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places" type="text/javascript"></script>
+<script src="/Scripts/jquery.geocomplete.js"></script>
+    <script>
+        $(function () {
+            var options = {
+                map: "#map_canvas"
+            };
+            $("#que_quan").geocomplete(options)
+              .bind("geocode:result", function (event, result) {
+                  $("#qq_lon").val(result.geometry.location.lng());
+                  $("#qq_lat").val(result.geometry.location.lat());
+                  //alert("long" + result.geometry.location.lng() + ", lat=" + result.geometry.location.lat());
+              })
+              .bind("geocode:error", function (event, status) {
+                  $.log("ERROR: " + status);
+              })
+              .bind("geocode:multiple", function (event, results) {
+                  $.log("Multiple: " + results.length + " results found");
+              });
+        });
+
+        function autogetthanhvien() {
+            var keyword = document.getElementById("ten_thanh_vien").value;
+            var urlSearch = '/ThanhVien/getThanhVien?keyword=';
+            $('#ten_thanh_vien').autocomplete({
+                source: urlSearch + keyword,
+                select: function( event, ui ) {
+                    $("#ten_thanh_vien").val(ui.item.label);
+                    $("#thanh_vien_qh_id").val(ui.item.value);
+                    return false;
+                },
+                minLength: 1,                
+            });
+        }
+
+        //thanh_vien_qh_id
+
+        function saveTaoGiaPha() {
+            var url = "/ThanhVien/saveTaoGiaPha"; // the script where you handle the form input.
+            if (document.getElementById("ten_quan_he").value === "") {
+                alert("Vui lòng chọn kiểu quan hệ.");
+                document.getElementById("ten_quan_he").focus();
+                return false;
+            }
+            if (document.getElementById("ten_thanh_vien").value === "") {
+                alert("Vui lòng nhập tên thành viên từ gợi ý.");
+                document.getElementById("ten_thanh_vien").focus();
+                return false;
+            }
+            if (document.getElementById("que_quan").value === "") {
+                alert("Vui lòng nhập vào quê quán.");
+                document.getElementById("que_quan").focus();
+                return false;
+            }
+            //if (document.getElementById("thanh_vien_qh_id").value === "") {
+            //    alert("Vui lòng chọn lại tên thành viên.");
+            //    document.getElementById("ten_thanh_vien").focus();
+            //    return false;
+            //}
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: $("#form_add_quanhe_tv").serialize(), // serializes the form's elements.
+                success: function (data) {
+                    console.log(data);
+                    if (data == "1") {
+                        alert('Thành viên đã nằm trong danh sách quan hệ.');
+                    } else {
+                        alert('Đã thêm mới thành viên vào danh sách.');
+                        $('#table_thanhvien_quanhe_1').children('tbody').append(data);
+                        //console.log(data);
+                        document.getElementById("ten_quan_he").value = "";
+                        document.getElementById("ten_thanh_vien").value = "";
+                        document.getElementById("que_quan").value = "";
+                    }
+                    //console.log(data);
+                }, error: function (error) {
+                    console.log(error)
+                }
+            });
+        }
+
+        function xoaquanhe(id) {
+            if (confirm('Bạn đồng ý muốn bỏ quan hệ này khỏi gia phả?')) {
+                if (id) {
+                
+                    $.ajax({
+                        type: "POST",
+                        url: "/ThanhVien/xoaquanhe",
+                        data: {id : id}, // serializes the form's elements.
+                        success: function (data) {
+                            console.log(data);
+                            if (data == "1") {
+                                alert('Đã xóa khỏi danh sách quan hệ.');
+                                $('#t_vien_'+id).remove();
+                            } 
+                            //console.log(data);
+                        }, error: function (error) {
+                            console.log(error)
+                        }
+                    });
+                }
+            }
+            
+        }
+
+    </script>
+}
+

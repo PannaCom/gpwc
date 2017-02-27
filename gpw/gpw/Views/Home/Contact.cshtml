@@ -1,0 +1,122 @@
+﻿@{
+    ViewBag.Title = "Liên hệ";
+}
+
+
+<div class="row" style="background: #fff;">
+    
+    <div class="col-md-8">
+        
+        <div id="lienhe" style="padding: 10px;">
+            <div class="page-header" style="margin-top: 0;">
+                <h1 style="margin-top: 0;">@ViewBag.Title.</h1>
+            </div>
+            <h1>Gia phả họ Dương</h1><br />
+            <p>Chịu trách nhiệm nội dung: <strong>Ông Dương Đình Chiến</strong> - <strong>chủ tịch Hội đồng Họ Dương Việt Nam.</strong></p><br />
+            <p>Biên tập trang tin điện tử: <strong>Văn phòng Họ Dương Việt Nam.</strong> </p>
+            <p>
+                - Địa chỉ: <strong>Số 22, Lý Thái Tổ, Phường Đại Phúc, TP. Bắc Ninh</strong> <br />
+                - Điện thoại: <strong>0241.3856.312</strong> <br />
+                - Email: hoduongvn@gmail.com.
+            </p> <br />
+        </div>       
+    </div>
+
+    <div class="col-md-4">
+        @*<img src="~/images/caudoiphai.png" class="img-responsive" style="display: inline-block;" />
+            <img src="~/images/caudoitrai.png" class="img-responsive" style="display: inline-block;" />*@
+        <div class="panel panel-default box_giapha">
+            <div class="panel-heading kf_heading_1" style="padding: 0;">
+                <h3>Tìm kiếm</h3>
+            </div>
+
+            <div class="panel-body">
+                @*@using (Html.BeginForm("Search", "Home", FormMethod.Post, htmlAttributes: new { @class = "form-inline", role = "form", @id = "form_search" }))
+                    {
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="search" name="keyword" id="keyword" class="form-control" placeholder="Nhập địa chỉ email hoặc số điện thoại" required />
+                            </div>
+                        </div>
+                        <button class="btn btn-primary"><i class="fa fa-search"></i> Tìm kiếm</button>
+                    }*@
+                <div class="search-bar">
+                    <form action="/Home/Search" method="GET" role="form" id="form_search">
+                        <div class="form-group">
+                            <input style="max-width: 100%;" type="text" class="form-control" name="keyword" id="keyword" placeholder="Nhập từ khóa tìm kiếm">
+                        </div>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default box_giapha">
+            <div class="panel-heading kf_heading_1" style="padding-bottom: 0;">
+                <h3>Thống kê thành viên</h3>
+            </div>
+            <div class="panel-body">
+                @*@{Html.RenderAction("DsUser");}*@
+                <div class="col-md-12 item_thanhvien">
+                    <h3>Thành viên già nhất:</h3>
+                    <ul id="person_flat">
+                        <li><a href="#">Dương Trung Hiếu</a> <i>Ngày sinh: 4/11/1960</i></li>
+                    </ul>
+                </div>
+                <div class="col-md-12 item_thanhvien">
+                    <h3>Thành viên trẻ nhất:</h3>
+                    <ul id="person_flat">
+                        <li><a href="#">Dương Viết Xuân</a> <i>Ngày sinh: 23/11/2000</i></li>
+                    </ul>
+                </div>
+                <div class="col-md-12 item_thanhvien border_w0">
+                    <h3>Thành viên mới nhất:</h3>
+                    <ul id="person_flat">
+                        <li><a href="#">Dương Thị Mùi</a>, </li>
+                        <li><a href="#">Dương Văn Dần</a>, </li>
+                        <li><a href="#">Dương Thúy Mùi</a>, </li>
+                        <li><a href="#">Dương Văn Nhàn</a>, </li>
+                        <li><a href="#">Dương Thúy Nhàn</a>,</li>
+                        <li><span>...</span></li>
+                        @*<li><a href="#"><img src="~/images/person-girl-flat.png" /></a></li>*@
+                    </ul>
+                </div>
+
+                <a href="#" style="float: right;">Xem tất cả</a>
+            </div>
+        </div>
+
+        <div class="panel panel-default box_giapha">
+            <div class="panel-body">
+                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="height: 80px;">
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item active">
+                            <p>Đừng so sánh mình với bất cứ ai trong thế giới này. Nếu bạn làm như vậy có nghĩa bạn đang sỉ nhục chính bản thân mình. </p>
+                            <b style="float: right; margin-top: 5px;">Bill Gates</b>
+                        </div>
+                        <div class="item">
+                            <p>Ta không được chọn nơi mình sinh ra. Nhưng ta được chọn cách mình sẽ sống.</p>
+                            <b style="float: right; margin-top: 5px;">Khuyết danh</b>
+                        </div>
+                    </div>
+
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators" style="bottom: 0;">
+                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active" style="background: #333;"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="1" style="background: #333;"></li>
+                    </ol>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+@*<address>
+    <strong>Support:</strong>   <a href="mailto:Support@example.com">vnhuybc@example.com</a><br />
+    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
+</address>*@

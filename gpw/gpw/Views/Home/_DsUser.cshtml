@@ -1,0 +1,11 @@
+﻿@model List<gpw.Models.thong_tin_user>
+
+@if (Model != null)
+{
+    <div style="list-style-type: none; display: inline-block;">
+        @foreach (var item in Model)
+        {
+            <a href="/Home/profile/@item.user_id" style="padding: 5px;">@item.ho_ten</a>
+        }
+    </div>
+}

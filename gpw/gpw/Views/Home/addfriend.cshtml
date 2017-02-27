@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "Thêm thành viên";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("addfriend", "Home", FormMethod.Post, htmlAttributes: new { @class = "form-horizontal", role = "form", @id = "form_addfriend" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <input type="hidden" name="userId" value="@ViewBag.userId" />
+        <div class="form-group">
+            <label class="col-md-3 control-label">Quan hệ: </label>
+            <div class="col-md-10">
+                <select name="quanhe" id="quanhe" class="form-control">
+                    <option value="1">Cụ nội (ngoại)</option>
+                    <option value="2">Ông (bà)</option>
+                    <option value="3">Bố</option>
+                    <option value="4">Mẹ</option>
+                    <option value="5">Chú (rì)</option>
+                    <option value="6">Anh</option>
+                    <option value="7">Chị</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-primary">Kết bạn</button>
+        </div>
+        
+    </div>
+}

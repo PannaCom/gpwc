@@ -1,0 +1,88 @@
+﻿@model List<gpw.Models.news>
+@using gpw.helpers;
+
+    @*<div class="newshot">
+
+            <!--Our Agent Warp Start-->
+            <section class="kf_our_agent_bg box_giapha panel">
+                <!--Heading Wrap Start-->
+                <div class="kf_heading_1 panel-heading">
+                    <h3>Trang nhất</h3>
+                </div>
+
+                <div id="example5" class="slider-pro">
+                    <div class="sp-slides">
+                        @if (Model.Count > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <div class="sp-slide">
+                                    <a href="/News/Details/@item.id">
+                                        <img class="sp-image" src="@item.new_img"
+                                             data-src="@item.new_img"
+                                             data-retina="@item.new_img" />
+                                    </a>
+                                    <div class="sp-caption">
+                                        <a href="/News/Details/@item.id">
+                                            @if (item.new_title.Length > 78)
+                                            {
+                                                <text>@item.new_title.Substring(0,78)<span>...</span></text>
+                                            }
+                                            else
+                                            {
+                                                <text>@item.new_title</text>
+                                            }
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="sp-thumbnails">
+                        @if (Model.Count > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <div class="sp-thumbnail">
+                                    <div class="sp-thumbnail-text">
+                                        <div class="sp-thumbnail-title">
+                                            @if (item.new_title.Length > 63)
+                                            {
+                                                <text>@item.new_title.Substring(0, 55)<span>...</span></text>
+                                            }
+                                            else
+                                            {
+                                                <text>@item.new_title</text>
+                                            }
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                    </div>
+                </div>
+            </section>
+            <!--Our Agent Warp End-->
+        </div>*@
+@if (Model != null)
+{
+    <div class="flexslider sectionMarginTop" id="panel_newsitem">
+        <ul class="slides">
+            @foreach (var item in Model)
+            {
+                string _link = "/News/Details/" + item.id;
+                <li>
+                    <div style="position: relative;">
+                        <a href="@_link" title="@item.new_img" class="thumb-zoom">
+                            <img src="@item.new_img" class="item_img" />
+                        </a>
+                        <p class="flex-caption"><a href="@_link" title="@item.new_title">@item.new_title</a></p>
+                        </div>
+                    </li>
+            }
+        </ul>
+    </div>
+}

@@ -1,0 +1,20 @@
+﻿@using gpw.helpers;
+@{
+    string thanh_vien = "";
+    if (configs.getCookie("ten_thanh_vien") != "")
+    {
+        thanh_vien = configs.getCookie("ten_thanh_vien");
+    }
+}
+@if (configs.getCookie("thanhvien_id") != "")
+{
+    <li>
+        @Html.ActionLink("Thành viên " + thanh_vien, "Details", "ThanhVien", routeValues: new { id = configs.getCookie("thanhvien_id") }, htmlAttributes: new { title = "Trang cá nhân" })
+    </li>
+    <li><a href="/ThanhVien/DangXuat">Đăng xuất</a></li>
+}
+else
+{
+    <li>@Html.ActionLink("Đăng ký thành viên", "Create", "ThanhVien", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+    <li>@Html.ActionLink("Đăng nhập thành viên", "Login", "ThanhVien", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+}

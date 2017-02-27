@@ -1,0 +1,32 @@
+﻿<ul class="nav" id="side-menu">
+    <li>
+        <a href="/" target="_blank"><i class="fa icon-home fa-fw"></i> Trang chủ</a>
+    </li>
+    @if (User.IsInRole("Administrator"))
+    {
+        @*<li>
+            <a href="#"><i class="fa fa-user fa-fw"></i> Cài đặt tài khoản <span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level">
+                <li><a href="/admin/profile/update">Cập nhật thông tin</a></li>
+                <li><a href="/admin/profile/changepass">Thay đổi mật khẩu</a></li>
+            </ul>
+        </li>*@
+
+        <li>
+            <a href="#"><i class="fa fa-list fa-fw"></i> Quản lý danh mục <span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level">
+                <li>@Html.RouteLink("Thêm danh mục sản phẩm", "AdminAddCat")</li>
+                <li>@Html.RouteLink("Danh sách danh mục", "AdminListCat")</li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="#"><i class="fa fa-product-hunt fa-fw"></i> Quản lý sản phẩm<span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level">
+                <li>@Html.RouteLink("Thêm thiết bị", "AdminAddProduct")</li>
+                <li>@Html.RouteLink("Danh sách thiết bị", "AdminListProduct")</li>
+            </ul>
+        </li>
+    }
+</ul>
+
