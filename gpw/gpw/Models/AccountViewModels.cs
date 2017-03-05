@@ -217,12 +217,12 @@ namespace gpw.Models
         [Required(ErrorMessage = "Vui lòng nhập số điện thoại.")]
         public string so_dien_thoai { get; set; }
 
-        //[Display(Name = "Thuộc dòng họ")]
-        //[Required(ErrorMessage = "Vui lòng nhập dòng họ.")]
-        //public IEnumerable<System.Web.Mvc.SelectListItem> cats_all_name { get; set; }
         [Display(Name = "Thuộc dòng họ")]
         [Required(ErrorMessage = "Vui lòng nhập dòng họ.")]
-        public string cats_all_name { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> cats_all_name { get; set; }
+        //[Display(Name = "Thuộc dòng họ")]
+        //[Required(ErrorMessage = "Vui lòng nhập dòng họ.")]
+        //public string cats_all_name { get; set; }
     }
 
     public class thanh_vien_login_model

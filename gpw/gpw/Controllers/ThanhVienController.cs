@@ -52,14 +52,14 @@ namespace gpw.Controllers
                 new SelectListItem() { Value = "Trung học cơ sở", Text = "Trung học cơ sở" },
                 new SelectListItem() { Value = "Tiểu học", Text = "Tiểu học" }
             };
-            //List<SelectListItem>  DongHo = new List<SelectListItem>();
-            //var p = (from q in db.cats_all_name select q).OrderBy(o=>o.name).ToList();
-            //for (int i = 0; i < p.Count; i++)
-            //{
-            //    SelectListItem item = new SelectListItem() { Value = p[i].name, Text = p[i].name };
-            //    DongHo.Add(item);
-            //}
-            //ViewBag.DongHo = DongHo;
+            List<SelectListItem> DongHo = new List<SelectListItem>();
+            var p = (from q in db.cats_all_name select q).OrderBy(o => o.name).ToList();
+            for (int i = 0; i < p.Count; i++)
+            {
+                SelectListItem item = new SelectListItem() { Value = p[i].name, Text = p[i].name };
+                DongHo.Add(item);
+            }
+            ViewBag.DongHo = DongHo;
             return View();
         }
 
