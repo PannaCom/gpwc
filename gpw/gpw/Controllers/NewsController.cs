@@ -212,7 +212,7 @@ namespace gpw.Controllers
             baiviet.isHot = news.isHot ?? null;
             baiviet.new_content = news.new_content ?? null;
             baiviet.new_img = news.new_img ?? null;
-            baiviet.ngay_tao = DateTime.Now;
+            //baiviet.ngay_tao = DateTime.Now;
             baiviet.quyen_hang = news.quyen_hang ?? null;
             baiviet.trang_thai = news.trang_thai ?? null;
             baiviet.new_des = news.new_des ?? null;
