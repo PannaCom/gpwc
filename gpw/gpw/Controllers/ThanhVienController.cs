@@ -52,6 +52,14 @@ namespace gpw.Controllers
                 new SelectListItem() { Value = "Trung học cơ sở", Text = "Trung học cơ sở" },
                 new SelectListItem() { Value = "Tiểu học", Text = "Tiểu học" }
             };
+            //List<SelectListItem>  DongHo = new List<SelectListItem>();
+            //var p = (from q in db.cats_all_name select q).OrderBy(o=>o.name).ToList();
+            //for (int i = 0; i < p.Count; i++)
+            //{
+            //    SelectListItem item = new SelectListItem() { Value = p[i].name, Text = p[i].name };
+            //    DongHo.Add(item);
+            //}
+            //ViewBag.DongHo = DongHo;
             return View();
         }
 
@@ -169,8 +177,17 @@ namespace gpw.Controllers
                 nghe_nghiep = thanh_vien.nghe_nghiep,
                 so_cmt = thanh_vien.so_cmt,
                 so_dien_thoai = thanh_vien.so_dien_thoai,
-                trinh_do = thanh_vien.trinh_do
+                trinh_do = thanh_vien.trinh_do,                
             };
+            List<SelectListItem> DongHo = new List<SelectListItem>();
+            var p = (from q in db.cats_all_name select q).OrderBy(o => o.name).ToList();
+            for (int i = 0; i < p.Count; i++)
+            {
+                SelectListItem item = new SelectListItem() { Value = p[i].name, Text = p[i].name };
+                DongHo.Add(item);
+            }
+            ViewBag.DongHo = DongHo;
+            ViewBag.cats_all_name = thanh_vien.cats_all_name;
             return View(thanhvien);
         }
 
