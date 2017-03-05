@@ -17,7 +17,7 @@
 <div class="row section_1" style="background: #fff;">
     <div class="col-md-4">
        
-        <div class="form-horizontal">
+        <div class="form-horizontal" style="margin: 0 10px;">
             <div class="form-group">
                 <div class="col-md-12">
                     <input type="text" name="tenthanhvien" id="tenthanhvien" class="form-control" />
@@ -42,20 +42,15 @@
     </div>
     <div class="col-md-8">
 
-
+        <div id="demo">
+            <h1>{{title}}</h1>
+            <vue-tree option="option"></vue-tree>
+        </div>
 
     </div>
     
 </div>
 
-<div class="row section_1" style="background: #fff;">
-    <link href="~/Scripts/vuejs/src/tree.vue.css" rel="stylesheet" />
-
-    <div id="demo">
-        <h1>{{title}}</h1>
-        <vue-tree option="option"></vue-tree>
-    </div>
-</div>
 
 
 @section scripts {
@@ -63,6 +58,8 @@
 <script src="~/Scripts/vuejs/vue.min.js"></script>    
 <script src="~/Scripts/vuejs/src/tree.vue.js"></script>
 <script src="~/Scripts/vuejs/demo/demo.js"></script>
+
+
 
     
 }
