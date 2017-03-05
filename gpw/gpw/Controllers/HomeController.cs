@@ -134,13 +134,13 @@ namespace gpw.Controllers
 
         public ActionResult LoadNewInCat2(int cat_id)
         {
-            var model = db.news.Where(x => x.cat_id == cat_id && x.isHot == 0).OrderByDescending(x => x.id).Select(x => x).ToList().Skip(1).Take(8);
-            return PartialView("_LoadNewInCat2", model.ToList());
+            var model = db.news.Where(x => x.cat_id == cat_id).OrderByDescending(x => x.id).Select(x => x).ToList().Skip(1).Take(8);
+            return PartialView("_LoadNewInCat2", model.ToList());// && x.isHot == 0
         }
 
         public ActionResult LoadNewInCat_top(int cat_id)
         {
-            var model = db.news.Where(x => x.cat_id == cat_id && x.isHot == 0).OrderByDescending(x => x.id).Select(x => x).First();
+            var model = db.news.Where(x => x.cat_id == cat_id).OrderByDescending(x => x.id).Select(x => x).First();// && x.isHot == 0
             return PartialView("_LoadNewInCat_top", model);
         }
 
