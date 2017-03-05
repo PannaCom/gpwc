@@ -329,13 +329,13 @@ namespace gpw.Controllers
             int pageNumber = (pg ?? 1);
             ViewBag.pg = pg;
 
-            var data = (from q in db.news where q.cat_id == cat.id select q);
+            var data = (from q in db.news where q.cat_id == cat.id orderby q.id descending select q);
             if (data == null)
             {
                 return View(data);
             }
 
-            data = data.OrderBy(x => x.id);
+            //data = data.OrderBy(x => x.id);
 
             return View(data.ToPagedList(pageNumber, pageSize));
         }
