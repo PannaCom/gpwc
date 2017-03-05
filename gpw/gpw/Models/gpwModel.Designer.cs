@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\Project\GitHub\Vietgiapha\trunk\gpw\gpw\Models\gpwModel.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\Pannacom\vietgiapha\trunk\gpw\gpw\Models\gpwModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

@@ -219,7 +219,8 @@ namespace gpw.Models
 
         [Display(Name = "Thuộc dòng họ")]
         [Required(ErrorMessage = "Vui lòng nhập dòng họ.")]
-        public IEnumerable<System.Web.Mvc.SelectListItem> cats_all_name { get; set; }
+        //public IEnumerable<System.Web.Mvc.SelectListItem> cats_all_name { get; set; }
+        public string cats_all_name { get; set; }
         //[Display(Name = "Thuộc dòng họ")]
         //[Required(ErrorMessage = "Vui lòng nhập dòng họ.")]
         //public string cats_all_name { get; set; }

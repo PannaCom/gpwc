@@ -91,6 +91,7 @@ namespace gpw.Controllers
             {
                 thanh_vien _addNew = new thanh_vien();
                 _addNew.ho_ten = model.ho_ten ?? null;
+                _addNew.cats_all_name = model.cats_all_name ?? null;
                 _addNew.dia_chi = model.dia_chi ?? null;
                 _addNew.lon = model.lon ?? null;
                 _addNew.lat = model.lat ?? null;
@@ -177,7 +178,8 @@ namespace gpw.Controllers
                 nghe_nghiep = thanh_vien.nghe_nghiep,
                 so_cmt = thanh_vien.so_cmt,
                 so_dien_thoai = thanh_vien.so_dien_thoai,
-                trinh_do = thanh_vien.trinh_do,                
+                trinh_do = thanh_vien.trinh_do,     
+                cats_all_name = thanh_vien.cats_all_name
             };
             List<SelectListItem> DongHo = new List<SelectListItem>();
             var p = (from q in db.cats_all_name select q).OrderBy(o => o.name).ToList();
@@ -224,6 +226,7 @@ namespace gpw.Controllers
                     return View(model);
                 }
                 _addNew.ho_ten = model.ho_ten ?? null;
+                _addNew.cats_all_name = model.cats_all_name ?? null;
                 _addNew.dia_chi = model.dia_chi ?? null;
                 _addNew.lon = model.lon ?? null;
                 _addNew.lat = model.lat ?? null;
