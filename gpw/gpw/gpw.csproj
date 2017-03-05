@@ -212,7 +212,13 @@
     <Compile Include="Models\cat.cs">
       <DependentUpon>gpwModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\cats_all_name.cs">
+      <DependentUpon>gpwModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\friend.cs">
+      <DependentUpon>gpwModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\giapha_des.cs">
       <DependentUpon>gpwModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\gia_pha.cs">
@@ -465,6 +471,7 @@
     <Content Include="Content\admin\vendor\font-awesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\admin\vendor\font-awesome\fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\gpws.pubxml" />
+    <None Include="Properties\PublishProfiles\vgp.pubxml" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\build-config.js" />
@@ -757,7 +764,9 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
