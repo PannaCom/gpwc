@@ -73,7 +73,8 @@
         <ul class="slides">
             @foreach (var item in Model)
             {
-                string _link = "/News/Details/" + item.id;
+                //string _link = "/News/Details/" + item.id;
+                string _link = Config.unicodeToNoMark(item.new_title) + "-" + item.id;
                 <li>
                     <div style="position: relative;">
                         <a href="@_link" title="@item.new_img" class="thumb-zoom">

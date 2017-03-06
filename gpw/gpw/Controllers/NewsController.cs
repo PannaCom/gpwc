@@ -91,6 +91,11 @@ namespace gpw.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.des = news.new_des;
+            ViewBag.image = Config.domain + news.new_img;
+            ViewBag.url = Config.domain + "/" + Config.unicodeToNoMark(news.new_title) + "-" + id;
+            ViewBag.title = news.new_title;
+           
             return View(news);
         }
 

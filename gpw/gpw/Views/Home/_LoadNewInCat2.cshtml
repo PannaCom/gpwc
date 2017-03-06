@@ -6,8 +6,9 @@
     <ul class="list_news">
         @foreach (var item in Model)
         {
+            string _link = Config.unicodeToNoMark(item.new_title) + "-" + item.id;
         <li class="kf_agent_des">
-            <h6><a href="@string.Format("/News/Details/{0}", item.id)" style="line-height: 1.5em;">@item.new_title</a></h6>
+            <h6><a href="@_link" style="line-height: 1.5em;">@item.new_title</a></h6>
         </li>
         }
     </ul>    

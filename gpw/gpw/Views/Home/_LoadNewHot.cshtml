@@ -16,7 +16,7 @@
             {
                 foreach (var item in Model)
                 {
-                    string link_pro = string.Format("/News/Details/{0}", item.id);
+                    string link_pro = Config.unicodeToNoMark(item.new_title)+"-"+item.id;
                     <div class="item">
                         <div class="kf_agent_wrap">
                             <a href="@link_pro" style="width: 265px;">

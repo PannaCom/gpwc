@@ -3,7 +3,7 @@
 
 @if (Model != null)
 {
-    string link = string.Format("/News/Details/{0}", Model.id);
+    string link = Config.unicodeToNoMark(Model.new_title) + "-" + Model.id;
     @*<a href="@string.Format("/News/Details/{0}", Model.id)" class="item_new_top">
             <figure>
                 <img src="@Model.new_img" alt="@Model.new_title" style="height: 179px;padding: 5px;">

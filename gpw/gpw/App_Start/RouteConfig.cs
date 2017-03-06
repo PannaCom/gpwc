@@ -12,10 +12,14 @@ namespace gpw
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
             routes.MapRoute(
-                "dmTin",
-                "News/tin/{url}",
+                "detail tin tuc",
+                "{name}-{id}",
+                new { controller = "News", action = "Details", id = UrlParameter.Optional, name = UrlParameter.Optional }
+            );//, cat = UrlParameter.Optional, domain = UrlParameter.Optional 
+            routes.MapRoute(
+                "danh muc tin",
+                "tin/{url}",
                 new { controller = "News", action = "tin", url = UrlParameter.Optional }
             );
 
