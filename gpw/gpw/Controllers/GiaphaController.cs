@@ -14,5 +14,10 @@ namespace gpw.Controllers
 
             return View();
         }
+        public ActionResult Tree()
+        {
+
+            return View();
+        }
     }
 }
