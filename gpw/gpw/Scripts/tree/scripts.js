@@ -5,11 +5,26 @@
   $(function() {
 
     var datascource = {
-      'name': 'Nguyễn Viết Kim',
+      'id': '0', 'name': 'Nguyễn Viết Kim',
       'children': [
-        { 'name': 'Nguyễn Viết A' },
-        { 'name': 'Nguyễn Viết B' },
-        { 'name': 'Nguyễn Viết C' }
+        {
+            'id': '1', 'name': 'Nguyễn Viết A'
+            ,
+            'children': [
+            { 'id': '14', 'name': 'Nguyễn Viết A1' },
+            { 'id': '15', 'name': 'Nguyễn Viết A2' },
+            { 'id': '16', 'name': 'Nguyễn Viết A3' }
+            ]
+        },
+        { 'id': '2', 'name': 'Nguyễn Viết B' },
+        {
+            'id': '3', 'name': 'Nguyễn Viết C',
+            'children': [
+            { 'id': '4', 'name': 'Nguyễn Viết C11' },
+            { 'id': '5', 'name': 'Nguyễn Viết C2' },
+            { 'id': '6', 'name': 'Nguyễn Viết C3' }
+            ]
+        }
       ]
     };
 
@@ -80,7 +95,7 @@
       });
       var $node = $('#selected-node').data('node');
       if (!nodeVals.length) {
-        alert('Please input value for new node');
+        alert('Nhập giá trị cho nút mới này');
         return;
       }
       var nodeType = $('input[name="node-type"]:checked');
@@ -89,11 +104,11 @@
         return;
       }
       if (nodeType.val() !== 'parent' && !$('.orgchart').length) {
-        alert('Please creat the root node firstly when you want to build up the orgchart from the scratch');
+        alert('Tạo nút gốc trước khi bạn muốn xây dựng cây gia phả từ đầu!');
         return;
       }
       if (nodeType.val() !== 'parent' && !$node) {
-        alert('Please select one node in orgchart');
+        alert('Bạn phải chọn một nút nào đó trong cây gia phả');
         return;
       }
       if (nodeType.val() === 'parent') {
