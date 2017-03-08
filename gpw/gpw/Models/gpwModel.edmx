@@ -41,6 +41,11 @@
           <Property Name="tv_id_1" Type="bigint" />
           <Property Name="tv_id_2" Type="bigint" />
           <Property Name="q_h_id" Type="int" />
+          <Property Name="auto_id" Type="bigint" />
+          <Property Name="date_time" Type="datetime" />
+          <Property Name="group_id" Type="bigint" />
+          <Property Name="status" Type="int" />
+          <Property Name="title" Type="nvarchar" MaxLength="151" />
         </EntityType>
         <EntityType Name="giapha_des">
           <Key>
@@ -130,6 +135,20 @@
           <Property Name="so_dien_thoai" Type="nvarchar" MaxLength="505" />
           <Property Name="cats_all_name" Type="nvarchar" MaxLength="150" />
         </EntityType>
+        <EntityType Name="user_family_tree">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="bigint" />
+          <Property Name="name_node" Type="nvarchar" MaxLength="251" />
+          <Property Name="id_node" Type="int" />
+          <Property Name="parent_id_node" Type="int" />
+          <Property Name="group_id" Type="bigint" />
+          <Property Name="date_time" Type="datetime" />
+          <Property Name="status" Type="int" />
+          <Property Name="title" Type="nvarchar" MaxLength="251" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="Id" />
@@ -159,6 +178,7 @@
           <EntitySet Name="quan_he" EntityType="Self.quan_he" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="quan_he_thanh_vien" EntityType="Self.quan_he_thanh_vien" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="thanh_vien" EntityType="Self.thanh_vien" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_family_tree" EntityType="Self.user_family_tree" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -174,10 +194,11 @@
           <EntitySet Name="quan_he" EntityType="gpwModel.quan_he" />
           <EntitySet Name="Users" EntityType="gpwModel.User" />
           <EntitySet Name="quan_he_thanh_vien" EntityType="gpwModel.quan_he_thanh_vien" />
-          <EntitySet Name="gia_pha" EntityType="gpwModel.gia_pha" />
           <EntitySet Name="cats_all_name" EntityType="gpwModel.cats_all_name" />
           <EntitySet Name="giapha_des" EntityType="gpwModel.giapha_des" />
           <EntitySet Name="thanh_vien" EntityType="gpwModel.thanh_vien" />
+          <EntitySet Name="gia_pha" EntityType="gpwModel.gia_pha" />
+          <EntitySet Name="user_family_tree" EntityType="gpwModel.user_family_tree" />
         </EntityContainer>
         <EntityType Name="cat">
           <Key>
@@ -266,18 +287,6 @@
           <Property Name="qq_lat" Type="Double" />
           <Property Name="thanh_vien_qh_id" Type="Int64" />
         </EntityType>
-        <EntityType Name="gia_pha">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="thanh_vien_id" Type="Int64" />
-          <Property Name="name1" Type="String" MaxLength="505" FixedLength="false" Unicode="true" />
-          <Property Name="name2" Type="String" MaxLength="505" FixedLength="false" Unicode="true" />
-          <Property Name="tv_id_1" Type="Int64" />
-          <Property Name="tv_id_2" Type="Int64" />
-          <Property Name="q_h_id" Type="Int32" />
-        </EntityType>
         <EntityType Name="cats_all_name">
           <Key>
             <PropertyRef Name="id" />
@@ -320,6 +329,37 @@
           <Property Name="trinh_do" Type="String" MaxLength="505" FixedLength="false" Unicode="true" />
           <Property Name="so_dien_thoai" Type="String" MaxLength="505" FixedLength="false" Unicode="true" />
           <Property Name="cats_all_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="gia_pha">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="thanh_vien_id" Type="Int64" />
+          <Property Name="name1" Type="String" MaxLength="505" FixedLength="false" Unicode="true" />
+          <Property Name="name2" Type="String" MaxLength="505" FixedLength="false" Unicode="true" />
+          <Property Name="tv_id_1" Type="Int64" />
+          <Property Name="tv_id_2" Type="Int64" />
+          <Property Name="q_h_id" Type="Int32" />
+          <Property Name="auto_id" Type="Int64" />
+          <Property Name="date_time" Type="DateTime" Precision="3" />
+          <Property Name="group_id" Type="Int64" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="title" Type="String" MaxLength="151" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="user_family_tree">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int64" />
+          <Property Name="name_node" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
+          <Property Name="id_node" Type="Int32" />
+          <Property Name="parent_id_node" Type="Int32" />
+          <Property Name="group_id" Type="Int64" />
+          <Property Name="date_time" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="title" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -422,19 +462,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="gia_pha">
-            <EntityTypeMapping TypeName="gpwModel.gia_pha">
-              <MappingFragment StoreEntitySet="gia_pha">
-                <ScalarProperty Name="q_h_id" ColumnName="q_h_id" />
-                <ScalarProperty Name="tv_id_2" ColumnName="tv_id_2" />
-                <ScalarProperty Name="tv_id_1" ColumnName="tv_id_1" />
-                <ScalarProperty Name="name2" ColumnName="name2" />
-                <ScalarProperty Name="name1" ColumnName="name1" />
-                <ScalarProperty Name="thanh_vien_id" ColumnName="thanh_vien_id" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="cats_all_name">
             <EntityTypeMapping TypeName="gpwModel.cats_all_name">
               <MappingFragment StoreEntitySet="cats_all_name">
@@ -477,6 +504,39 @@
                 <ScalarProperty Name="so_cmt" ColumnName="so_cmt" />
                 <ScalarProperty Name="dia_chi" ColumnName="dia_chi" />
                 <ScalarProperty Name="ho_ten" ColumnName="ho_ten" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="gia_pha">
+            <EntityTypeMapping TypeName="gpwModel.gia_pha">
+              <MappingFragment StoreEntitySet="gia_pha">
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="group_id" ColumnName="group_id" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="auto_id" ColumnName="auto_id" />
+                <ScalarProperty Name="q_h_id" ColumnName="q_h_id" />
+                <ScalarProperty Name="tv_id_2" ColumnName="tv_id_2" />
+                <ScalarProperty Name="tv_id_1" ColumnName="tv_id_1" />
+                <ScalarProperty Name="name2" ColumnName="name2" />
+                <ScalarProperty Name="name1" ColumnName="name1" />
+                <ScalarProperty Name="thanh_vien_id" ColumnName="thanh_vien_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_family_tree">
+            <EntityTypeMapping TypeName="gpwModel.user_family_tree">
+              <MappingFragment StoreEntitySet="user_family_tree">
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="group_id" ColumnName="group_id" />
+                <ScalarProperty Name="parent_id_node" ColumnName="parent_id_node" />
+                <ScalarProperty Name="id_node" ColumnName="id_node" />
+                <ScalarProperty Name="name_node" ColumnName="name_node" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

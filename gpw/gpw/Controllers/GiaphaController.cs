@@ -18,26 +18,64 @@ namespace gpw.Controllers
         }
         public class NodeItem
         {
-            public string name1 { get; set; }
-            public string name2 { get; set; }
-            public long? id1 { get; set; }
-            public long? id2 { get; set; }
+            public string name_node { get; set; }
+            public long? id_node { get; set; }
+            public long? parent_id_node { get; set; }
+            public string title { get; set; }
+            public int status { get; set; }
         }
         public ActionResult Tree()
         {
-            var p = (from q in db.gia_pha where q.thanh_vien_id == -1 select q).ToList();
+            var p = (from q in db.user_family_tree where q.user_id == -1 select q).ToList();
             NodeItem[] NI=new NodeItem[p.Count];
             for (int i = 0; i < p.Count; i++)
             {
                 NodeItem niit = new NodeItem();
-                niit.id1 = p[i].tv_id_1;
-                niit.id2 = p[i].tv_id_2;
-                niit.name1 = p[i].name1;
-                niit.name2 = p[i].name2;
+                niit.name_node = p[i].name_node;
+                niit.id_node = p[i].id_node;
+                niit.parent_id_node = p[i].parent_id_node;
+                niit.title = p[i].title;
+                niit.status = 0;
                 NI[i] = niit;
             }
-
+            ViewBag.allTree = allTree(ref NI);
             return View();
+        }
+        public string allTree(ref NodeItem[] NI)
+        {
+            string temp = "";
+           
+            for (int i = 0; i < NI.Length; i++)
+            if (NI[i].status==0)
+            {
+                
+                temp +="{";
+                temp += "'id': '" + NI[i].id_node + "', 'name': '" + NI[i].name_node + "', 'title': '" + NI[i].title + "',\r\n";
+                NI[i].status = 1;
+                temp += findAllChild(ref NI, NI[i]) + "},";
+               
+            }
+            //temp += "";
+            while (temp.EndsWith(",") || temp.EndsWith(";"))
+            {
+                temp = temp.Substring(0, temp.Length - 1);
+            }
+            return temp;
+        }
+        public string findAllChild(ref NodeItem[] NI,NodeItem item)
+        {
+            string temp2 = "";
+            bool found = false;
+            for (int j = 0; j < NI.Length; j++)
+                if (NI[j].status == 0 && NI[j].parent_id_node == item.id_node)
+                {
+                    temp2 += "{'id': '" + NI[j].id_node + "', 'name': '" + NI[j].name_node + "', 'title': '" + NI[j].title + "',\r\n";
+                    NI[j].status = 1;
+                    found = true;
+                    temp2 += findAllChild(ref NI, NI[j]) + "},";
+                }
+            if (found) temp2 = "'children': [" + temp2 + "]\r\n";
+            return temp2;
         }
     }
 }

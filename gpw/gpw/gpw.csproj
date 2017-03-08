@@ -263,6 +263,9 @@
     <Compile Include="Models\User.cs">
       <DependentUpon>gpwModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\user_family_tree.cs">
+      <DependentUpon>gpwModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -764,6 +767,13 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\tree\dist\css\jquery.orgchart.css" />
+    <Content Include="Scripts\tree\dist\js\jquery.orgchart.js" />
+    <Content Include="Scripts\tree\edit-orgchart\index.html" />
+    <Content Include="Scripts\tree\edit-orgchart\scripts.js" />
+    <Content Include="Scripts\tree\edit-orgchart\style.css" />
+    <Content Include="Scripts\tree\scripts.js" />
+    <Content Include="Scripts\tree\style.css" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -839,6 +849,8 @@
     <Content Include="Views\ThanhVien\_LoadThanhVienCungQH.cshtml" />
     <Content Include="Views\GiaPha\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutContent.cshtml" />
+    <Content Include="Views\GiaPha\Tree.cshtml" />
+    <Content Include="Views\Shared\_LayoutBlank.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

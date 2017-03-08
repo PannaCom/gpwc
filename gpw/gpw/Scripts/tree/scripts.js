@@ -1,33 +1,73 @@
 'use strict';
-
+var tpAllTree = AllTree;
 (function($){
 
-  $(function() {
+    $(function() {
 
-    var datascource = {
-      'id': '0', 'name': 'Nguyễn Viết Kim',
-      'children': [
-        {
-            'id': '1', 'name': 'Nguyễn Viết A'
-            ,
-            'children': [
-            { 'id': '14', 'name': 'Nguyễn Viết A1' },
-            { 'id': '15', 'name': 'Nguyễn Viết A2' },
-            { 'id': '16', 'name': 'Nguyễn Viết A3' }
-            ]
-        },
-        { 'id': '2', 'name': 'Nguyễn Viết B' },
-        {
-            'id': '3', 'name': 'Nguyễn Viết C',
-            'children': [
-            { 'id': '4', 'name': 'Nguyễn Viết C11' },
-            { 'id': '5', 'name': 'Nguyễn Viết C2' },
-            { 'id': '6', 'name': 'Nguyễn Viết C3' }
-            ]
-        }
-      ]
-    };
-
+        var datascource = tpAllTree;
+        //    {
+        //    'id': '0', 'name': 'Nguyễn Viết Kim', 'title': 'Cụ tổ2',
+        //    'children': [
+        //      {
+        //          'id': '1', 'name': 'Nguyễn Viết A',
+        //          'children': [
+        //          { 'id': '14', 'name': 'Nguyễn Viết A1' },
+        //          { 'id': '15', 'name': 'Nguyễn Viết A2' },
+        //          { 'id': '16', 'name': 'Nguyễn Viết A3' },
+        //          ],
+        //      },
+        //      { 'id': '2', 'name': 'Nguyễn Viết B' },
+        //      {
+        //          'id': '3', 'name': 'Nguyễn Viết C',
+        //          'children': [
+        //          { 'id': '4', 'name': 'Nguyễn Viết C11' },
+        //          { 'id': '5', 'name': 'Nguyễn Viết C2' },
+        //          { 'id': '6', 'name': 'Nguyễn Viết C3' },
+        //          ],
+        //      }
+        //    ]
+        //};
+        //datascource ={
+        //    'id': '1', 'name': 'Nguyễn Văn A', 'title': 'Trần Thị B',
+        //        'children': [
+        //             {'id': '2', 'name': 'Nguyễn Văn B', 'title': 'Lê Thị C',
+        //                 'children': [
+        //                     {'id': '3', 'name': 'Nguyễn Văn B1', 'title': '',
+        //                         'children': [
+        //                             {'id': '4', 'name': 'Trần Thị Lê', 'title': 'Đỗ Bình',},
+        //                         ]},
+        //                 ]
+        //             },
+        //             {
+        //                 'id': '5', 'name': 'Nguyễn Văn C', 'title': '',
+        //                 'children': [
+        //                     {'id': '6', 'name': 'Nguyễn Văn C1', 'title': 'Phạm Ngân',},
+        //                 ]
+        //             },
+        //            {'id': '7', 'name': 'Nguyễn Văn D', 'title': '',
+        //                'children': [
+        //                    {'id': '8', 'name': 'Nguyễn Văn D1', 'title': 'Hoàng Ngọc222',},
+        //                ]
+        //            }
+        //         ],
+        //   };
+            
+        //datascource ={
+        //'name': 'Lao Lao',
+        //'title': 'general manager',
+        //'children': [
+        //  { 'name': 'Bo Miao', 'title': 'department manager' },
+        //  { 'name': 'Su Miao', 'title': 'department manager',
+        //      'children': [
+        //        { 'name': 'Tie Hua', 'title': 'senior engineer' },
+        //        { 'name': 'Hei Hei', 'title': 'senior engineer' }
+        //      ]
+        //  },
+        //  { 'name': 'Hong Miao', 'title': 'department manager' },
+        //  { 'name': 'Chun Miao', 'title': 'department manager' }
+        //]
+        //};
+    
     var getId = function() {
       return (new Date().getTime()) * 1000 + Math.floor(Math.random() * 1001);
     };
@@ -37,6 +77,7 @@
       'exportButton': true,
       'exportFilename': 'SportsChart',
       'parentNodeSymbol': 'fa-th-large',
+      'nodeContent': 'title',
       'createNode': function($node, data) {
         $node[0].id = getId();
       }

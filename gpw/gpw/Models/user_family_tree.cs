@@ -12,18 +12,15 @@ namespace gpw.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class gia_pha
+    public partial class user_family_tree
     {
         public long id { get; set; }
-        public Nullable<long> thanh_vien_id { get; set; }
-        public string name1 { get; set; }
-        public string name2 { get; set; }
-        public Nullable<long> tv_id_1 { get; set; }
-        public Nullable<long> tv_id_2 { get; set; }
-        public Nullable<int> q_h_id { get; set; }
-        public Nullable<long> auto_id { get; set; }
-        public Nullable<System.DateTime> date_time { get; set; }
+        public Nullable<long> user_id { get; set; }
+        public string name_node { get; set; }
+        public Nullable<int> id_node { get; set; }
+        public Nullable<int> parent_id_node { get; set; }
         public Nullable<long> group_id { get; set; }
+        public Nullable<System.DateTime> date_time { get; set; }
         public Nullable<int> status { get; set; }
         public string title { get; set; }
     }
