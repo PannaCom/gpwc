@@ -1,0 +1,206 @@
+﻿
+@{
+    ViewBag.Title = "Tạo cây gia phả";
+    Layout = "~/Views/Shared/_LayoutBlank.cshtml";
+}
+@*<link rel="stylesheet" href="/Scripts/tree/font-awesome.min.css">*@
+<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="/Scripts/tree/dist/css/jquery.orgchart.css">
+<link rel="stylesheet" href="/Scripts/tree/style.css">
+<h2>TẠO CÂY GIA PHẢ</h2>
+<script>
+    var AllTree=@Html.Raw(ViewBag.allTree);
+</script>
+<div id="chart-container" style="width:100%;position:relative;display:block; overflow: scroll;min-height:400px;"></div>
+<div id="edit-panel" class="view-state" @*style="width:100%;position:fixed;display:block;bottom:10px;"*@>
+    <span id="chart-state-panel" class="radio-panel">
+        <input type="radio" name="chart-state" id="rd-view" value="view" checked="true"><label for="rd-view">Xem</label>
+        <input type="radio" name="chart-state" id="rd-edit" value="edit"><label for="rd-edit">Sửa</label>
+    </span>
+    <label class="selected-node-group">Nút đang chọn:</label>
+    <input type="text" id="selected-node" class="selected-node-group">
+    <label>Nút mới:</label>
+    <ul id="new-nodelist">
+        <li><input type="text" class="new-node"></li>
+    </ul>
+    <i class="fa fa-plus-circle btn-inputs" id="btn-add-input"></i>
+    <i class="fa fa-minus-circle btn-inputs" id="btn-remove-input"></i>
+    <span id="node-type-panel" class="radio-panel">
+        <input type="radio" name="node-type" id="rd-parent" value="parent"><label for="rd-parent">Nút Cha(Gốc)</label>
+        <input type="radio" name="node-type" id="rd-child" value="children"><label for="rd-child">Nút Con</label>
+        <input type="radio" name="node-type" id="rd-sibling" value="siblings"><label for="rd-sibling">Nút Anh em(Ngang hàng)</label>
+    </span>
+    <button type="button" id="btn-add-nodes">Thêm mới</button>
+    <button type="button" id="btn-delete-nodes">Xóa nút</button>
+    <button type="button" id="btn-reset">Khởi tạo</button>
+    <br/><label >Ghi chú:</label>
+    <input type="text" id="title-node" class="selected-node-group">
+    <button type="button" id="btn-save-all">LƯU DỮ LIỆU</button>
+</div>
+@*<div class="home-link">
+    <a href="https://github.com/dabeng/OrgChart">More orgcharts</a>
+    <i class="fa fa-star"></i>
+</div>*@
+<script type="text/javascript" src="/Scripts/tree/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="/Scripts/tree/html2canvas.min.js"></script>
+<script type="text/javascript" src="/Scripts/tree/dist/js/jquery.orgchart.js"></script>
+@*<script type="text/javascript" src="/Scripts/tree/scripts.js"></script>*@
+<script>
+(function($){
+
+    $(function() {
+
+        var datascource =AllTree;
+        
+
+    var getId = function() {
+        //return (new Date().getTime()) * 1000 + Math.floor(Math.random() * 1001);
+        return 1;
+    };
+
+    $('#chart-container').orgchart({
+      'data' : datascource,
+      'exportButton': true,
+      'exportFilename': 'SportsChart',
+      'parentNodeSymbol': 'fa-th-large',
+      'nodeContent': 'title',
+      'nodeId': 'id',
+      'createNode': function($node, data) {
+          $node[0].id = data.id;
+              //getId();
+      }
+    })
+    .on('click', '.node', function() {
+      var $this = $(this);
+      $('#selected-node').val($this.find('.title').text()).data('node', $this);
+      //alert($this.id);//find('.id').text()
+      var $node = $('#selected-node').data('node');
+      alert($node[0].id);
+    })
+    .on('click', '.orgchart', function(event) {
+      if (!$(event.target).closest('.node').length) {
+        $('#selected-node').val('');
+      }
+    });
+
+    $('input[name="chart-state"]').on('click', function() {
+      $('.orgchart').toggleClass('view-state', this.value !== 'view');
+      $('#edit-panel').toggleClass('view-state', this.value === 'view');
+      if ($(this).val() === 'edit') {
+        $('.orgchart').find('tr').removeClass('hidden')
+          .find('td').removeClass('hidden')
+          .find('.node').removeClass('slide-up slide-down slide-right slide-left');
+      } else {
+        $('#btn-reset').trigger('click');
+      }
+    });
+
+    $('input[name="node-type"]').on('click', function() {
+      var $this = $(this);
+      if ($this.val() === 'parent') {
+        $('#edit-panel').addClass('edit-parent-node');
+        $('#new-nodelist').children(':gt(0)').remove();
+      } else {
+        $('#edit-panel').removeClass('edit-parent-node');
+      }
+    });
+
+    $('#btn-add-input').on('click', function() {
+      $('#new-nodelist').append('<li><input type="text" class="new-node"></li>');
+    });
+
+    $('#btn-remove-input').on('click', function() {
+      var inputs = $('#new-nodelist').children('li');
+      if (inputs.length > 1) {
+        inputs.last().remove();
+      }
+    });
+
+    $('#btn-add-nodes').on('click', function() {
+      var $chartContainer = $('#chart-container');
+      var nodeVals = [];
+      $('#new-nodelist').find('.new-node').each(function(index, item) {
+        var validVal = item.value.trim();
+        if (validVal.length) {
+          nodeVals.push(validVal);
+        }
+      });
+      var $node = $('#selected-node').data('node');
+      if (!nodeVals.length) {
+        alert('Nhập giá trị cho nút mới này');
+        return;
+      }
+      var nodeType = $('input[name="node-type"]:checked');
+      if (!nodeType.length) {
+        alert('Please select a node type');
+        return;
+      }
+      if (nodeType.val() !== 'parent' && !$('.orgchart').length) {
+        alert('Tạo nút gốc trước khi bạn muốn xây dựng cây gia phả từ đầu!');
+        return;
+      }
+      if (nodeType.val() !== 'parent' && !$node) {
+        alert('Bạn phải chọn một nút nào đó trong cây gia phả');
+        return;
+      }
+      if (nodeType.val() === 'parent') {
+        if (!$chartContainer.children().length) {// if the original chart has been deleted
+          $chartContainer.orgchart({
+            'data' : { 'name': nodeVals[0] },
+            'exportButton': true,
+            'exportFilename': 'SportsChart',
+            'parentNodeSymbol': 'fa-th-large',
+            'createNode': function($node, data) {
+              $node[0].id = getId();
+            }
+          })
+          .find('.orgchart').addClass('view-state');
+        } else {
+          $chartContainer.orgchart('addParent', $chartContainer.find('.node:first'), { 'name': nodeVals[0], 'Id': getId() });
+        }
+      } else if (nodeType.val() === 'siblings') {
+        $chartContainer.orgchart('addSiblings', $node,
+          { 'siblings': nodeVals.map(function(item) { return { 'name': item, 'relationship': '110', 'Id': getId() }; })
+        });
+      } else {
+        var hasChild = $node.parent().attr('colspan') > 0 ? true : false;
+        if (!hasChild) {
+          var rel = nodeVals.length > 1 ? '110' : '100';
+          $chartContainer.orgchart('addChildren', $node, {
+              'children': nodeVals.map(function(item) {
+                return { 'name': item, 'relationship': rel, 'Id': getId() };
+              })
+            }, $.extend({}, $chartContainer.find('.orgchart').data('options'), { depth: 0 }));
+        } else {
+          $chartContainer.orgchart('addSiblings', $node.closest('tr').siblings('.nodes').find('.node:first'),
+            { 'siblings': nodeVals.map(function(item) { return { 'name': item, 'relationship': '110', 'Id': getId() }; })
+          });
+        }
+      }
+    });
+
+    $('#btn-delete-nodes').on('click', function() {
+      var $node = $('#selected-node').data('node');
+      if (!$node) {
+        alert('Please select one node in orgchart');
+        return;
+      } else if ($node[0] === $('.orgchart').find('.node:first')[0]) {
+        if (!window.confirm('Are you sure you want to delete the whole chart?')) {
+          return;
+        }
+      }
+      $('#chart-container').orgchart('removeNodes', $node);
+      $('#selected-node').val('').data('node', null);
+    });
+
+    $('#btn-reset').on('click', function() {
+      $('.orgchart').find('.focused').removeClass('focused');
+      $('#selected-node').val('');
+      $('#new-nodelist').find('input:first').val('').parent().siblings().remove();
+      $('#node-type-panel').find('input').prop('checked', false);
+    });
+
+  });
+
+})(jQuery);
+</script>
