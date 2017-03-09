@@ -10,6 +10,9 @@
 <h2>TẠO CÂY GIA PHẢ</h2>
 <script>
     var AllTree=@Html.Raw(ViewBag.allTree);
+    var max_id=-1;
+    max_id=@ViewBag.max_id;
+
 </script>
 <div id="chart-container" style="width:100%;position:relative;display:block; overflow: scroll;min-height:400px;"></div>
 <div id="edit-panel" class="view-state" @*style="width:100%;position:fixed;display:block;bottom:10px;"*@>
@@ -55,7 +58,8 @@
 
     var getId = function() {
         //return (new Date().getTime()) * 1000 + Math.floor(Math.random() * 1001);
-        return 1;
+        max_id=max_id+1;
+        return max_id;
     };
 
     $('#chart-container').orgchart({
@@ -72,8 +76,7 @@
     })
     .on('click', '.node', function() {
       var $this = $(this);
-      $('#selected-node').val($this.find('.title').text()).data('node', $this);
-      //alert($this.id);//find('.id').text()
+      $('#selected-node').val($this.find('.title').text()).data('node', $this);    
       var $node = $('#selected-node').data('node');
       alert($node[0].id);
     })
@@ -115,12 +118,19 @@
         inputs.last().remove();
       }
     });
-
+    $('#btn-save-all').on('click', function() {
+        var $chartContainer = $('#chart-container');
+        var $temp=$chartContainer.find('.node');
+        var $this = $($temp[3]);
+        
+        alert($temp[3].id+"-"+$this.find('.title').text()+"-"+$this.find('.name').text());
+    });
     $('#btn-add-nodes').on('click', function() {
       var $chartContainer = $('#chart-container');
       var nodeVals = [];
       $('#new-nodelist').find('.new-node').each(function(index, item) {
-        var validVal = item.value.trim();
+          var validVal = item.value.trim();
+          //alert(item.id);
         if (validVal.length) {
           nodeVals.push(validVal);
         }
@@ -146,7 +156,7 @@
       if (nodeType.val() === 'parent') {
         if (!$chartContainer.children().length) {// if the original chart has been deleted
           $chartContainer.orgchart({
-            'data' : { 'name': nodeVals[0] },
+            'data' : { 'name': nodeVals[0]},
             'exportButton': true,
             'exportFilename': 'SportsChart',
             'parentNodeSymbol': 'fa-th-large',

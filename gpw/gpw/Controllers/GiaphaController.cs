@@ -26,6 +26,7 @@ namespace gpw.Controllers
         }
         public ActionResult Tree()
         {
+            long? max_id = -1;
             var p = (from q in db.user_family_tree where q.user_id == -1 select q).ToList();
             NodeItem[] NI=new NodeItem[p.Count];
             for (int i = 0; i < p.Count; i++)
@@ -37,8 +38,10 @@ namespace gpw.Controllers
                 niit.title = p[i].title;
                 niit.status = 0;
                 NI[i] = niit;
+                if (p[i].id_node > max_id) max_id = p[i].id_node;
             }
             ViewBag.allTree = allTree(ref NI);
+            ViewBag.max_id = max_id;
             return View();
         }
         public string allTree(ref NodeItem[] NI)

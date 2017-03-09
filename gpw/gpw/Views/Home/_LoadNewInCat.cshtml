@@ -6,17 +6,17 @@
     foreach (var item in Model)
     {
         string _link = Config.unicodeToNoMark(item.new_title) + "-" + item.id;
-        <div class="col-md-3">
+        <div class="col-md-3" style="padding-bottom:15px;">
             <div class="kf_agent_wrap">
                 <a href="@_link" style="width: 265px;">
                     <figure>
-                        <img src="@item.new_img" alt="@item.new_title" style="width: 100%; height: 200px;">
+                        <img src="http://vietgiapha.com/@item.new_img" alt="@item.new_title" style="width: 80%; height: 200px;border-radius:20px;border:1px solid;">
                         <figcaption>
                             <span class="kf_listing_overlay"></span>
                         </figcaption>
                     </figure>
                 </a>
-                <div class="kf_agent_des">
+                <div class="kf_agent_des" style="width: 80%;">
                     <h6><a href="@_link">@item.new_title</a></h6>
                     <span class="kf_property_line"></span>
                 </div>
