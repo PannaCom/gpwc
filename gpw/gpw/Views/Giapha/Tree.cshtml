@@ -121,9 +121,11 @@
     $('#btn-save-all').on('click', function() {
         var $chartContainer = $('#chart-container');
         var $temp=$chartContainer.find('.node');
-        var $this = $($temp[3]);
-        
-        alert($temp[3].id+"-"+$this.find('.title').text()+"-"+$this.find('.name').text());
+        //for(var i=0;i<$temp.length;i++){
+        //    var $this = $($temp[i]);        
+        //    alert($temp[i].id+"-"+$this.find('.title').text()+"-"+$this.find('.name').text());
+        //}
+        findAllChild($temp.children);
     });
     $('#btn-add-nodes').on('click', function() {
       var $chartContainer = $('#chart-container');
