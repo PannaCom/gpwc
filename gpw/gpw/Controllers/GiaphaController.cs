@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using gpw.Models;
-
+using Newtonsoft.Json;
 namespace gpw.Controllers
 {
     public class GiaphaController : Controller
@@ -80,15 +80,27 @@ namespace gpw.Controllers
             if (found) temp2 = "'children': [" + temp2 + "]\r\n";
             return temp2;
         }
+        [Serializable]
+        public class csItem {
+            public int id { get; set; }
+            public string name { get; set; }
+        }
+        [Serializable]
         public class csTreeItem
         {
             public long user_id {get;set;}
-            public Array TreeItem { get; set; }
+            public csItem[] TreeItem { get; set; }
         }
         [HttpPost]
-        public string AddNew(csTreeItem data)
+        public string AddNew(string TreeItem)
         {
-            string abc = "1";
+            dynamic StudList = JsonConvert.DeserializeObject(TreeItem);
+
+            var stud = StudList.TreeItem;
+            foreach (var detail in stud)
+            {
+                var name = detail["name"];  //access Address data;
+            }
             return "1";
         }
     }
