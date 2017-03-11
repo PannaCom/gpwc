@@ -80,5 +80,16 @@ namespace gpw.Controllers
             if (found) temp2 = "'children': [" + temp2 + "]\r\n";
             return temp2;
         }
+        public class csTreeItem
+        {
+            public long user_id {get;set;}
+            public Array TreeItem { get; set; }
+        }
+        [HttpPost]
+        public string AddNew(csTreeItem data)
+        {
+            string abc = "1";
+            return "1";
+        }
     }
 }

@@ -12,7 +12,7 @@
     var AllTree=@Html.Raw(ViewBag.allTree);
     var max_id=-1;
     max_id=@ViewBag.max_id;
-
+    var allTreeItem=[];
 </script>
 <div id="chart-container" style="width:100%;position:relative;display:block; overflow: scroll;min-height:400px;"></div>
 <div id="edit-panel" class="view-state" @*style="width:100%;position:fixed;display:block;bottom:10px;"*@>
@@ -52,16 +52,31 @@
 (function($){
 
     $(function() {
-
         var datascource =AllTree;
-        
-
+        var ttNode="";
     var getId = function() {
         //return (new Date().getTime()) * 1000 + Math.floor(Math.random() * 1001);
         max_id=max_id+1;
+        //alert(max_id);
         return max_id;
     };
-
+    var findAllChild = function($node) {
+        var $allnode=$node.closest('table').children(':last').children().find('.node:first');//$node.children(':first').find('.node');//children('.nodes').parent().
+        //var $allnode=$node.children('.node');
+        //alert("child"+$allnode.length);
+        for(var j=0;j<$allnode.length;j++){
+            var $this = $($allnode[j]);  
+            //alert("ok3");
+            if (ttNode.indexOf(","+$allnode[j].id+",")<0){
+                //alert("child node"+$allnode[j].id+"-"+$this.find('.title').text());//+"-"+$this.find('.name').text()
+                //alert('curent is '+$this.find('.title').text()+", child is "+$chartContainer.get);
+                var item = { id: $allnode[j].id, name: $this.find('.title').text()};
+                allTreeItem.push(item);
+                ttNode+=","+$allnode[j].id+",";
+                findAllChild($this);//findAllChild
+            }
+        }
+    };
     $('#chart-container').orgchart({
       'data' : datascource,
       'exportButton': true,
@@ -78,7 +93,7 @@
       var $this = $(this);
       $('#selected-node').val($this.find('.title').text()).data('node', $this);    
       var $node = $('#selected-node').data('node');
-      alert($node[0].id);
+      //alert($node[0].id);
     })
     .on('click', '.orgchart', function(event) {
       if (!$(event.target).closest('.node').length) {
@@ -121,12 +136,50 @@
     $('#btn-save-all').on('click', function() {
         var $chartContainer = $('#chart-container');
         var $temp=$chartContainer.find('.node');
-        //for(var i=0;i<$temp.length;i++){
-        //    var $this = $($temp[i]);        
-        //    alert($temp[i].id+"-"+$this.find('.title').text()+"-"+$this.find('.name').text());
+        ttNode="";
+        allTreeItem=[];
+        for(var i=0;i<$temp.length;i++){
+            var $this = $($temp[i]);        
+            //alert($temp[i].id+"-"+$this.find('.title').text()+"-"+$this.find('.name').text());
+            //alert('curent is '+$this.find('.title').text()+", child is "+$chartContainer.get);
+            if (ttNode.indexOf(","+$temp[i].id+",")<0){
+                alert("parent node:"+$temp[i].id+"-"+$this.find('.title').text());//+"-"+$this.find('.name').text()
+                ttNode+=","+$temp[i].id+",";
+                findAllChild($this);
+            }
+            
+        }
+        //var formdata = new FormData(); //FormData object
+        //formdata.append("AddNew", allTreeItem);
+        //var xhr = new XMLHttpRequest();
+        //xhr.open('POST', '/GiaPha/AddNew');
+        //xhr.send(formdata);
+        //var content = "";
+        //xhr.onreadystatechange = function () {
+        //    if (xhr.readyState == 4 && xhr.status == 200) {
+        //        if (xhr.responseText == "1") {
+        //            alert("Tạo gia phả thành công!");
+        //            //window.location.href = window.location.href;
+        //        } else {
+        //            alert("Chương trình đang cập nhật, xin quay lại sau!");
+        //        }
+        //    }
         //}
-        findAllChild($temp.children);
+        $.ajax({
+            url: '/GiaPha/AddNew',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ 
+                user_id: -1, 
+                TreeItem: allTreeItem
+            }),
+            success: alert('ok'),
+            error: function (jqXHR, exception) {
+                alert(exception.toString());
+            }
+        });
     });
+    
     $('#btn-add-nodes').on('click', function() {
       var $chartContainer = $('#chart-container');
       var nodeVals = [];
@@ -144,7 +197,7 @@
       }
       var nodeType = $('input[name="node-type"]:checked');
       if (!nodeType.length) {
-        alert('Please select a node type');
+        alert('Chọn kiểu cho nút này (Cha,Con,Anh em)?');
         return;
       }
       if (nodeType.val() !== 'parent' && !$('.orgchart').length) {
@@ -168,11 +221,11 @@
           })
           .find('.orgchart').addClass('view-state');
         } else {
-          $chartContainer.orgchart('addParent', $chartContainer.find('.node:first'), { 'name': nodeVals[0], 'Id': getId() });
+            $chartContainer.orgchart('addParent', $chartContainer.find('.node:first'), { 'name': nodeVals[0], 'Id': getId(), 'id': getId() });
         }
       } else if (nodeType.val() === 'siblings') {
         $chartContainer.orgchart('addSiblings', $node,
-          { 'siblings': nodeVals.map(function(item) { return { 'name': item, 'relationship': '110', 'Id': getId() }; })
+          { 'siblings': nodeVals.map(function(item) { return { 'name': item, 'relationship': '110', 'Id': getId(), 'id': getId() }; })
         });
       } else {
         var hasChild = $node.parent().attr('colspan') > 0 ? true : false;
@@ -180,12 +233,12 @@
           var rel = nodeVals.length > 1 ? '110' : '100';
           $chartContainer.orgchart('addChildren', $node, {
               'children': nodeVals.map(function(item) {
-                return { 'name': item, 'relationship': rel, 'Id': getId() };
+                  return { 'name': item, 'relationship': rel, 'Id': getId(), 'id': getId() };
               })
             }, $.extend({}, $chartContainer.find('.orgchart').data('options'), { depth: 0 }));
         } else {
           $chartContainer.orgchart('addSiblings', $node.closest('tr').siblings('.nodes').find('.node:first'),
-            { 'siblings': nodeVals.map(function(item) { return { 'name': item, 'relationship': '110', 'Id': getId() }; })
+            { 'siblings': nodeVals.map(function(item) { return { 'name': item, 'relationship': '110', 'Id': getId(), 'id': getId() }; })
           });
         }
       }
