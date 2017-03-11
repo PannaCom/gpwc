@@ -93,7 +93,7 @@
       var $this = $(this);
       $('#selected-node').val($this.find('.title').text()).data('node', $this);    
       var $node = $('#selected-node').data('node');
-      //alert($node[0].id);
+      alert($node[0].id);
     })
     .on('click', '.orgchart', function(event) {
       if (!$(event.target).closest('.node').length) {
@@ -143,36 +143,23 @@
             //alert($temp[i].id+"-"+$this.find('.title').text()+"-"+$this.find('.name').text());
             //alert('curent is '+$this.find('.title').text()+", child is "+$chartContainer.get);
             if (ttNode.indexOf(","+$temp[i].id+",")<0){
-                alert("parent node:"+$temp[i].id+"-"+$this.find('.title').text());//+"-"+$this.find('.name').text()
+                alert("parent node:"+$temp[i].id+"-"+$this.find('.title').text()+"-"+$this.find('.name').text());//+"-"+$this.find('.name').text()
                 ttNode+=","+$temp[i].id+",";
                 findAllChild($this);
             }
             
         }
-        //var formdata = new FormData(); //FormData object
-        //formdata.append("AddNew", allTreeItem);
-        //var xhr = new XMLHttpRequest();
-        //xhr.open('POST', '/GiaPha/AddNew');
-        //xhr.send(formdata);
-        //var content = "";
-        //xhr.onreadystatechange = function () {
-        //    if (xhr.readyState == 4 && xhr.status == 200) {
-        //        if (xhr.responseText == "1") {
-        //            alert("Tạo gia phả thành công!");
-        //            //window.location.href = window.location.href;
-        //        } else {
-        //            alert("Chương trình đang cập nhật, xin quay lại sau!");
-        //        }
-        //    }
-        //}
+       
+        var data = { user_id: -1, TreeItem: allTreeItem };
+        //'data' is much more complicated in my real application
+        var sTreeItem = JSON.stringify(data);
+        //contentType: "application/json; charset=utf-8",
+        //datatype: 'json',
         $.ajax({
             url: '/GiaPha/AddNew',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({ 
-                user_id: -1, 
-                TreeItem: allTreeItem
-            }),
+            type: 'POST',            
+            datatype: 'text',
+            data:"TreeItem="+sTreeItem,
             success: alert('ok'),
             error: function (jqXHR, exception) {
                 alert(exception.toString());
