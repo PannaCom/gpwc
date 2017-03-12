@@ -26,7 +26,7 @@
                     <h1>@Model.new_title</h1>
                 </div>
 
-                <p>Ngày tạo: <i>@Model.ngay_tao</i></p>
+                <p><i>Ngày gửi: @Model.ngay_tao.Value.ToString("dd-MM-yyyy hh:mm")</i></p>
 
                 <div class="content_baiviet">
                     @Html.Raw(@Model.new_content)

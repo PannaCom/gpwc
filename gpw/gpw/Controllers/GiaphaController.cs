@@ -99,7 +99,9 @@ namespace gpw.Controllers
             var stud = StudList.TreeItem;
             foreach (var detail in stud)
             {
-                var name = detail["name"];  //access Address data;
+                var name = detail["name"];
+                var title = detail["title"];
+                var id = detail["id"];
             }
             return "1";
         }

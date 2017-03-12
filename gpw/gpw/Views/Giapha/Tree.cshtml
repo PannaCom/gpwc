@@ -24,7 +24,8 @@
     <input type="text" id="selected-node" class="selected-node-group">
     <label>Nút mới:</label>
     <ul id="new-nodelist">
-        <li><input type="text" class="new-node"></li>
+        <li><input type="text" class="new-node" placeholder="Tên nút mới"></li>
+        <li><input type="text" class="new-node" placeholder="Ghi chú"></li>
     </ul>
     <i class="fa fa-plus-circle btn-inputs" id="btn-add-input"></i>
     <i class="fa fa-minus-circle btn-inputs" id="btn-remove-input"></i>
@@ -70,7 +71,7 @@
             if (ttNode.indexOf(","+$allnode[j].id+",")<0){
                 //alert("child node"+$allnode[j].id+"-"+$this.find('.title').text());//+"-"+$this.find('.name').text()
                 //alert('curent is '+$this.find('.title').text()+", child is "+$chartContainer.get);
-                var item = { id: $allnode[j].id, name: $this.find('.title').text()};
+                var item = { id: $allnode[j].id, name: $this.find('.title').text(),title: $this.find('.content').text()};
                 allTreeItem.push(item);
                 ttNode+=","+$allnode[j].id+",";
                 findAllChild($this);//findAllChild
@@ -84,8 +85,10 @@
       'parentNodeSymbol': 'fa-th-large',
       'nodeContent': 'title',
       'nodeId': 'id',
+      'nodeTitle': 'name',
       'createNode': function($node, data) {
           $node[0].id = data.id;
+          $node[0].nodeTitle=data.nodeTitle;
               //getId();
       }
     })
@@ -93,7 +96,7 @@
       var $this = $(this);
       $('#selected-node').val($this.find('.title').text()).data('node', $this);    
       var $node = $('#selected-node').data('node');
-      alert($node[0].id);
+      alert($this.find('.title').text()+'-'+$this.find('.content').text()+'-'+$node[0].id);
     })
     .on('click', '.orgchart', function(event) {
       if (!$(event.target).closest('.node').length) {
@@ -124,13 +127,14 @@
     });
 
     $('#btn-add-input').on('click', function() {
-      $('#new-nodelist').append('<li><input type="text" class="new-node"></li>');
+        $('#new-nodelist').append('<li><input type="text" class="new-node" placeholder="Tên nút mới"></li>');
+        //$('#new-nodelist').append('<li><input type="text" class="new-node" placeholder="Ghi chú"></li>');
     });
 
     $('#btn-remove-input').on('click', function() {
       var inputs = $('#new-nodelist').children('li');
       if (inputs.length > 1) {
-        inputs.last().remove();
+          inputs.last().remove();
       }
     });
     $('#btn-save-all').on('click', function() {
@@ -143,7 +147,9 @@
             //alert($temp[i].id+"-"+$this.find('.title').text()+"-"+$this.find('.name').text());
             //alert('curent is '+$this.find('.title').text()+", child is "+$chartContainer.get);
             if (ttNode.indexOf(","+$temp[i].id+",")<0){
-                alert("parent node:"+$temp[i].id+"-"+$this.find('.title').text()+"-"+$this.find('.name').text());//+"-"+$this.find('.name').text()
+                alert("parent node:"+$temp[i].id+"-"+$this.find('.title').text()+"-"+$this.find('.content').text());//+"-"+$this.find('.name').text()
+                var item = { id: $temp[i].id, name: $this.find('.title').text(),title: $this.find('.content').text()};
+                allTreeItem.push(item);
                 ttNode+=","+$temp[i].id+",";
                 findAllChild($this);
             }
