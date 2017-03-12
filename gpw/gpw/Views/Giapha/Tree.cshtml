@@ -22,24 +22,27 @@
     </span>
     <label class="selected-node-group">Nút đang chọn:</label>
     <input type="text" id="selected-node" class="selected-node-group">
+    <label class="selected-node-group">Ghi chú:</label>
+    <input type="text" id="selected-node-title" class="selected-node-group">
+    <button type="button" id="btn-save-node">Lưu</button>
     <label>Nút mới:</label>
     <ul id="new-nodelist">
         <li><input type="text" class="new-node" placeholder="Tên nút mới"></li>
-        <li><input type="text" class="new-node" placeholder="Ghi chú"></li>
+        @*<li><input type="text" class="new-node" placeholder="Ghi chú"></li>*@
     </ul>
     <i class="fa fa-plus-circle btn-inputs" id="btn-add-input"></i>
     <i class="fa fa-minus-circle btn-inputs" id="btn-remove-input"></i>
     <span id="node-type-panel" class="radio-panel">
         <input type="radio" name="node-type" id="rd-parent" value="parent"><label for="rd-parent">Nút Cha(Gốc)</label>
         <input type="radio" name="node-type" id="rd-child" value="children"><label for="rd-child">Nút Con</label>
-        <input type="radio" name="node-type" id="rd-sibling" value="siblings"><label for="rd-sibling">Nút Anh em(Ngang hàng)</label>
-    </span>
+        <input type="radio" name="node-type" id="rd-sibling" value="siblings"><label for="rd-sibling">Nút Anh em</label>
+    </span><br />
     <button type="button" id="btn-add-nodes">Thêm mới</button>
     <button type="button" id="btn-delete-nodes">Xóa nút</button>
     <button type="button" id="btn-reset">Khởi tạo</button>
-    <br/><label >Ghi chú:</label>
-    <input type="text" id="title-node" class="selected-node-group">
-    <button type="button" id="btn-save-all">LƯU DỮ LIỆU</button>
+    @*<label >Ghi chú:</label>
+    <input type="text" id="title-node" class="selected-node-group">*@
+    <button type="button" id="btn-save-all">LƯU CẢ CÂY DỮ LIỆU</button>
 </div>
 @*<div class="home-link">
     <a href="https://github.com/dabeng/OrgChart">More orgcharts</a>
@@ -95,6 +98,7 @@
     .on('click', '.node', function() {
       var $this = $(this);
       $('#selected-node').val($this.find('.title').text()).data('node', $this);    
+      $('#selected-node-title').val($this.find('.content').text()).data('node', $this);  
       var $node = $('#selected-node').data('node');
       alert($this.find('.title').text()+'-'+$this.find('.content').text()+'-'+$node[0].id);
     })
@@ -136,6 +140,20 @@
       if (inputs.length > 1) {
           inputs.last().remove();
       }
+    });
+    $('#btn-save-node').on('click', function() {
+        var $this = $(this);
+        //$('#selected-node').val($this.find('.title').text()).data('node', $this);    
+        //$('#selected-node-title').val($this.find('.content').text()).data('node', $this);  
+        var $node = $('#selected-node').data('node');
+        //alert($this.find('.title').text()+'-'+$this.find('.content').text()+'-'+$node[0].id);
+        var id=$node[0].id;
+        var name=$('#selected-node').val();
+        var title=$('#selected-node-title').val();
+        var $n_parent_id=$this.closest('.nodes').parent().children(':first').find('.node');//$this.closest('.nodes').siblings(':first').data('node');
+        //var parent_id=$n_parent_id[0].id;
+        alert($n_parent_id.data('node')[0].id);
+        //alert(id+'-'+name+'-'+title+'-'+parent_id);
     });
     $('#btn-save-all').on('click', function() {
         var $chartContainer = $('#chart-container');

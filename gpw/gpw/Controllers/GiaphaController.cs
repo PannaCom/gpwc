@@ -24,10 +24,12 @@ namespace gpw.Controllers
             public string title { get; set; }
             public int status { get; set; }
         }
-        public ActionResult Tree()
+        public ActionResult Tree(long? user_id,long? group_id)
         {
             long? max_id = -1;
-            var p = (from q in db.user_family_tree where q.user_id == -1 select q).ToList();
+            if (user_id == null) user_id = -1;
+            if (group_id == null) group_id = 1;
+            var p = (from q in db.user_family_tree where q.user_id == user_id && q.group_id==group_id select q).ToList();
             NodeItem[] NI=new NodeItem[p.Count];
             for (int i = 0; i < p.Count; i++)
             {
