@@ -142,7 +142,7 @@
       }
     });
     $('#btn-save-node').on('click', function() {
-        var $this = $(this);
+        //var $this = $('#selected-node');
         //$('#selected-node').val($this.find('.title').text()).data('node', $this);    
         //$('#selected-node-title').val($this.find('.content').text()).data('node', $this);  
         var $node = $('#selected-node').data('node');
@@ -150,9 +150,10 @@
         var id=$node[0].id;
         var name=$('#selected-node').val();
         var title=$('#selected-node-title').val();
-        var $n_parent_id=$this.closest('.nodes').parent().children(':first').find('.node');//$this.closest('.nodes').siblings(':first').data('node');
+        var $this = $($('#selected-node')); 
+        var $n_parent_id=$this.closest('table').parent(':first').parent().find('.node:first');//$this.closest('.nodes').siblings(':first').data('node');parent().children(':first').find('.node').
         //var parent_id=$n_parent_id[0].id;
-        alert($n_parent_id.data('node')[0].id);
+        alert($n_parent_id.length);
         //alert(id+'-'+name+'-'+title+'-'+parent_id);
     });
     $('#btn-save-all').on('click', function() {
