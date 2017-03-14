@@ -534,7 +534,7 @@ html, body {
 }
 
 .kf_agent_wrap:hover .kf_agent_des {
-    height: 70%;
+    /*height: 70%;*/
 }
 
 #footer {

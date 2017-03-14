@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using gpw.Models;
 using Newtonsoft.Json;
+using gpw.helpers;
 namespace gpw.Controllers
 {
     public class GiaphaController : Controller
@@ -26,6 +27,10 @@ namespace gpw.Controllers
         }
         public ActionResult Tree(long? user_id,long? group_id)
         {
+            if (configs.getCookie("thanhvien_id")!="")
+            {
+
+            }
             long? max_id = -1;
             if (user_id == null) user_id = -1;
             if (group_id == null) group_id = 1;
@@ -44,6 +49,8 @@ namespace gpw.Controllers
             }
             ViewBag.allTree = allTree(ref NI);
             ViewBag.max_id = max_id;
+            ViewBag.user_id = user_id;
+            ViewBag.group_id = group_id;
             return View();
         }
         public string allTree(ref NodeItem[] NI)
@@ -94,18 +101,46 @@ namespace gpw.Controllers
             public csItem[] TreeItem { get; set; }
         }
         [HttpPost]
+        public string UpdateNode(long? id,string name, string title,long parent_id,long? user_id,long? group_id)
+        {
+            //try {
+            var found = db.user_family_tree.Any(o => o.id_node == id && o.user_id == user_id && o.group_id == group_id);
+            if (found) { 
+                string query = "update user_family_tree set name_node=N'" + name + "',title=N'" + title + "' where user_id=" + user_id + " and group_id=" + group_id + " and id_node=" + id;
+                db.Database.ExecuteSqlCommand(query);
+            }
+            else
+            {
+
+            }
+            
+            return "1";
+            //}
+            //catch (Exception ex)
+            //{
+            //    return "0";
+            //}
+        }
+        [HttpPost]
         public string AddNew(string TreeItem)
         {
-            dynamic StudList = JsonConvert.DeserializeObject(TreeItem);
-
-            var stud = StudList.TreeItem;
-            foreach (var detail in stud)
+            try
             {
-                var name = detail["name"];
-                var title = detail["title"];
-                var id = detail["id"];
+                dynamic StudList = JsonConvert.DeserializeObject(TreeItem);
+
+                var stud = StudList.TreeItem;
+                foreach (var detail in stud)
+                {
+                    var name = detail["name"];
+                    var title = detail["title"];
+                    var id = detail["id"];
+                }
+                return "1";
             }
-            return "1";
+            catch (Exception ex)
+            {
+                return "0";
+            }
         }
     }
 }

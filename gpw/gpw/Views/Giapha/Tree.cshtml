@@ -13,6 +13,8 @@
     var max_id=-1;
     max_id=@ViewBag.max_id;
     var allTreeItem=[];
+    var user_id = @ViewBag.user_id;
+    var group_id =@ViewBag.group_id;
 </script>
 <div id="chart-container" style="width:100%;position:relative;display:block; overflow: scroll;min-height:400px;"></div>
 <div id="edit-panel" class="view-state" @*style="width:100%;position:fixed;display:block;bottom:10px;"*@>
@@ -37,7 +39,7 @@
         <input type="radio" name="node-type" id="rd-child" value="children"><label for="rd-child">Nút Con</label>
         <input type="radio" name="node-type" id="rd-sibling" value="siblings"><label for="rd-sibling">Nút Anh em</label>
     </span><br />
-    <button type="button" id="btn-add-nodes">Thêm mới</button>
+    <button type="button" id="btn-add-nodes">Thêm nút mới</button>
     <button type="button" id="btn-delete-nodes">Xóa nút</button>
     <button type="button" id="btn-reset">Khởi tạo</button>
     @*<label >Ghi chú:</label>
@@ -151,10 +153,18 @@
         var name=$('#selected-node').val();
         var title=$('#selected-node-title').val();
         var $this = $($('#selected-node')); 
-        var $abc=$node.closest('.nodes').parent().children(':first').find('.node');//$this.closest('table').parent(':first').parent().find('.node:last');//$this.closest('.nodes').siblings(':first').data('node');parent().children(':first').find('.node').
-        //var parent_id=$n_parent_id[0].id;
-        //alert($abc[0].id);
-        //alert(id+'-'+name+'-'+title+'-'+parent_id);
+        var $parent_id=$node.closest('.nodes').parent().children(':first').find('.node');//$this.closest('table').parent(':first').parent().find('.node:last');//$this.closest('.nodes').siblings(':first').data('node');parent().children(':first').find('.node').
+        var parent_id=$parent_id[0].id;
+        $.ajax({
+            url: '/GiaPha/UpdateNode',
+            type: 'POST',            
+            datatype: 'text',
+            data:"&id="+id+"&name="+name+"&title="+title+"&parent_id="+parent_id+"&user_id="+user_id+"&group_id="+group_id,
+            success: alert('Ghi dữ liệu thành công'),
+            error: function (jqXHR, exception) {
+                alert(exception.toString());
+            }
+        });
     });
     $('#btn-save-all').on('click', function() {
         var $chartContainer = $('#chart-container');
@@ -185,7 +195,7 @@
             type: 'POST',            
             datatype: 'text',
             data:"TreeItem="+sTreeItem,
-            success: alert('ok'),
+            success: alert('Ghi dữ liệu thành công'),
             error: function (jqXHR, exception) {
                 alert(exception.toString());
             }
