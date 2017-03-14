@@ -154,7 +154,10 @@ namespace gpw.Controllers
         {
             return View();
         }
-
+        public ActionResult GioiThieu()
+        {
+            return View();
+        }
 
     }
 }

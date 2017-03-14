@@ -12,6 +12,12 @@ namespace gpw
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            // Router SEO
+            routes.MapRoute(
+                "daily",
+                "gioi-thieu",
+                new { controller = "Home", action = "GioiThieu" }
+            );
             routes.MapRoute(
                 "detail tin tuc",
                 "{name}-{id}",
