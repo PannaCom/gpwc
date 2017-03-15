@@ -16,7 +16,8 @@ namespace gpw.Models
     {
         public long id { get; set; }
         public string giapha_name { get; set; }
-        public string giapha_des1 { get; set; }
+        public string des { get; set; }
         public Nullable<long> thanhvien_id { get; set; }
+        public Nullable<System.DateTime> date_time { get; set; }
     }
 }

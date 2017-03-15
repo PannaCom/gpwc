@@ -1,0 +1,162 @@
+﻿@model PagedList.IPagedList<gpw.Models.giapha_des>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Danh sách cây gia phả " + ViewBag.ten_thanh_vien;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section meta {
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+}
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+<div class="row section_1" style="background: #fff" ;>
+    <div class="col-md-8">
+        <div class="page-header">
+            <h2>@ViewBag.Title</h2>
+        </div>
+        
+    </div>
+</div>
+<div id="showTree" style="top:25%;width:50%;left:25%;position:fixed;display:none;z-index:10001;background-color:#ffd800;border-radius:25px;padding:10px 10px 10px 10px;border:2px solid #808080;">
+    <h4>Bước 1: Khởi tạo cây gia phả</h4>
+    <form class="form-horizontal" method="post" id="form_caygiapha" name="form_caygiapha" enctype="multipart/form-data" style="margin: 0 17px;">
+        <input type="hidden" name="thanhvien_id" id="thanhien_id" value="@ViewBag.thanhvien_id" />
+        <div class="form-group">
+            <span class="control-label col-md-3 text-left">Tên cây gia phả</span>
+            <div class="col-md-8">
+                <input type="text" id="giapha_name" name="giapha_name" class="form-control" placeholder="Nhập tên cây gia phả" style="width:100%;">
+            </div>
+        </div>
+        <div class="form-group">
+            <span class="control-label col-md-3 text-left">Mô tả</span>
+            <div class="col-md-8">
+                <textarea id="des" name="des" class="form-control" placeholder="Mô tả" rows="4" style="width:100%;"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <span class="control-label col-md-3 text-left">Họ Tên Cụ Tổ</span>
+            <div class="col-md-8">
+                <input type="text" id="name_node" name="name_node" class="form-control" placeholder="Nhập tên Cụ Tổ" style="width:100%;">
+            </div>
+        </div>
+        <div class="form-group">
+            <span class="control-label col-md-3 text-left">Ghi chú</span>
+            <div class="col-md-8">
+                <input type="text" id="title" name="title" class="form-control" placeholder="Nhập ghi chú" style="width:100%;">
+            </div>
+        </div>
+        <div class="form-group" style="text-align: center;padding:10px 10px 10px 10px;margin-top:10px;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-primary" id="btn_add_quanhe" onclick="addNewSubmit();">Tiếp Tục</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="row" style="background: #fff;">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Danh sách các cây gia phả của thành viên</h3>
+            </div>
+            <div class="panel-body">
+
+                <div class="table-responsive">
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-primary" id="btn_add_quanhe" onclick="addNew();">Thêm Mới</button>
+                    </div>
+                    <table class="table table-bordered table-striped" id="table_thanhvien_quanhe_1">
+                        <thead>
+                            <tr>
+                                <th>Thứ tự</th>
+                                <th>Tên cây gia phả</th>
+                                <th>Mô tả</th>
+                                <th>Ngày tạo</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                var count = 0; ;
+                                if (Model.Count > 0)
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        count++;
+                                        <tr id="t_vien_@item.id">
+                                            <td>@*<text>@{count*ViewBag.pg+1;}</text>*@</td>
+                                            <td><a href="/GiaPha/Tree?user_id=@item.thanhvien_id&group_id=@item.id">@item.giapha_name</a></td>
+                                            <td>@item.des</td>
+                                            <td>@item.date_time</td>
+                                            <td><span class="btn btn-danger" onclick="delete(@item.thanhvien_id,@item.id);">Xóa quan hệ</span></td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+
+                @if (Model != null)
+                {
+                    @Html.PagedListPager(Model, page => Url.Action("caygiapha", "thanhvien", new { pg = page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+                }
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places" type="text/javascript"></script>
+    <script src="/Scripts/jquery.geocomplete.js"></script>
+    <script>
+        function addNew() {
+            if ($("#showTree").visible) {
+                $("#showTree").hide();
+            } else {
+                $("#showTree").show();
+            }
+        }
+        function addNewSubmit() {
+            var url = "/ThanhVien/AddNewTree"; // the script where you handle the form input.
+            if (document.getElementById("giapha_name").value === "") {
+                alert("Vui lòng chọn tên cây gia phả.");
+                document.getElementById("giapha_name").focus();
+                return false;
+            }
+            if (document.getElementById("name_node").value === "") {
+                alert("Vui lòng nhập tên Cụ tổ.");
+                document.getElementById("name_node").focus();
+                return false;
+            }
+            document.getElementById("btn_add_quanhe").disabled = true;
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: $("#form_caygiapha").serialize(), // serializes the form's elements.
+                success: function (data) {
+                    //console.log(data);
+                    if (data == "0") {
+                        alert('Server đang quá tải, Xin quay lại sau.');
+                        document.getElementById("btn_add_quanhe").disabled = false;
+                    } else {
+                        window.location.href = "/giapha/tree?user_id=" +@ViewBag.thanhvien_id +"&group_id=" + data;
+                    }
+                    //console.log(data);
+                }, error: function (error) {
+                    console.log(error)
+                }
+            });
+        }
+    </script>
+}
+

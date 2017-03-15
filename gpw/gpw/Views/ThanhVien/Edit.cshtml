@@ -8,7 +8,24 @@
 @section meta {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 }
+<style>
+    fieldset.scheduler-border {
+        border: 2px groove #808080 !important;
+        padding: 0 1.4em 1.4em 1.4em !important;
+        margin: 0 0 1.5em 0 !important;
+        -webkit-box-shadow: 0px 0px 0px 0px #000;
+        box-shadow: 0px 0px 0px 0px #000;
+    }
 
+    legend.scheduler-border {
+        font-size: 1.2em !important;
+        font-weight: bold !important;
+        text-align: left !important;
+        width: auto;
+        padding: 0 10px;
+        border-bottom: none;
+    }
+</style>
 <link href="~/Scripts/dropzone/dropzone.css" rel="stylesheet" />
 <script src="~/Scripts/dropzone/dropzone.js"></script>
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
@@ -27,192 +44,212 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <hr />
             <div class="form-horizontal">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ho_ten, new { @class = "control-label col-md-3 text-left" })
-                    <div class="col-md-8">
-                        @Html.TextBoxFor(model => model.ho_ten, new { @class = "form-control", placeholder = "Họ tên thành viên" })
-                        @Html.ValidationMessageFor(model => model.ho_ten, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.cats_all_name, new { @class = "control-label col-md-3 text-left" })
-                    <div class="col-md-8">
-                        @Html.DropDownListFor(m => m.cats_all_name, new SelectList(ViewBag.DongHo, "Value", "Text", "Thuộc dòng họ"), htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.cats_all_name, "", new { @class = "text-danger" })
-                    </div>
-                    <script>
-                        document.getElementById("cats_all_name").value = "@Html.Raw(@ViewBag.cats_all_name)";
-                    </script>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.email, new { @class = "col-md-3 text-left control-label" })
-                    <div class="col-md-8">
-                        @Html.TextBoxFor(m => m.email, new { @class = "form-control", placeholder = "Vui lòng nhập chính xác địa chỉ email" })
-                        @Html.ValidationMessageFor(m => m.email, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(m => m.so_dien_thoai, new { @class = "col-md-3 text-left control-label" })
-                    <div class="col-md-8">
-                        @Html.TextBoxFor(m => m.so_dien_thoai, new { @class = "form-control", placeholder = "Vui lòng nhập số điện thoại" })
-                        @Html.ValidationMessageFor(m => m.so_dien_thoai, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(m => m.pass, new { @class = "col-md-3 text-left control-label" })
-                    <div class="col-md-8">
-                        @Html.PasswordFor(m => m.pass, new { @class = "form-control", placeholder = "Mật khẩu đăng nhập thành viên" })
-                        @Html.ValidationMessageFor(m => m.pass, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-3 text-left control-label" })
-                    <div class="col-md-8">
-                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Xác nhận mật khẩu" })
-                        @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(m => m.hinh_anh, new { @class = "col-md-3 text-left control-label" })
-                    <div class="col-md-8">
-                        @Html.HiddenFor(m => m.hinh_anh)
-                        <div class="anhuser1">
-                            <img id="anhuser1_1" src="" style="width: 100px; height: 100px;" />
+                <fieldset class="scheduler-border">
+                    <legend class="scheduler-border">Phần thông tin cần có</legend>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ho_ten, new { @class = "control-label col-md-3 text-left" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.ho_ten, new { @class = "form-control", placeholder = "Họ tên thành viên" })
+                            @Html.ValidationMessageFor(model => model.ho_ten, "", new { @class = "text-danger" })
                         </div>
-                        <div id="hinhanh_user" class="dropzone" style="padding: 0; height: 30px; min-height: 0; width: 200px; background: #023008; color: #fff;">
-                            <div class="dz-default dz-message" data-dz-message style="margin: 0;">
-                                <span><i class="fa fa-plus fa-2x"></i> Tải ảnh lên.</span>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.cats_all_name, new { @class = "control-label col-md-3 text-left" })
+                        <div class="col-md-8">
+                            @*@Html.DropDownListFor(m => m.cats_all_name, new SelectList(ViewBag.DongHo, "Value", "Text", "Thuộc dòng họ"), htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.cats_all_name, "", new { @class = "text-danger" })*@
+                            <select id="cats_all_name" name="cats_all_name" class="form-control"><option value="An">An</option><option value="Ân">Ân</option><option value="Âu">Âu</option><option value="Bạc">Bạc</option><option value="Bạch">Bạch</option><option value="Bàng">Bàng</option><option value="Bành">Bành</option><option value="Bế">Bế</option><option value="Biện">Biện</option><option value="Bùi">Bùi</option><option value="Ca">Ca</option><option value="Các họ khác">Các họ khác</option><option value="Cái">Cái</option><option value="Cam">Cam</option><option value="Cầm">Cầm</option><option value="Cấn">Cấn</option><option value="Cao">Cao</option><option value="Cát">Cát</option><option value="Châu">Châu</option><option value="Chế">Chế</option><option value="Chiêm">Chiêm</option><option value="Chu">Chu</option><option value="Chung">Chung</option><option value="Cù">Cù</option><option value="Cự">Cự</option><option value="Đái">Đái</option><option value="Đàm">Đàm</option><option value="Đặng">Đặng</option><option value="Danh">Danh</option><option value="Đào">Đào</option><option value="Đầu">Đầu</option><option value="Đậu">Đậu</option><option value="Dềnh (Dình)">Dềnh (Dình)</option><option value="Đèo">Đèo</option><option value="Diệp">Diệp</option><option value="Diêu">Diêu</option><option value="Điêu">Điêu</option><option value="Điểu">Điểu</option><option value="Đinh">Đinh</option><option value="Đô">Đô</option><option value="Đồ">Đồ</option><option value="Đỗ">Đỗ</option><option value="Doãn">Doãn</option><option value="Đoàn">Đoàn</option><option value="Đống">Đống</option><option value="Đồng">Đồng</option><option value="Đổng">Đổng</option><option value="Dư">Dư</option><option value="Duôn Du">Duôn Du</option><option value="Dương">Dương</option><option value="Eban">Eban</option><option value="Enoul">Enoul</option><option value="Giản">Giản</option><option value="Giang">Giang</option><option value="Giao">Giao</option><option value="Giáp">Giáp</option><option value="Hà">Hà</option><option value="Hạ">Hạ</option><option value="Hàm">Hàm</option><option value="Hào (Hầu)">Hào (Hầu)</option><option value="Hò">Hò</option><option value="Hồ">Hồ</option><option value="Hoa">Hoa</option><option value="Hoài">Hoài</option><option value="Hoàng">Hoàng</option><option value="Hồng">Hồng</option><option value="Hứa">Hứa</option><option value="Hui">Hui</option><option value="Hùng">Hùng</option><option value="Huỳnh">Huỳnh</option><option value="Kha">Kha</option><option value="Khiên">Khiên</option><option value="Khiếu">Khiếu</option><option value="Khổng">Khổng</option><option value="Khu">Khu</option><option value="Khuất">Khuất</option><option value="Khúc">Khúc</option><option value="Khương">Khương</option><option value="Khưu">Khưu</option><option value="Kiên">Kiên</option><option value="Kiều">Kiều</option><option value="Kiểu">Kiểu</option><option value="Kim">Kim</option><option value="Knui">Knui</option><option value="Ksor">Ksor</option><option value="Kỷ">Kỷ</option><option value="La">La</option><option value="Lã">Lã</option><option value="Lai">Lai</option><option value="Lại">Lại</option><option value="Lâm">Lâm</option><option value="Lang">Lang</option><option value="Lành">Lành</option><option value="Lầu">Lầu</option><option value="Lê">Lê</option><option value="Lều">Lều</option><option value="Liên">Liên</option><option value="Liêu">Liêu</option><option value="Liễu">Liễu</option><option value="Linh">Linh</option><option value="Lò">Lò</option><option value="Lô">Lô</option><option value="Lợi">Lợi</option><option value="Lù">Lù</option><option value="Lư">Lư</option><option value="Lữ">Lữ</option><option value="Lương">Lương</option><option value="Lưu">Lưu</option><option value="Luyện">Luyện</option><option value="Lý">Lý</option><option value="Ma">Ma</option><option value="Mã">Mã</option><option value="Mạc">Mạc</option><option value="Mạch">Mạch</option><option value="Mai">Mai</option><option value="Man Thiên">Man Thiên</option><option value="Mạnh">Mạnh</option><option value="Mậu">Mậu</option><option value="Miên">Miên</option><option value="Ngạc">Ngạc</option><option value="Ngân">Ngân</option><option value="Nghê">Nghê</option><option value="Nghiêm">Nghiêm</option><option value="Ngô">Ngô</option><option value="Ngọ">Ngọ</option><option value="Ngũ">Ngũ</option><option value="Ngụy">Ngụy</option><option value="Nguyễn">Nguyễn</option><option value="Nhạc">Nhạc</option><option value="Nhan">Nhan</option><option value="Nhân">Nhân</option><option value="Nhữ">Nhữ</option><option value="Ninh">Ninh</option><option value="Nông">Nông</option><option value="Nùng">Nùng</option><option value="On">On</option><option value="Ôn">Ôn</option><option value="Ông">Ông</option><option value="Pản">Pản</option><option value="Phẩm">Phẩm</option><option value="Phạm">Phạm</option><option value="Phan">Phan</option><option value="Phí">Phí</option><option value="Phú">Phú</option><option value="Phù">Phù</option><option value="Phùng">Phùng</option><option value="Phương">Phương</option><option value="Quách">Quách</option><option value="Quan">Quan</option><option value="Quản">Quản</option><option value="Quảng">Quảng</option><option value="Quyền">Quyền</option><option value="Sầm">Sầm</option><option value="Sĩ">Sĩ</option><option value="Sơn">Sơn</option><option value="Sử">Sử</option><option value="Tạ">Tạ</option><option value="Tân">Tân</option><option value="Tấn">Tấn</option><option value="Tan (Tang)">Tan (Tang)</option><option value="Tăng">Tăng</option><option value="Thạch">Thạch</option><option value="Thái">Thái</option><option value="Thẩm">Thẩm</option><option value="Thân">Thân</option><option value="Thang">Thang</option><option value="Thành">Thành</option><option value="Thảo">Thảo</option><option value="Thi">Thi</option><option value="Thiều">Thiều</option><option value="Thông">Thông</option><option value="Thục">Thục</option><option value="Tiết">Tiết</option><option value="Tiêu">Tiêu</option><option value="Tô">Tô</option><option value="Tôn">Tôn</option><option value="Tôn Thất">Tôn Thất</option><option value="Tống">Tống</option><option value="Trà">Trà</option><option value="Trác">Trác</option><option value="Trầm">Trầm</option><option value="Trần">Trần</option><option value="Trang">Trang</option><option value="Triệu">Triệu</option><option value="Trình">Trình</option><option value="Trịnh">Trịnh</option><option value="Trưng">Trưng</option><option value="Trương">Trương</option><option value="Từ">Từ</option><option value="Tướng">Tướng</option><option value="Tường">Tường</option><option value="Tưởng">Tưởng</option><option value="Ủ">Ủ</option><option value="Ung">Ung</option><option value="Ứng">Ứng</option><option value="Uông">Uông</option><option value="Uyển">Uyển</option><option value="Vân">Vân</option><option value="Văn">Văn</option><option value="Vận">Vận</option><option value="Vi">Vi</option><option value="Viêm">Viêm</option><option value="Viên">Viên</option><option value="Võ">Võ</option><option value="Vũ">Vũ</option><option value="Vương">Vương</option><option value="Vưu">Vưu</option></select>
+                            <script>
+                                document.getElementById("cats_all_name").value = "@Html.Raw(@ViewBag.cats_all_name)";
+                            </script>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.cats_name, new { @class = "control-label col-md-3 text-left" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.cats_name, new { @class = "form-control", placeholder = "Tên dòng họ" })
+                            @Html.ValidationMessageFor(model => model.cats_name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.email, new { @class = "col-md-3 text-left control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.email, new { @class = "form-control", placeholder = "Vui lòng nhập chính xác địa chỉ email" })
+                            @Html.ValidationMessageFor(m => m.email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.so_dien_thoai, new { @class = "col-md-3 text-left control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.so_dien_thoai, new { @class = "form-control", placeholder = "Vui lòng nhập số điện thoại" })
+                            @Html.ValidationMessageFor(m => m.so_dien_thoai, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.pass, new { @class = "col-md-3 text-left control-label" })
+                        <div class="col-md-8">
+                            @Html.PasswordFor(m => m.pass, new { @class = "form-control", placeholder = "Mật khẩu đăng nhập thành viên" })
+                            @Html.ValidationMessageFor(m => m.pass, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-3 text-left control-label" })
+                        <div class="col-md-8">
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Xác nhận mật khẩu" })
+                            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="scheduler-border">
+                    <legend class="scheduler-border">Phần thông tin thêm (tùy chọn)</legend>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.que_quan, new { @class = "control-label col-md-3 text-left" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.que_quan, new { @class = "form-control", placeholder = "Quê quán" })
+                            @Html.ValidationMessageFor(model => model.que_quan, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.hinh_anh, new { @class = "col-md-3 text-left control-label" })
+                        <div class="col-md-8">
+                            @Html.HiddenFor(m => m.hinh_anh)
+                            <div class="anhuser1">
+                                <img id="anhuser1_1" src="" style="width: 100px; height: 100px;" />
+                            </div>
+                            <div id="hinhanh_user" class="dropzone" style="padding: 0; height: 30px; min-height: 0; width: 200px; background: #023008; color: #fff;">
+                                <div class="dz-default dz-message" data-dz-message style="margin: 0;">
+                                    <span><i class="fa fa-plus fa-2x"></i> Tải ảnh lên.</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <script>
-                    $(document).ready(function () {
-                        $('#anhuser1_1').attr('src', $('#hinh_anh').val());
-                    })
-                </script>
+                    <script>
+                        $(document).ready(function () {
+                            $('#anhuser1_1').attr('src', $('#hinh_anh').val());
+                        })
+                    </script>
 
-                <div class="form-group">
-                    <label class="control-label col-md-3 text-left">
-                        Tên thường gọi:
-                    </label>
-                    <div class="col-md-8">
-                        @Html.TextBoxFor(m => m.biet_danh, new { @class = "form-control", placeholder = "Biệt danh thành viên" })
-                        @Html.ValidationMessageFor(m => m.biet_danh, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-md-3 text-left">
-                        Giới tính:
-                    </label>
-                    <div class="col-md-8">
-                        <label><input type="radio" name="sgioi_tinh" value="Nam" /> Nam</label>
-                        <label><input type="radio" name="sgioi_tinh" value="Nữ" /> Nữ</label>
-                        @Html.HiddenFor(m => m.gioi_tinh)
-                        @Html.ValidationMessageFor(m => m.gioi_tinh, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-md-3 text-left">
-                        Học vấn:
-                    </label>
-                    <div class="col-md-8">
-                        @Html.TextBoxFor(m => m.hoc_van, new { @class = "form-control", placeholder = "Học vấn", onkeyup = "autogethocvan();" })
-                        @Html.ValidationMessageFor(m => m.hoc_van, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-md-3 text-left">
-                        Trình độ
-                    </label>
-                    <div class="col-md-8">
-                        @Html.DropDownListFor(m => m.trinh_do, new SelectList(ViewBag.TrinhDo, "Value", "Text", "Trình độ học vấn"), htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.trinh_do, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-md-3 text-left">
-                        Địa chỉ:
-                    </label>
-                    <div class="col-md-8">
-                        @Html.TextBoxFor(m => m.dia_chi, new { @class = "form-control", placeholder = "Địa chỉ" })
-                        @Html.HiddenFor(m => m.lon)
-                        @Html.HiddenFor(m => m.lat)
-                        @Html.ValidationMessageFor(m => m.dia_chi, "", new { @class = "text-danger" })
-                        @*@Html.ValidationMessageFor(m => m.lon, "", new { @class = "text-danger" })
-                            @Html.ValidationMessageFor(m => m.lat, "", new { @class = "text-danger" })*@
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-md-3 text-left">
-                        Ngày sinh:
-                    </label>
-                    <div class="col-md-8">
-                        @*@Html.TextBoxFor(m => m.ngay_sinh, new { @class = "form-control", placeholder = "Ngày sinh thành viên", requred = "" })*@
-                        @Html.HiddenFor(m => m.ngay_sinh)
-                        <div class="input-group">
-                            <select name="ngay1" id="ngay1" class="form-control" style="width: 80px;" onchange="CongNgay();">
-                                <option value="">Ngày</option>
-                            </select>
-                            <select name="thang1" id="thang1" class="form-control" style="width: 90px;" onchange="CongNgay();">
-                                <option value="">Tháng</option>
-                            </select>
-                            <select name="nam1" id="nam1" class="form-control" style="width: 110px;" onchange="CongNgay();">
-                                <option value="">Năm</option>
-                            </select>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 text-left">
+                            Tên thường gọi:
+                        </label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.biet_danh, new { @class = "form-control", placeholder = "Biệt danh thành viên" })
+                            @Html.ValidationMessageFor(m => m.biet_danh, "", new { @class = "text-danger" })
                         </div>
-
                     </div>
-                    @Html.ValidationMessageFor(m => m.ngay_sinh, "", new { @class = "text-danger" })
-                </div>
 
-                <div class="form-group">
-                    <label class="control-label col-md-3 text-left">
-                        Cơ quan công tác
-                    </label>
-                    <div class="col-md-8">
-                        @Html.TextBoxFor(m => m.cq_ctac, new { @class = "form-control", placeholder = "Cơ quan công tác" })
-                        @Html.ValidationMessageFor(m => m.cq_ctac, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label class="control-label col-md-3 text-left">
+                            Giới tính:
+                        </label>
+                        <div class="col-md-8">
+                            <label><input type="radio" name="sgioi_tinh" value="Nam" /> Nam</label>
+                            <label><input type="radio" name="sgioi_tinh" value="Nữ" /> Nữ</label>
+                            @Html.HiddenFor(m => m.gioi_tinh)
+                            @Html.ValidationMessageFor(m => m.gioi_tinh, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="control-label col-md-3 text-left">
-                        Nghề nghiệp:
-                    </label>
-                    <div class="col-md-8">
-                        @Html.TextBoxFor(m => m.nghe_nghiep, new { @class = "form-control", placeholder = "Nghề nghiệp thành viên", onkeyup = "autogetnghenghiep();" })
-                        @Html.ValidationMessageFor(m => m.nghe_nghiep, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label class="control-label col-md-3 text-left">
+                            Trường học:
+                        </label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.hoc_van, new { @class = "form-control", placeholder = "Học vấn", onkeyup = "autogethocvan();" })
+                            @Html.ValidationMessageFor(m => m.hoc_van, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="control-label col-md-3 text-left">
-                        Chứng minh thư:
-                    </label>
-                    <div class="col-md-8">
-                        @Html.TextBoxFor(m => m.so_cmt, new { @class = "form-control", placeholder = "Số chứng minh nhân dân" })
-                        @*@Html.ValidationMessageFor(m => m.so_cmt, "", new { @class = "text-danger" })*@
+                    <div class="form-group">
+                        <label class="control-label col-md-3 text-left">
+                            Trình độ
+                        </label>
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(m => m.trinh_do, new SelectList(ViewBag.TrinhDo, "Value", "Text", "Trình độ học vấn"), htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.trinh_do, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <div class="col-md-offset-3 col-md-8">
-                        @*<input type="submit" value="Đăng ký thành viên" class="btn btn-primary" />*@
-                        <button class="btn btn-primary" id="btn_dangky">Cập nhật thông tin</button>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 text-left">
+                            Địa chỉ:
+                        </label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.dia_chi, new { @class = "form-control", placeholder = "Địa chỉ" })
+                            @Html.HiddenFor(m => m.lon)
+                            @Html.HiddenFor(m => m.lat)
+                            @Html.ValidationMessageFor(m => m.dia_chi, "", new { @class = "text-danger" })
+                            @*@Html.ValidationMessageFor(m => m.lon, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(m => m.lat, "", new { @class = "text-danger" })*@
+                        </div>
                     </div>
-                </div>
-            </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 text-left">
+                            Ngày sinh:
+                        </label>
+                        <div class="col-md-8">
+                            @*@Html.TextBoxFor(m => m.ngay_sinh, new { @class = "form-control", placeholder = "Ngày sinh thành viên", requred = "" })*@
+                            @Html.HiddenFor(m => m.ngay_sinh)
+                            <div class="input-group">
+                                <select name="ngay1" id="ngay1" class="form-control" style="width: 80px;" onchange="CongNgay();">
+                                    <option value="">Ngày</option>
+                                </select>
+                                <select name="thang1" id="thang1" class="form-control" style="width: 90px;" onchange="CongNgay();">
+                                    <option value="">Tháng</option>
+                                </select>
+                                <select name="nam1" id="nam1" class="form-control" style="width: 110px;" onchange="CongNgay();">
+                                    <option value="">Năm</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        @Html.ValidationMessageFor(m => m.ngay_sinh, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 text-left">
+                            Cơ quan công tác
+                        </label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.cq_ctac, new { @class = "form-control", placeholder = "Cơ quan công tác" })
+                            @Html.ValidationMessageFor(m => m.cq_ctac, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 text-left">
+                            Nghề nghiệp:
+                        </label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.nghe_nghiep, new { @class = "form-control", placeholder = "Nghề nghiệp thành viên", onkeyup = "autogetnghenghiep();" })
+                            @Html.ValidationMessageFor(m => m.nghe_nghiep, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 text-left">
+                            Chứng minh thư:
+                        </label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.so_cmt, new { @class = "form-control", placeholder = "Số chứng minh nhân dân" })
+                            @*@Html.ValidationMessageFor(m => m.so_cmt, "", new { @class = "text-danger" })*@
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-3 col-md-8">
+                            @*<input type="submit" value="Đăng ký thành viên" class="btn btn-primary" />*@
+                            <button class="btn btn-primary" id="btn_dangky">Cập nhật thông tin</button>
+                        </div>
+                    </div>
+                </fieldset>
+</div>
         }
 
 
@@ -374,7 +411,7 @@
         //document.getElementById('ngay_sinh').value = "1/1/1980";
         if (document.getElementById('ngay_sinh').value !== "") {
             var ngay_thang_1 = document.getElementById('ngay_sinh').value.split('/');
-            console.log(ngay_thang_1[0].replace('0', ''));
+            console.log(ngay_thang_1[2].replace('0', ''));
             document.getElementById('ngay1').value = ngay_thang_1[1].replace('0', '');
             document.getElementById('thang1').value = ngay_thang_1[0].replace('0', '');
             document.getElementById('nam1').value = ngay_thang_1[2];
@@ -389,7 +426,7 @@
                 $('#gioi_tinh').val($(this).val());
             })
 
-            $('#nam1').val('1980');
+            //$('#nam1').val('1980');
 
             $('#email').on('change', function () {
                 if ($(this).val() !== "") {

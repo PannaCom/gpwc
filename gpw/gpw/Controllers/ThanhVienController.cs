@@ -24,7 +24,18 @@ namespace gpw.Controllers
         {
             return View(db.thanh_vien.ToList());
         }
-
+        // GET: ThanhVien
+        public ActionResult caygiapha(long? thanhvien_id,int? pg)
+        {
+            int pageSize = 25;
+            if (pg == null) pg = 1;
+            int pageNumber = (pg ?? 1);
+            ViewBag.pg = pg;
+            ViewBag.thanhvien_id = thanhvien_id;
+            ViewBag.ten_thanh_vien = db.thanh_vien.Find(thanhvien_id).ho_ten;
+            var quan_he = db.giapha_des.Where(x => x.thanhvien_id == thanhvien_id).Select(x => x).ToList();
+            return View(quan_he.ToPagedList(pageNumber, pageSize));
+        }
         // GET: ThanhVien/Details/5
         public ActionResult Details(long? id)
         {
@@ -92,6 +103,8 @@ namespace gpw.Controllers
                 thanh_vien _addNew = new thanh_vien();
                 _addNew.ho_ten = model.ho_ten ?? null;
                 _addNew.cats_all_name = model.cats_all_name ?? null;
+                _addNew.cats_name = model.cats_name ?? null;
+                _addNew.que_quan = model.que_quan ?? null;
                 _addNew.dia_chi = model.dia_chi ?? null;
                 _addNew.lon = model.lon ?? null;
                 _addNew.lat = model.lat ?? null;
@@ -121,7 +134,7 @@ namespace gpw.Controllers
                 configs.setCookie("thanhvien_id", _addNew.id.ToString());
                 configs.setCookie("ten_thanh_vien", _addNew.ho_ten);
 
-                return RedirectToAction("TaoGiaPha", new { id = _addNew.id });
+                return RedirectToAction("caygiapha", new { thanhvien_id = _addNew.id });
             }
             catch (Exception ex)
             {
@@ -144,9 +157,17 @@ namespace gpw.Controllers
             
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
-            
+            try { 
+                var thanhvien_id = configs.getCookie("thanhvien_id");
+                long? _id = Convert.ToInt32(thanhvien_id);
+                if (_id != id) return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+            }
             ViewBag.TrinhDo = new List<SelectListItem>() { 
                 new SelectListItem() { Value = "Đại học", Text = "Đại học" },
                 new SelectListItem() { Value = "Cao đẳng", Text = "Cao đẳng" },
@@ -179,7 +200,9 @@ namespace gpw.Controllers
                 so_cmt = thanh_vien.so_cmt,
                 so_dien_thoai = thanh_vien.so_dien_thoai,
                 trinh_do = thanh_vien.trinh_do,     
-                cats_all_name = thanh_vien.cats_all_name
+                cats_all_name = thanh_vien.cats_all_name,
+                cats_name = thanh_vien.cats_name,
+                que_quan=thanh_vien.que_quan,
             };
             List<SelectListItem> DongHo = new List<SelectListItem>();
             var p = (from q in db.cats_all_name select q).OrderBy(o => o.name).ToList();
@@ -227,6 +250,8 @@ namespace gpw.Controllers
                 }
                 _addNew.ho_ten = model.ho_ten ?? null;
                 _addNew.cats_all_name = model.cats_all_name ?? null;
+                _addNew.cats_name = model.cats_name ?? null;
+                _addNew.que_quan = model.que_quan ?? null;
                 _addNew.dia_chi = model.dia_chi ?? null;
                 _addNew.lon = model.lon ?? null;
                 _addNew.lat = model.lat ?? null;
@@ -324,7 +349,48 @@ namespace gpw.Controllers
             var p = (from q in db.thanh_vien where q.id != _id && q.ho_ten.Contains(keyword) orderby q.ho_ten ascending select new { label = q.ho_ten, value = q.id }).ToList().Distinct();
             return JsonConvert.SerializeObject(p);
         }
-
+        public class cscaygiapha
+        {
+            public long? thanhvien_id { get; set; }
+            public string giapha_name { get; set; }
+            public string des { get; set; }
+            public string name_node { get; set; }
+            public string title { get; set; }
+        }
+        [HttpPost]
+        public string AddNewTree(cscaygiapha model)
+        {
+            try
+            {
+                var thanhvien_id = configs.getCookie("thanhvien_id");
+                long? _id = Convert.ToInt32(thanhvien_id);
+                if (_id != model.thanhvien_id) return "0";
+                giapha_des gps = new giapha_des();
+                gps.date_time = DateTime.Now;
+                gps.des = model.des;
+                gps.giapha_name = model.giapha_name;
+                gps.thanhvien_id = model.thanhvien_id;
+                db.giapha_des.Add(gps);
+                db.SaveChanges();
+                user_family_tree uft = new user_family_tree();
+                uft.date_time = DateTime.Now;
+                uft.group_id = gps.id;
+                uft.id_node = 1;
+                uft.name_node = model.name_node;
+                uft.parent_id_node = 0;
+                uft.status = 0;
+                uft.title = model.title;
+                uft.user_id = model.thanhvien_id;
+                db.user_family_tree.Add(uft);
+                db.SaveChanges();
+                return "1";
+            }
+            catch (Exception ex)
+            {
+                configs.SaveTolog(ex.ToString());
+                return "0";
+            }
+        }
         [HttpPost]
         public ActionResult saveTaoGiaPha(quan_he_thanh_vien model)
         {

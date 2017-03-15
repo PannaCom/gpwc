@@ -102,7 +102,7 @@
       $('#selected-node').val($this.find('.title').text()).data('node', $this);    
       $('#selected-node-title').val($this.find('.content').text()).data('node', $this);  
       var $node = $('#selected-node').data('node');
-      alert($this.find('.title').text()+'-'+$this.find('.content').text()+'-'+$node[0].id);
+      //alert($this.find('.title').text()+'-'+$this.find('.content').text()+'-'+$node[0].id);
     })
     .on('click', '.orgchart', function(event) {
       if (!$(event.target).closest('.node').length) {

@@ -53,8 +53,9 @@
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="giapha_name" Type="nvarchar" MaxLength="551" />
-          <Property Name="giapha_des" Type="ntext" />
+          <Property Name="des" Type="ntext" />
           <Property Name="thanhvien_id" Type="bigint" />
+          <Property Name="date_time" Type="datetime" />
         </EntityType>
         <EntityType Name="hoc_van">
           <Key>
@@ -197,10 +198,10 @@
           <EntitySet Name="Users" EntityType="gpwModel.User" />
           <EntitySet Name="quan_he_thanh_vien" EntityType="gpwModel.quan_he_thanh_vien" />
           <EntitySet Name="cats_all_name" EntityType="gpwModel.cats_all_name" />
-          <EntitySet Name="giapha_des" EntityType="gpwModel.giapha_des" />
           <EntitySet Name="gia_pha" EntityType="gpwModel.gia_pha" />
           <EntitySet Name="user_family_tree" EntityType="gpwModel.user_family_tree" />
           <EntitySet Name="thanh_vien" EntityType="gpwModel.thanh_vien" />
+          <EntitySet Name="giapha_des" EntityType="gpwModel.giapha_des" />
         </EntityContainer>
         <EntityType Name="cat">
           <Key>
@@ -296,15 +297,6 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="151" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="giapha_des">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="giapha_name" Type="String" MaxLength="551" FixedLength="false" Unicode="true" />
-          <Property Name="giapha_des1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="thanhvien_id" Type="Int64" />
-        </EntityType>
         <EntityType Name="gia_pha">
           <Key>
             <PropertyRef Name="id" />
@@ -364,6 +356,16 @@
           <Property Name="cats_all_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="cats_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="que_quan" Type="String" MaxLength="252" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="giapha_des">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="giapha_name" Type="String" MaxLength="551" FixedLength="false" Unicode="true" />
+          <Property Name="des" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="thanhvien_id" Type="Int64" />
+          <Property Name="date_time" Type="DateTime" Precision="3" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -474,16 +476,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="giapha_des">
-            <EntityTypeMapping TypeName="gpwModel.giapha_des">
-              <MappingFragment StoreEntitySet="giapha_des">
-                <ScalarProperty Name="thanhvien_id" ColumnName="thanhvien_id" />
-                <ScalarProperty Name="giapha_des1" ColumnName="giapha_des" />
-                <ScalarProperty Name="giapha_name" ColumnName="giapha_name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="gia_pha">
             <EntityTypeMapping TypeName="gpwModel.gia_pha">
               <MappingFragment StoreEntitySet="gia_pha">
@@ -543,6 +535,17 @@
                 <ScalarProperty Name="so_cmt" ColumnName="so_cmt" />
                 <ScalarProperty Name="dia_chi" ColumnName="dia_chi" />
                 <ScalarProperty Name="ho_ten" ColumnName="ho_ten" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="giapha_des">
+            <EntityTypeMapping TypeName="gpwModel.giapha_des">
+              <MappingFragment StoreEntitySet="giapha_des">
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="thanhvien_id" ColumnName="thanhvien_id" />
+                <ScalarProperty Name="des" ColumnName="des" />
+                <ScalarProperty Name="giapha_name" ColumnName="giapha_name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

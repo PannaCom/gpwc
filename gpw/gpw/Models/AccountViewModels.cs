@@ -157,18 +157,18 @@ namespace gpw.Models
         public string ho_ten { get; set; }
 
         [Display(Name = "Địa chỉ")]
-        [Required(ErrorMessage = "Vui lòng nhập địa chỉ.")]   
+        //[Required(ErrorMessage = "Vui lòng nhập địa chỉ.")]   
         public string dia_chi { get; set; }
 
         [Display(Name = "Số chứng minh thư")]
         public string so_cmt { get; set; }
 
         [Display(Name = "Nghề nghiệp")]
-        [Required(ErrorMessage = "Vui lòng nhập nghề nghiệp.")]   
+        //[Required(ErrorMessage = "Vui lòng nhập nghề nghiệp.")]   
         public string nghe_nghiep { get; set; }
 
         [Display(Name = "Ảnh đại diện")]
-        [Required(ErrorMessage = "Vui lòng nhập ảnh đại diện.")]   
+        //[Required(ErrorMessage = "Vui lòng nhập ảnh đại diện.")]   
         public string hinh_anh { get; set; }
 
         [Display(Name = "Tên thường gọi")]
@@ -176,25 +176,25 @@ namespace gpw.Models
         public string biet_danh { get; set; }
 
         [Display(Name = "Học vấn")]
-        [Required(ErrorMessage = "Vui lòng nhập học vấn.")]
+        //[Required(ErrorMessage = "Vui lòng nhập học vấn.")]
         public string hoc_van { get; set; }
 
         [Display(Name = "Trình độ")]
-        [Required(ErrorMessage = "Vui lòng nhập trình độ.")]
+        //[Required(ErrorMessage = "Vui lòng nhập trình độ.")]
         public string trinh_do { get; set; }
 
         [Display(Name = "Giới tính")]
-        [Required(ErrorMessage = "Vui lòng nhập giới tính.")]
+        //[Required(ErrorMessage = "Vui lòng nhập giới tính.")]
         public string gioi_tinh { get; set; }
 
         [Display(Name = "Ngày sinh")]
-        [Required(ErrorMessage = "Vui lòng nhập ngày sinh.")]
+        //[Required(ErrorMessage = "Vui lòng nhập ngày sinh.")]
         public string ngay_sinh { get; set; }
         public Nullable<double> lon { get; set; }
         public Nullable<double> lat { get; set; }
 
         [Display(Name = "Cơ quan công tác")]
-        [Required(ErrorMessage = "Vui lòng nhập cơ quan công tác.")]
+        //[Required(ErrorMessage = "Vui lòng nhập cơ quan công tác.")]
         public string cq_ctac { get; set; }
 
         [Required(ErrorMessage="Vui lòng nhập email.")]
@@ -218,7 +218,7 @@ namespace gpw.Models
         public string so_dien_thoai { get; set; }
 
         [Display(Name = "Chọn họ")]
-        [Required(ErrorMessage = "Vui lòng nhập dòng họ.")]
+        [Required(ErrorMessage = "Vui lòng chọn dòng họ.")]
         //public IEnumerable<System.Web.Mvc.SelectListItem> cats_all_name { get; set; }
         public string cats_all_name { get; set; }
         //[Display(Name = "Thuộc dòng họ")]
