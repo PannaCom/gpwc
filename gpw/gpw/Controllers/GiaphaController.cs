@@ -101,7 +101,7 @@ namespace gpw.Controllers
             public csItem[] TreeItem { get; set; }
         }
         [HttpPost]
-        public string UpdateNode(long? id,string name, string title,long parent_id,long? user_id,long? group_id)
+        public string UpdateNode(int? id,string name, string title,int? parent_id,long? user_id,long? group_id)
         {
             //try {
             var found = db.user_family_tree.Any(o => o.id_node == id && o.user_id == user_id && o.group_id == group_id);
@@ -111,7 +111,15 @@ namespace gpw.Controllers
             }
             else
             {
-
+                user_family_tree uft = new user_family_tree();
+                uft.id_node = id;
+                uft.name_node = name;
+                uft.title = title;
+                uft.parent_id_node = parent_id;
+                uft.user_id = user_id;
+                uft.group_id = group_id;
+                db.user_family_tree.Add(uft);
+                db.SaveChanges();
             }
             
             return "1";

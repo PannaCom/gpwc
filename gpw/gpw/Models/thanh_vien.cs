@@ -36,5 +36,7 @@ namespace gpw.Models
         public string trinh_do { get; set; }
         public string so_dien_thoai { get; set; }
         public string cats_all_name { get; set; }
+        public string cats_name { get; set; }
+        public string que_quan { get; set; }
     }
 }
