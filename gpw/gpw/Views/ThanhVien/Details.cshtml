@@ -26,7 +26,7 @@
         @if (configs.getCookie("thanhvien_id") != "")
         {
             <p>
-                @Html.ActionLink("Sửa thông tin cá nhân", "Edit", new { id = Model.id }) | <a href="/ThanhVien/TaoGiaPha/@Model.id">Khai báo gia phả</a>
+                @Html.ActionLink("Sửa thông tin cá nhân", "Edit", new { id = Model.id }) | <a href="/ThanhVien/CayGiaPha?thanhvien_id=@Model.id">Khai báo gia phả</a>
             </p>
         }
         

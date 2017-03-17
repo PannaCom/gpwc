@@ -383,7 +383,7 @@ namespace gpw.Controllers
                 uft.user_id = model.thanhvien_id;
                 db.user_family_tree.Add(uft);
                 db.SaveChanges();
-                return "1";
+                return gps.id.ToString();
             }
             catch (Exception ex)
             {

@@ -76,7 +76,10 @@
             if (ttNode.indexOf(","+$allnode[j].id+",")<0){
                 //alert("child node"+$allnode[j].id+"-"+$this.find('.title').text());//+"-"+$this.find('.name').text()
                 //alert('curent is '+$this.find('.title').text()+", child is "+$chartContainer.get);
-                var item = { id: $allnode[j].id, name: $this.find('.title').text(),title: $this.find('.content').text()};
+                var $parent_id=$this.closest('.nodes').parent().children(':first').find('.node');//$this.closest('table').parent(':first').parent().find('.node:last');//$this.closest('.nodes').siblings(':first').data('node');parent().children(':first').find('.node').
+                var n_parent_id=$parent_id[0].id;
+                var item = { id: $allnode[j].id, name: $this.find('.title').text(),title: $this.find('.content').text(),parent_id:n_parent_id};
+                //alert("child node"+$allnode[j].id+"-"+$this.find('.title').text()+"-"+n_parent_id);//+"-"+$this.find('.name').text()
                 allTreeItem.push(item);
                 ttNode+=","+$allnode[j].id+",";
                 findAllChild($this);//findAllChild
@@ -160,7 +163,11 @@
             type: 'POST',            
             datatype: 'text',
             data:"&id="+id+"&name="+name+"&title="+title+"&parent_id="+parent_id+"&user_id="+user_id+"&group_id="+group_id,
-            success: alert('Ghi dữ liệu thành công'),
+            success: function(data){ 
+                if (data=="1"){
+                    alert("Ghi dữ liệu thành công!");
+                }; 
+            },
             error: function (jqXHR, exception) {
                 alert(exception.toString());
             }
@@ -176,8 +183,11 @@
             //alert($temp[i].id+"-"+$this.find('.title').text()+"-"+$this.find('.name').text());
             //alert('curent is '+$this.find('.title').text()+", child is "+$chartContainer.get);
             if (ttNode.indexOf(","+$temp[i].id+",")<0){
-                alert("parent node:"+$temp[i].id+"-"+$this.find('.title').text()+"-"+$this.find('.content').text());//+"-"+$this.find('.name').text()
-                var item = { id: $temp[i].id, name: $this.find('.title').text(),title: $this.find('.content').text()};
+                var $parent_id=$this.closest('.nodes').parent().children(':first').find('.node');//$this.closest('table').parent(':first').parent().find('.node:last');//$this.closest('.nodes').siblings(':first').data('node');parent().children(':first').find('.node').
+                var n_parent_id=0;
+                if (i>0) n_parent_id=$parent_id[0].id;
+                //alert("parent node:"+$temp[i].id+"-"+$this.find('.title').text()+"-"+$this.find('.content').text()+"-"+n_parent_id);//+"-"+$this.find('.name').text()
+                var item = { id: $temp[i].id, name: $this.find('.title').text(),title: $this.find('.content').text(),parent_id:n_parent_id};
                 allTreeItem.push(item);
                 ttNode+=","+$temp[i].id+",";
                 findAllChild($this);
@@ -194,8 +204,12 @@
             url: '/GiaPha/AddNew',
             type: 'POST',            
             datatype: 'text',
-            data:"TreeItem="+sTreeItem,
-            success: alert('Ghi dữ liệu thành công'),
+            data:"TreeItem="+sTreeItem+"&user_id="+user_id+"&group_id="+group_id,
+            success: function(data){ 
+                if (data=="1"){
+                    alert("Ghi dữ liệu thành công!");
+                }; 
+            },
             error: function (jqXHR, exception) {
                 alert(exception.toString());
             }
@@ -269,12 +283,36 @@
     $('#btn-delete-nodes').on('click', function() {
       var $node = $('#selected-node').data('node');
       if (!$node) {
-        alert('Please select one node in orgchart');
+        alert('Chọn nút để xóa');
         return;
-      } else if ($node[0] === $('.orgchart').find('.node:first')[0]) {
-        if (!window.confirm('Are you sure you want to delete the whole chart?')) {
-          return;
-        }
+      } else 
+      {
+              var $parent_id=$node.closest('.nodes').parent().children(':first').find('.node');//$this.closest('table').parent(':first').parent().find('.node:last');//$this.closest('.nodes').siblings(':first').data('node');parent().children(':first').find('.node').
+              var n_parent_id=0;
+              if ($node[0] === $('.orgchart').find('.node:first')[0]) {
+                  alert("Đây là nút Cụ tổ, không thể xóa được!");
+                  return;
+              }
+              if (window.confirm('Bạn có chắc chắn xóa nút này! Tất cả các con của nút này(nếu có) sẽ bị xóa?')) {
+                  //var $parent_id=$node.closest('.nodes').parent().children(':first').find('.node');//$this.closest('table').parent(':first').parent().find('.node:last');//$this.closest('.nodes').siblings(':first').data('node');parent().children(':first').find('.node').
+                  //var n_parent_id=0;
+                  n_parent_id=$parent_id[0].id;
+                  $.ajax({
+                      url: '/GiaPha/DelNode',
+                      type: 'POST',            
+                      datatype: 'text',
+                      data:"parent_id="+n_parent_id+"&id_node="+$node[0].id+"&user_id="+user_id+"&group_id="+group_id,
+                      success: function(data){ 
+                          if (data=="1"){
+                              window.location.reload();
+                          }; 
+                      },
+                      error: function (jqXHR, exception) {
+                          alert("Chưa xóa được dữ liệu này!");
+                      }
+                  });
+              }
+          
       }
       $('#chart-container').orgchart('removeNodes', $node);
       $('#selected-node').val('').data('node', null);
