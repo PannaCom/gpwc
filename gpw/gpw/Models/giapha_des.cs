@@ -19,5 +19,6 @@ namespace gpw.Models
         public string des { get; set; }
         public Nullable<long> thanhvien_id { get; set; }
         public Nullable<System.DateTime> date_time { get; set; }
+        public Nullable<int> status { get; set; }
     }
 }

@@ -56,6 +56,7 @@
           <Property Name="des" Type="ntext" />
           <Property Name="thanhvien_id" Type="bigint" />
           <Property Name="date_time" Type="datetime" />
+          <Property Name="status" Type="int" />
         </EntityType>
         <EntityType Name="hoc_van">
           <Key>
@@ -366,6 +367,7 @@
           <Property Name="des" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="thanhvien_id" Type="Int64" />
           <Property Name="date_time" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -542,6 +544,7 @@
           <EntitySetMapping Name="giapha_des">
             <EntityTypeMapping TypeName="gpwModel.giapha_des">
               <MappingFragment StoreEntitySet="giapha_des">
+                <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="date_time" ColumnName="date_time" />
                 <ScalarProperty Name="thanhvien_id" ColumnName="thanhvien_id" />
                 <ScalarProperty Name="des" ColumnName="des" />

@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using gpw.Models;
-
+using gpw.helpers;
 namespace gpw.Controllers
 {
     [Authorize]
@@ -80,6 +80,7 @@ namespace gpw.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    configs.setCookie("admin","1");
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -435,6 +436,7 @@ namespace gpw.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            configs.RemoveCookie("admin");
             AuthenticationManager.SignOut();
             return RedirectToAction("Index", "Home");
         }

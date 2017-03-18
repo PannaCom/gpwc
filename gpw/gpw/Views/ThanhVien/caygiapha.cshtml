@@ -65,7 +65,7 @@
 
                 <div class="table-responsive">
                     <div class="col-md-4">
-                        <button type="button" class="btn btn-primary" id="btn_add_quanhe" onclick="addNew();">Thêm Mới</button>
+                        <button type="button" class="btn btn-primary" id="btn_add_quanhe2" onclick="addNew();">Thêm Mới</button>
                     </div>
                     <table class="table table-bordered table-striped" id="table_thanhvien_quanhe_1">
                         <thead>
@@ -91,7 +91,7 @@
                                             <td><a href="/GiaPha/Tree?user_id=@item.thanhvien_id&group_id=@item.id">@item.giapha_name</a></td>
                                             <td>@item.des</td>
                                             <td>@item.date_time</td>
-                                            <td><span class="btn btn-danger" onclick="delete(@item.thanhvien_id,@item.id);">Xóa quan hệ</span></td>
+                                            <td><span class="btn btn-danger" onclick="deleteTree(@item.thanhvien_id,@item.id);">Xóa gia phả</span></td>
                                         </tr>
                                     }
                                 }
@@ -119,43 +119,65 @@
     @*<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLPSKQ4QV4xGiQjnZDUecx-UEr3D0QePY&libraries=places" type="text/javascript"></script>
     <script src="/Scripts/jquery.geocomplete.js"></script>*@
     <script>
-        function addNew() {
-            if ($("#showTree").visible) {
-                $("#showTree").hide();
-            } else {
-                $("#showTree").show();
-            }
+    function addNew() {
+        if ($("#showTree").visible) {
+            $("#showTree").hide();
+        } else {
+            $("#showTree").show();
         }
-        function addNewSubmit() {
-            var url = "/ThanhVien/AddNewTree"; // the script where you handle the form input.
-            if (document.getElementById("giapha_name").value === "") {
-                alert("Vui lòng chọn tên cây gia phả.");
-                document.getElementById("giapha_name").focus();
-                return false;
-            }
-            if (document.getElementById("name_node").value === "") {
-                alert("Vui lòng nhập tên Cụ tổ.");
-                document.getElementById("name_node").focus();
-                return false;
-            }
-            document.getElementById("btn_add_quanhe").disabled = true;
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: $("#form_caygiapha").serialize(), // serializes the form's elements.
-                success: function (data) {
-                    //console.log(data);
-                    if (data == "0") {
-                        alert('Server đang quá tải, Xin quay lại sau.');
-                        document.getElementById("btn_add_quanhe").disabled = false;
-                    } else {
-                        window.location.href = "/giapha/tree?user_id=" +@ViewBag.thanhvien_id +"&group_id=" + data;
+    }
+    function addNewSubmit() {
+        var url = "/ThanhVien/AddNewTree"; // the script where you handle the form input.
+        if (document.getElementById("giapha_name").value === "") {
+            alert("Vui lòng chọn tên cây gia phả.");
+            document.getElementById("giapha_name").focus();
+            return false;
+        }
+        if (document.getElementById("name_node").value === "") {
+            alert("Vui lòng nhập tên Cụ tổ.");
+            document.getElementById("name_node").focus();
+            return false;
+        }
+        document.getElementById("btn_add_quanhe").disabled = true;
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: $("#form_caygiapha").serialize(), // serializes the form's elements.
+            success: function (data) {
+                //console.log(data);
+                if (data == "0") {
+                    alert('Server đang quá tải, Xin quay lại sau.');
+                    document.getElementById("btn_add_quanhe").disabled = false;
+                } else {
+                    window.location.href = "/giapha/tree?user_id=" +@ViewBag.thanhvien_id +"&group_id=" + data;
                     }
                     //console.log(data);
                 }, error: function (error) {
                     console.log(error)
                 }
             });
+        }
+        function deleteTree(user_id, group_id) {
+            if (window.confirm('Bạn có chắc chắn xóa cây gia phả này! Tất cả các dữ liệu của gia phả này sẽ bị xóa?')) {
+                $.ajax({
+                    type: "POST",
+                    url: "/GiaPha/DelTree",
+                    data: "user_id=" + user_id + "&group_id=" + group_id, // serializes the form's elements.
+                    success: function (data) {
+                        //console.log(data);
+                        if (data == "0") {
+                            alert('Server đang quá tải, Xin quay lại sau.');
+                            //document.getElementById("btn_add_quanhe").disabled = false;
+                        } else {
+                            alert('Xóa dữ liệu thành công!.');
+                            window.location.reload();
+                        }
+                        //console.log(data);
+                    }, error: function (error) {
+                        console.log(error)
+                    }
+                });
+            }
         }
     </script>
 }

@@ -27,13 +27,26 @@ namespace gpw.Controllers
         // GET: ThanhVien
         public ActionResult caygiapha(long? thanhvien_id,int? pg)
         {
+            if (thanhvien_id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+            }
+            try { 
+                var tv_id = configs.getCookie("thanhvien_id");
+                long? _id = Convert.ToInt32(tv_id);
+                if (_id != thanhvien_id) return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+            }
             int pageSize = 25;
             if (pg == null) pg = 1;
             int pageNumber = (pg ?? 1);
             ViewBag.pg = pg;
             ViewBag.thanhvien_id = thanhvien_id;
             ViewBag.ten_thanh_vien = db.thanh_vien.Find(thanhvien_id).ho_ten;
-            var quan_he = db.giapha_des.Where(x => x.thanhvien_id == thanhvien_id).Select(x => x).ToList();
+            var quan_he = db.giapha_des.Where(x => x.thanhvien_id == thanhvien_id && x.status==0).Select(x => x).ToList();
             return View(quan_he.ToPagedList(pageNumber, pageSize));
         }
         // GET: ThanhVien/Details/5
@@ -56,6 +69,7 @@ namespace gpw.Controllers
         {
             if (configs.getCookie("thanhvien_id") != "") return RedirectToAction("Details", new { id = configs.getCookie("thanhvien_id") });
             ViewBag.TrinhDo = new List<SelectListItem>() { 
+                new SelectListItem() { Value = "Cao Học", Text = "Cao Học" },
                 new SelectListItem() { Value = "Đại học", Text = "Đại học" },
                 new SelectListItem() { Value = "Cao đẳng", Text = "Cao đẳng" },
                 new SelectListItem() { Value = "Trung cấp chuyên nghiệp", Text = "Trung cấp chuyên nghiệp" },
@@ -169,6 +183,7 @@ namespace gpw.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NoContent);
             }
             ViewBag.TrinhDo = new List<SelectListItem>() { 
+                new SelectListItem() { Value = "Cao Học", Text = "Cao Học" },
                 new SelectListItem() { Value = "Đại học", Text = "Đại học" },
                 new SelectListItem() { Value = "Cao đẳng", Text = "Cao đẳng" },
                 new SelectListItem() { Value = "Trung cấp chuyên nghiệp", Text = "Trung cấp chuyên nghiệp" },
@@ -370,6 +385,7 @@ namespace gpw.Controllers
                 gps.des = model.des;
                 gps.giapha_name = model.giapha_name;
                 gps.thanhvien_id = model.thanhvien_id;
+                gps.status = 0;
                 db.giapha_des.Add(gps);
                 db.SaveChanges();
                 user_family_tree uft = new user_family_tree();
@@ -511,7 +527,7 @@ namespace gpw.Controllers
             {
                 configs.SaveTolog(ex.ToString());
             }
-            return RedirectToAction("TaoGiaPha", new { id = _id });
+            return RedirectToAction("CayGiaPha", new { thanhvien_id = _id });
         }
 
         public ActionResult TaoGiaPha(long? id, int? pg)

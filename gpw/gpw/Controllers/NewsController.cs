@@ -56,6 +56,10 @@ namespace gpw.Controllers
         // GET: News
         public ActionResult Index(int? pg, string search)
         {
+            if (configs.getCookie("admin") == null || configs.getCookie("admin") == "")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+            }
             int pageSize = 25;
             if (pg == null) pg = 1;
             int pageNumber = (pg ?? 1);
@@ -73,7 +77,7 @@ namespace gpw.Controllers
                 ViewBag.search = search;
             }
 
-            data = data.OrderBy(x => x.id);
+            data = data.OrderByDescending(x => x.id);
 
             return View(data.ToPagedList(pageNumber, pageSize));
         }
@@ -102,6 +106,10 @@ namespace gpw.Controllers
         // GET: News/Create
         public ActionResult Create()
         {
+            if (configs.getCookie("admin") == null || configs.getCookie("admin") == "")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+            }
             ViewBag.danhmuctin = danhmuctin();
             ViewBag.trang_thai = new List<SelectListItem>() {
                 new SelectListItem() { Value = "1", Text = "Công khai" },
@@ -168,6 +176,10 @@ namespace gpw.Controllers
         // GET: News/Edit/5
         public ActionResult Edit(long? id)
         {
+            if (configs.getCookie("admin") == null || configs.getCookie("admin") == "")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -232,6 +244,10 @@ namespace gpw.Controllers
         // GET: News/Delete/5
         public ActionResult Delete(long? id)
         {
+            if (configs.getCookie("admin") == null || configs.getCookie("admin") == "")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

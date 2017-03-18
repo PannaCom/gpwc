@@ -9,7 +9,9 @@ using PagedList.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-
+using System.Xml;
+using System.Text;
+using gpw.helpers;
 namespace gpw.Controllers
 {
     public class HomeController : Controller
@@ -128,7 +130,7 @@ namespace gpw.Controllers
 
         public ActionResult LoadNewInCat(int cat_id)
         {
-            var model = db.news.Where(x => x.cat_id == cat_id && x.isHot == 0).OrderByDescending(x => x.id).Select(x => x).ToList().Take(8);
+            var model = db.news.Where(x => x.cat_id == cat_id).OrderByDescending(x => x.id).Select(x => x).ToList().Take(8);// && x.isHot == 0
             return PartialView("_LoadNewInCat", model.ToList());
         }
 
@@ -158,6 +160,92 @@ namespace gpw.Controllers
         {
             return View();
         }
+        public string generateSiteMap()
+        {
 
+            try
+            {
+
+                XmlWriterSettings settings = null;
+                string xmlDoc = null;
+
+                settings = new XmlWriterSettings();
+                settings.Indent = true;
+                settings.Encoding = Encoding.UTF8;
+                xmlDoc = HttpRuntime.AppDomainAppPath + "sitemap.xml";//HttpContext.Server.MapPath("../") + 
+                //float percent = 0.85f;
+
+                string urllink = "";
+                using (XmlTextWriter writer = new XmlTextWriter(xmlDoc, Encoding.UTF8))
+                {
+                    writer.WriteStartDocument();
+                    writer.WriteStartElement("urlset");
+                    writer.WriteAttributeString("xmlns", "http://www.sitemaps.org/schemas/sitemap/0.9");
+
+                    writer.WriteStartElement("url");
+                    writer.WriteElementString("loc", "http://vietgiapha.com");
+                    writer.WriteElementString("changefreq", "always");
+                    writer.WriteElementString("priority", "1");
+                    writer.WriteEndElement();
+                    //writer.WriteStartElement("url");
+                    //writer.WriteElementString("loc", "http://vietgiapha.com/gioi-thieu");
+                    //writer.WriteElementString("changefreq", "always");
+                    //writer.WriteElementString("priority", "0.99");
+                    //writer.WriteEndElement();
+                    //writer.WriteStartElement("url");
+                    //writer.WriteElementString("loc", "http://vietgiapha.com/ThanhVien/Create");
+                    //writer.WriteElementString("changefreq", "always");
+                    //writer.WriteElementString("priority", "0.99");
+                    //writer.WriteEndElement();
+                    //tài xế
+
+                    //Xe Buýt
+                    writer.WriteStartElement("url");
+                    writer.WriteElementString("loc", "http://vietgiapha.com/tin/gioi-thieu");
+                    writer.WriteElementString("changefreq", "daily");
+                    writer.WriteElementString("priority", "0.97");
+                    writer.WriteEndElement();
+
+                    writer.WriteStartElement("url");
+                    writer.WriteElementString("loc", "http://vietgiapha.com/tin/doanh-nghiep-dong-ho");
+                    writer.WriteElementString("changefreq", "daily");
+                    writer.WriteElementString("priority", "0.97");
+                    writer.WriteEndElement();
+
+                    writer.WriteStartElement("url");
+                    writer.WriteElementString("loc", "http://vietgiapha.com/tin/gia-pha");
+                    writer.WriteElementString("changefreq", "daily");
+                    writer.WriteElementString("priority", "0.97");
+                    writer.WriteEndElement();
+                    var p4 = (from q in db.news select q).OrderByDescending(o => o.id).ToList();
+                    for (int i = 0; i < p4.Count; i++)
+                    {
+                        try
+                        {
+
+                            writer.WriteStartElement("url");
+                            urllink = "http://vietgiapha.com/" + configs.unicodeToNoMark(p4[i].new_title) + "-" + p4[i].id;
+                            writer.WriteElementString("loc", urllink);
+                            writer.WriteElementString("changefreq", "weekly");
+                            //percent = 0.70f;
+                            writer.WriteElementString("priority", "0.96");
+                            writer.WriteEndElement();
+                        }
+                        catch (Exception ex4)
+                        {
+                        }
+                    }
+                   
+                    writer.WriteEndElement();
+                    writer.WriteEndDocument();
+                }
+
+            }
+            catch (Exception extry)
+            {
+                //StreamWriter sw = new StreamWriter();
+            }
+            return "ok";
+        }
     }
 }

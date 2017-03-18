@@ -1,13 +1,13 @@
 ﻿
 @{
-    ViewBag.Title = "Tạo cây gia phả";
+    ViewBag.Title = "Tạo cây gia phả - Phả hệ phả đồ " + ViewBag.title_des;
     Layout = "~/Views/Shared/_LayoutBlank.cshtml";
 }
 @*<link rel="stylesheet" href="/Scripts/tree/font-awesome.min.css">*@
 <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="/Scripts/tree/dist/css/jquery.orgchart.css">
 <link rel="stylesheet" href="/Scripts/tree/style.css">
-<h2>TẠO CÂY GIA PHẢ</h2>
+<h2>Tạo Cây gia phả, Phả hệ phả đồ @ViewBag.title_des</h2>
 <script>
     var AllTree=@Html.Raw(ViewBag.allTree);
     var max_id=-1;
@@ -19,8 +19,8 @@
 <div id="chart-container" style="width:100%;position:relative;display:block; overflow: scroll;min-height:400px;"></div>
 <div id="edit-panel" class="view-state" @*style="width:100%;position:fixed;display:block;bottom:10px;"*@>
     <span id="chart-state-panel" class="radio-panel">
-        <input type="radio" name="chart-state" id="rd-view" value="view" checked="true"><label for="rd-view">Xem</label>
-        <input type="radio" name="chart-state" id="rd-edit" value="edit"><label for="rd-edit">Sửa</label>
+        <input type="radio" name="chart-state" id="rd-view" value="view" ><label for="rd-view">Xem</label>
+        <input type="radio" name="chart-state" id="rd-edit" value="edit" checked="true"><label for="rd-edit">Sửa</label>
     </span>
     <label class="selected-node-group">Nút đang chọn:</label>
     <input type="text" id="selected-node" class="selected-node-group">
@@ -41,15 +41,17 @@
     </span><br />
     <button type="button" id="btn-add-nodes">Thêm nút mới</button>
     <button type="button" id="btn-delete-nodes">Xóa nút</button>
-    <button type="button" id="btn-reset">Khởi tạo</button>
+    @*<button type="button" id="btn-reset">Khởi tạo</button>*@
     @*<label >Ghi chú:</label>
     <input type="text" id="title-node" class="selected-node-group">*@
     <button type="button" id="btn-save-all">LƯU CẢ CÂY DỮ LIỆU</button>
 </div>
-@*<div class="home-link">
-    <a href="https://github.com/dabeng/OrgChart">More orgcharts</a>
+<div class="home-link">
+    <a href="/thanhvien/CayGiaPha?thanhvien_id=@ViewBag.user_id">Trang cá nhân</a>
     <i class="fa fa-star"></i>
-</div>*@
+    <a href="/">Về trang chủ</a>
+    <i class="fa fa-star"></i>
+</div>
 <script type="text/javascript" src="/Scripts/tree/jquery-3.1.0.min.js"></script>
 <script type="text/javascript" src="/Scripts/tree/html2canvas.min.js"></script>
 <script type="text/javascript" src="/Scripts/tree/dist/js/jquery.orgchart.js"></script>
@@ -89,7 +91,7 @@
     $('#chart-container').orgchart({
       'data' : datascource,
       'exportButton': true,
-      'exportFilename': 'SportsChart',
+      'exportFilename': 'GiaPha',
       'parentNodeSymbol': 'fa-th-large',
       'nodeContent': 'title',
       'nodeId': 'id',
@@ -124,6 +126,11 @@
         $('#btn-reset').trigger('click');
       }
     });
+    $('.orgchart').toggleClass('view-state', this.value !== 'view');
+    $('#edit-panel').toggleClass('view-state', this.value === 'view');
+    $('.orgchart').find('tr').removeClass('hidden')
+      .find('td').removeClass('hidden')
+      .find('.node').removeClass('slide-up slide-down slide-right slide-left');
 
     $('input[name="node-type"]').on('click', function() {
       var $this = $(this);
@@ -249,7 +256,7 @@
           $chartContainer.orgchart({
             'data' : { 'name': nodeVals[0]},
             'exportButton': true,
-            'exportFilename': 'SportsChart',
+            'exportFilename': 'GiaPha',
             'parentNodeSymbol': 'fa-th-large',
             'createNode': function($node, data) {
               $node[0].id = getId();
@@ -328,4 +335,6 @@
   });
 
 })(jQuery);
+    //document.getElementById("rd-edit").checked=true;
+
 </script>

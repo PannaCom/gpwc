@@ -14,7 +14,8 @@
 <h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Thêm mới tin tức", "Create")
+    <a href="/News/Create" class="btn btn-primary">Viết Bài Mới</a>
+    <a href="/Account/LogOff" class="btn btn-primary">Thoát admin</a>
 </p>
 
 @using (Html.BeginForm("Index", "News", FormMethod.Get, new { @class = "form-inline", role = "form", @id = "search-news", onsubmit = "return validate()" }))

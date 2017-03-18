@@ -52,6 +52,7 @@ namespace gpw.Controllers
             ViewBag.max_id = max_id;
             ViewBag.user_id = user_id;
             ViewBag.group_id = group_id;
+            ViewBag.title_des = db.giapha_des.Find(group_id).giapha_name;
             return View();
         }
         public string allTree(ref NodeItem[] NI)
@@ -145,16 +146,15 @@ namespace gpw.Controllers
                 if (_id != user_id) return "0";
                 string query = "update user_family_tree set status=1 where status=0 and user_id=" + user_id + " and group_id=" + group_id + " and parent_id_node=" + parent_id + " and id_node=" + id_node;
                 db.Database.ExecuteSqlCommand(query);
-                string del=DelAllNode(id_node, user_id, group_id);
-                return del;
+                DelAllNode(id_node, user_id, group_id);
+                return "1";
             }catch(Exception ex){
                 return "0";
             }
         }
-        public string DelAllNode(int? id_node, long? user_id, long? group_id)
+        public void DelAllNode(int? id_node, long? user_id, long? group_id)
         {
-            try
-            {
+            
                 bool found = db.user_family_tree.Any(o=>o.status==0 && o.user_id == user_id && o.group_id == group_id && o.parent_id_node == id_node);
                 if (found)
                 {
@@ -162,13 +162,22 @@ namespace gpw.Controllers
                     string query = "update user_family_tree set status=1 where status=0 and user_id=" + user_id + " and group_id=" + group_id + " and parent_id_node=" + id_node;
                     db.Database.ExecuteSqlCommand(query);
                     for (int i = 0; i < p.Count; i++) {
-                        return DelAllNode(p[i].id_node, user_id, group_id);
+                        DelAllNode(p[i].id_node, user_id, group_id);
                     }
                 }
+               
+            
+        }
+        [HttpPost]
+        public string DelTree(long? user_id, long? group_id)
+        {
+            try{
+                string query = "update user_family_tree set status=1 where status=0 and user_id=" + user_id + " and group_id=" + group_id;
+                db.Database.ExecuteSqlCommand(query);
+                query = "update giapha_des set status=1 where thanhvien_id=" + user_id + " and id=" + group_id;
+                db.Database.ExecuteSqlCommand(query);
                 return "1";
-            }
-            catch (Exception ex)
-            {
+            }catch(Exception ex){
                 return "0";
             }
         }
