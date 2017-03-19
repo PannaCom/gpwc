@@ -26,6 +26,32 @@ namespace gpw.Controllers
             public string title { get; set; }
             public int status { get; set; }
         }
+
+        public ActionResult Share(long? user_id, long? group_id)
+        {
+            long? max_id = -1;
+            if (user_id == null) user_id = -1;
+            if (group_id == null) group_id = 1;
+            var p = (from q in db.user_family_tree where q.status == 0 && q.user_id == user_id && q.group_id == group_id select q).ToList();
+            NodeItem[] NI = new NodeItem[p.Count];
+            for (int i = 0; i < p.Count; i++)
+            {
+                NodeItem niit = new NodeItem();
+                niit.name_node = p[i].name_node;
+                niit.id_node = p[i].id_node;
+                niit.parent_id_node = p[i].parent_id_node;
+                niit.title = p[i].title;
+                niit.status = 0;
+                NI[i] = niit;
+                if (p[i].id_node > max_id) max_id = p[i].id_node;
+            }
+            ViewBag.allTree = allTree(ref NI);
+            ViewBag.max_id = max_id;
+            ViewBag.user_id = user_id;
+            ViewBag.group_id = group_id;
+            ViewBag.title_des = db.giapha_des.Find(group_id).giapha_name;
+            return View();
+        }
         public ActionResult Tree(long? user_id,long? group_id)
         {
             var thanhvien_id = configs.getCookie("thanhvien_id");
