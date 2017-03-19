@@ -1,46 +1,306 @@
-﻿@model IEnumerable<gpw.Models.business>
-
+﻿@model PagedList.IPagedList<gpw.Models.business>
+@using PagedList.Mvc;
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Quản trị danh sách doanh nghiệp";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.website)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.image)
-        </th>
-        <th></th>
-    </tr>
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.website)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.image)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
+
+<div class="row">
+
+    @*Thêm, sửa bussiness*@
+    <div class="col-md-4">
+        <div class="form-horizontal" style="border: 1px solid #cbcbcb; padding: 10px;">
+            <form id="form_new_bus" name="form_new_bus" method="post" enctype="multipart/form-data">
+                <fieldset>
+                    <legend id="form_name">Thêm doanh nghiệp</legend>
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="bus_id" id="bus_id" value="0" />
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label for="bus_name">Tên doanh nghiệp:</label>
+                            <input type="text" name="bus_name" id="bus_name" class="form-control" placeholder="Tên doanh nghiệp" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label for="bus_web">Địa chỉ website:</label>
+                            <input type="text" name="bus_web" id="bus_web" class="form-control" placeholder="Địa chỉ website" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label for="bus_img">Hình ảnh:</label>
+                            <input type="file" name="bus_img" id="bus_img" class="form-control" placeholder="Tên doanh nghiệp" />
+                        </div>
+                        <div class="col-sm-12">
+                            <img class="img-responsive" width="200" src="" id="blah" style="display: none;">
+                        </div>
+                    </div>
+
+                    
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-primary" onclick="save_buss(event);" id="save_bus">Cập nhật</button>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
+        </div>
+        
+    </div>
+
+    <div class="col-md-8">
+        @using (Html.BeginForm("Index", "Bussiness", FormMethod.Get, new { @class = "form-inline", role = "form", @id = "search-bussiness", onsubmit = "return validate()" }))
+        {
+            <div class="form-group">
+                <label for="searchQuery" class="control-label">Tìm kiếm: </label>
+                @Html.TextBox("search", "", new { @class = "form-control", placeholder = "Nhập từ khóa cần tìm " })
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-primary"><i class="fa fa-search"></i>Tìm kiếm</button>
+            </div>
+        }
+
+        <script>
+            function validate() {
+                if (document.getElementById("search").value === "") {
+                    alert('Vui lòng nhập từ khóa tìm kiếm');
+                    return false;
+                } else {
+                    return true;
+                };
+            }
+        </script>
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-striped" id="table-bus">
+                <thead>
+                    <tr>
+                        <th>#id</th>
+                        <th>Name</th>
+                        <th>Website</th>
+                        <th>Image</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        if (Model.Count > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+
+                                <tr>
+                                    <td>#@item.id</td>
+                                    <td>@item.name</td>
+                                    <td>@item.website</td>
+                                    <td>
+                                        <img style="width: 200px;" src="@item.image" />
+                                    </td>
+
+                                    <td>
+                                        <a href="/Business/Edit/@item.id" class="btn btn-primary edit_bus" data-id="@item.id"><i class="fa fa-edit"></i> Sửa</a>
+                                        <a href="/Business/Delete/@item.id" class="btn btn-danger delete_bus" data-id="@item.id"><i class="fa fa-close"></i> Xóa</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5">Chưa có doanh nghiệp nào, vui lòng thêm mới.</td>
+                            </tr>
+                        }
+                        
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5">Chưa có doanh nghiệp nào, vui lòng thêm mới.</td>
+                        </tr>
+                    }
+                </tbody>
+
+
+
+
+
+            </table>
+        </div>
+
+        @if (Model != null)
+        {
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { pg = page, search = ViewBag.search }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+        }
+
+    </div>
+</div>
+@section Scripts {
+    <script>
+
+        $(document).ready(function () {
+            $("#bus_img").change(function () {
+                readURL(this);
+            });
+
+            $('.edit_bus').on('click', function (e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                $.ajax({
+                    url: '/business/editbusiness?id=' + id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data) {
+                            $('legend#form_name').empty().html('Sửa doanh nghiệp ' + data.name);
+                            document.getElementById("bus_id").value = data.id;
+                            document.getElementById("bus_name").value = data.name;
+                            document.getElementById("bus_web").value = data.website;
+                            $('#blah').attr('src', data.image).show();
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+            })
+
+            $('.delete_bus').on('click', function (e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                if (confirm('Bạn chắc chắn muốn xóa doanh nghiệp này???')) {
+                    $.ajax({
+                        url: '/business/deletebusiness',
+                        type: 'POSY',
+                        dataType: 'json',
+                        data: {id : id},
+                        success: function (data) {
+                            if (data == "1") {
+                                alert('Đã xóa doanh nghiệp này khỏi danh sách.');
+                                $(this).closest('tr').remove();
+                            }
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    })
+                }
+                
+            })
+
+        })
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                if (!input.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)) {
+                    alert('Tệp bạn chọn không đúng định dạng ảnh.');
+                    return false;
+                }
+                if (!input.files[0].type.match('image.*')) {
+                    alert('Tệp bạn chọn không phải là ảnh.');
+                    return false;
+                }
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result).show();
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function save_buss(e) {
+            e.preventDefault();
+            var $file = document.getElementById('bus_img'),
+            $formData = new FormData();
+            if (document.getElementById("bus_name").value === "") {
+                var _mes = 'Vui lòng nhập tên doanh nghiệp.';
+                alert(_mes);
+                document.getElementById("bus_name").focus();
+                return false;
+            }
+
+            if (document.getElementById("bus_web").value === "") {
+                var _mes = 'Vui lòng nhập địa chỉ website.';
+                alert(_mes);
+                document.getElementById("bus_web").focus();
+                return false;
+            }
+            
+            if ($file.files.length > 0) {
+                if (!$file.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)) {
+                    alert('Tệp bạn chọn không đúng định dạng ảnh.');
+                    return false;
+                }
+                if (!$file.files[0].type.match('image.*')) {
+                    alert('Tệp bạn chọn không phải là ảnh.');
+                    return false;
+                }
+
+                if ($file.files.length > 0) {
+                    for (var i = 0; i < $file.files.length; i++) {
+                        $formData.append('file-' + i, $file.files[i]);
+                    }
+                }
+            }            
+                        
+            $formData.append("id", document.getElementById("bus_id").value);
+            $formData.append("name", document.getElementById("bus_name").value);
+            $formData.append("website", document.getElementById("bus_web").value);
+
+            document.getElementById('save_bus').innerHTML = 'Đang cập nhật doanh nghiệp...';
+            document.getElementById('save_bus').disabled = true;
+            $.ajax({
+                url: '/Business/savebusiness',
+                type: 'POST',
+                data: $formData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data) {
+                                                
+                        document.getElementById("bus_name").value = "";
+                        document.getElementById("bus_web").value = "";
+                        $('#blah').attr('src', "").hide();
+                        document.getElementById("bus_img").value = "";
+                        document.getElementById('save_bus').innerHTML = 'Cập nhật';
+                        document.getElementById('save_bus').disabled = false;
+
+                        alert('Đã cập nhật thành công.');
+                        window.location.href = "/Business/Index";
+                    }
+                    
+                    
+
+                },
+                error: function (error) {
+                    alert('Vui lòng kiểm tra lại kết nối internet, error: ' + error, 5000);
+                }
+            });
+
+
+        }
+
+
+    </script>
 }
-
-</table>
