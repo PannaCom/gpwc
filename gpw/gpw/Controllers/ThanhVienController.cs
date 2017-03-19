@@ -61,6 +61,16 @@ namespace gpw.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.isAdmin = 0;
+            try { 
+                var tv_id = configs.getCookie("thanhvien_id");
+                long? _id = Convert.ToInt32(tv_id);
+                if (_id == id) ViewBag.isAdmin = 1; else ViewBag.isAdmin = 0;
+            }
+            catch (Exception ex)
+            {
+                
+            }
             return View(thanh_vien);
         }
 

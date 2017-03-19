@@ -16,6 +16,15 @@
     var user_id = @ViewBag.user_id;
     var group_id =@ViewBag.group_id;
 </script>
+<div id="fb-root"></div>
+<script>
+(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.8&appId=1725256021138211";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 <div id="chart-container" style="width:100%;position:relative;display:block; overflow: scroll;min-height:400px;"></div>
 <div id="edit-panel" class="view-state" @*style="width:100%;position:fixed;display:block;bottom:10px;"*@>
     <span id="chart-state-panel" class="radio-panel">
@@ -51,7 +60,8 @@
     <i class="fa fa-star"></i>
     <a href="/">Về trang chủ</a>
     <i class="fa fa-star"></i>
-    <iframe src="https://www.facebook.com/plugins/like.php?href=http://vietgiapha.com/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&width=450&layout=standard&action=like&size=small&show_faces=true&share=true&height=80&appId=1725256021138211" width="450" height="80" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowtransparency="true"></iframe>
+    <div class="fb-like" data-href="http://vietgiapha.com/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+    
 </div>
 <script type="text/javascript" src="/Scripts/tree/jquery-3.1.0.min.js"></script>
 <script type="text/javascript" src="/Scripts/tree/html2canvas.min.js"></script>

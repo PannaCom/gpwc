@@ -23,7 +23,7 @@
         <div class="page-header">
             <h1>@ViewBag.Title</h1>
         </div>
-        @if (configs.getCookie("thanhvien_id") != "")
+        @if (ViewBag.isAdmin==1)
         {
             <p>
                 @Html.ActionLink("Sửa thông tin cá nhân", "Edit", new { id = Model.id }) | <a href="/ThanhVien/CayGiaPha?thanhvien_id=@Model.id">Khai báo gia phả</a>
