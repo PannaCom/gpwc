@@ -18,6 +18,8 @@
         <EntityTypeShape EntityType="gpwModel.user_family_tree" Width="1.5" PointX="9.375" PointY="5.75" />
         <EntityTypeShape EntityType="gpwModel.thanh_vien" Width="1.5" PointX="7.375" PointY="9.75" />
         <EntityTypeShape EntityType="gpwModel.giapha_des" Width="1.5" PointX="5.375" PointY="6.75" />
+        <EntityTypeShape EntityType="gpwModel.business" Width="1.5" PointX="9.375" PointY="9.75" />
+        <EntityTypeShape EntityType="gpwModel.user_business" Width="1.5" PointX="11.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

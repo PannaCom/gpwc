@@ -38,5 +38,7 @@ namespace gpw.Models
         public virtual DbSet<user_family_tree> user_family_tree { get; set; }
         public virtual DbSet<thanh_vien> thanh_vien { get; set; }
         public virtual DbSet<giapha_des> giapha_des { get; set; }
+        public virtual DbSet<business> businesses { get; set; }
+        public virtual DbSet<user_business> user_business { get; set; }
     }
 }

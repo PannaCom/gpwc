@@ -5,6 +5,15 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="gpwModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="business">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="150" />
+          <Property Name="website" Type="nvarchar" MaxLength="50" />
+          <Property Name="image" Type="nvarchar" MaxLength="150" />
+        </EntityType>
         <EntityType Name="cats">
           <Key>
             <PropertyRef Name="id" />
@@ -139,6 +148,22 @@
           <Property Name="cats_name" Type="nvarchar" MaxLength="150" />
           <Property Name="que_quan" Type="nvarchar" MaxLength="252" />
         </EntityType>
+        <EntityType Name="user_business">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="bigint" />
+          <Property Name="name" Type="nvarchar" MaxLength="150" />
+          <Property Name="des" Type="ntext" />
+          <Property Name="image" Type="nvarchar" MaxLength="150" />
+          <Property Name="website" Type="nvarchar" MaxLength="150" />
+          <Property Name="phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
+          <Property Name="address" Type="nvarchar" MaxLength="50" />
+          <Property Name="lon" Type="float" />
+          <Property Name="lat" Type="float" />
+        </EntityType>
         <EntityType Name="user_family_tree">
           <Key>
             <PropertyRef Name="id" />
@@ -171,6 +196,7 @@
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityContainer Name="gpwModelStoreContainer">
+          <EntitySet Name="business" EntityType="Self.business" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="cats" EntityType="Self.cats" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="cats_all_name" EntityType="Self.cats_all_name" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="friends" EntityType="Self.friends" Schema="dbo" store:Type="Tables" />
@@ -182,6 +208,7 @@
           <EntitySet Name="quan_he" EntityType="Self.quan_he" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="quan_he_thanh_vien" EntityType="Self.quan_he_thanh_vien" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="thanh_vien" EntityType="Self.thanh_vien" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_business" EntityType="Self.user_business" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_family_tree" EntityType="Self.user_family_tree" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
@@ -203,6 +230,8 @@
           <EntitySet Name="user_family_tree" EntityType="gpwModel.user_family_tree" />
           <EntitySet Name="thanh_vien" EntityType="gpwModel.thanh_vien" />
           <EntitySet Name="giapha_des" EntityType="gpwModel.giapha_des" />
+          <EntitySet Name="businesses" EntityType="gpwModel.business" />
+          <EntitySet Name="user_business" EntityType="gpwModel.user_business" />
         </EntityContainer>
         <EntityType Name="cat">
           <Key>
@@ -368,6 +397,31 @@
           <Property Name="thanhvien_id" Type="Int64" />
           <Property Name="date_time" Type="DateTime" Precision="3" />
           <Property Name="status" Type="Int32" />
+        </EntityType>
+        <EntityType Name="business">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="website" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="image" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="user_business">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int64" />
+          <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="des" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="image" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="website" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="lon" Type="Double" />
+          <Property Name="lat" Type="Double" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -549,6 +603,33 @@
                 <ScalarProperty Name="thanhvien_id" ColumnName="thanhvien_id" />
                 <ScalarProperty Name="des" ColumnName="des" />
                 <ScalarProperty Name="giapha_name" ColumnName="giapha_name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="businesses">
+            <EntityTypeMapping TypeName="gpwModel.business">
+              <MappingFragment StoreEntitySet="business">
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="website" ColumnName="website" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_business">
+            <EntityTypeMapping TypeName="gpwModel.user_business">
+              <MappingFragment StoreEntitySet="user_business">
+                <ScalarProperty Name="lat" ColumnName="lat" />
+                <ScalarProperty Name="lon" ColumnName="lon" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="website" ColumnName="website" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="des" ColumnName="des" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
