@@ -198,6 +198,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BusinessController.cs" />
     <Compile Include="Controllers\CatsController.cs" />
     <Compile Include="Controllers\GiaPhaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -210,6 +211,9 @@
     <Compile Include="helpers\configs.cs" />
     <Compile Include="helpers\Pedigree.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\business.cs">
+      <DependentUpon>gpwModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\cat.cs">
       <DependentUpon>gpwModel.tt</DependentUpon>
     </Compile>
@@ -261,6 +265,9 @@
       <DependentUpon>gpwModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
+      <DependentUpon>gpwModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\user_business.cs">
       <DependentUpon>gpwModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\user_family_tree.cs">
@@ -851,6 +858,13 @@
     <Content Include="Views\Shared\_LayoutContent.cshtml" />
     <Content Include="Views\GiaPha\Tree.cshtml" />
     <Content Include="Views\Shared\_LayoutBlank.cshtml" />
+    <Content Include="Views\Home\GioiThieu.cshtml" />
+    <Content Include="Views\ThanhVien\caygiapha.cshtml" />
+    <Content Include="Views\Business\Create.cshtml" />
+    <Content Include="Views\Business\Delete.cshtml" />
+    <Content Include="Views\Business\Details.cshtml" />
+    <Content Include="Views\Business\Edit.cshtml" />
+    <Content Include="Views\Business\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
