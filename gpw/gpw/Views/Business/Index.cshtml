@@ -190,11 +190,11 @@
                 if (confirm('Bạn chắc chắn muốn xóa doanh nghiệp này???')) {
                     $.ajax({
                         url: '/business/deletebusiness',
-                        type: 'POSY',
+                        type: 'POST',
                         dataType: 'json',
                         data: {id : id},
                         success: function (data) {
-                            if (data == "1") {
+                            if (data === "1") {
                                 alert('Đã xóa doanh nghiệp này khỏi danh sách.');
                                 $(this).closest('tr').remove();
                             }
