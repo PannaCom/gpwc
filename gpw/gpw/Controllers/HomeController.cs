@@ -247,5 +247,12 @@ namespace gpw.Controllers
             }
             return "ok";
         }
+
+        public ActionResult LoadDoanhNghiep()
+        {
+            var model = db.businesses.Select(x => x).ToList();
+            return PartialView("_LoadDoanhNghiep", model);
+        }
+
     }
 }
