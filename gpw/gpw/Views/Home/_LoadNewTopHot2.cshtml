@@ -7,7 +7,7 @@
         <div class="row">
             @foreach (var item in Model)
             {
-                string _link = "/News/Details/" + item.id;
+                string _link = Config.unicodeToNoMark(item.new_title) + "-" + item.id;
                 <div class="item col-md-4">
                     <div class="item_new">
                         <a href="@_link" title="@item.new_title" class="thumb-zoom">
