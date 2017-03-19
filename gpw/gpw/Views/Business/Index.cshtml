@@ -194,9 +194,10 @@
                         dataType: 'json',
                         data: {id : id},
                         success: function (data) {
-                            if (data === "1") {
+                            if (data == "1") {
                                 alert('Đã xóa doanh nghiệp này khỏi danh sách.');
-                                $(this).closest('tr').remove();
+                                //$(this).closest('tr').remove();
+                                window.location.href = "/Business/Index";
                             }
                         },
                         error: function (err) {
