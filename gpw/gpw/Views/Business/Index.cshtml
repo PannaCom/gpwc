@@ -51,7 +51,7 @@
                         </div>
                     </div>
 
-                    
+
 
                     <div class="form-group">
                         <div class="col-sm-12">
@@ -62,7 +62,7 @@
                 </fieldset>
             </form>
         </div>
-        
+
     </div>
 
     <div class="col-md-8">
@@ -130,7 +130,7 @@
                                 <td colspan="5">Chưa có doanh nghiệp nào, vui lòng thêm mới.</td>
                             </tr>
                         }
-                        
+
                     }
                     else
                     {
@@ -192,7 +192,7 @@
                         url: '/business/deletebusiness',
                         type: 'POST',
                         dataType: 'json',
-                        data: {id : id},
+                        data: { id: id },
                         success: function (data) {
                             if (data == "1") {
                                 alert('Đã xóa doanh nghiệp này khỏi danh sách.');
@@ -205,7 +205,7 @@
                         }
                     })
                 }
-                
+
             })
 
         })
@@ -246,7 +246,7 @@
                 document.getElementById("bus_web").focus();
                 return false;
             }
-            
+
             if ($file.files.length > 0) {
                 if (!$file.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)) {
                     alert('Tệp bạn chọn không đúng định dạng ảnh.');
@@ -262,8 +262,8 @@
                         $formData.append('file-' + i, $file.files[i]);
                     }
                 }
-            }            
-                        
+            }
+
             $formData.append("id", document.getElementById("bus_id").value);
             $formData.append("name", document.getElementById("bus_name").value);
             $formData.append("website", document.getElementById("bus_web").value);
@@ -279,7 +279,7 @@
                 processData: false,
                 success: function (data) {
                     if (data) {
-                                                
+
                         document.getElementById("bus_name").value = "";
                         document.getElementById("bus_web").value = "";
                         $('#blah').attr('src', "").hide();
@@ -290,8 +290,8 @@
                         alert('Đã cập nhật thành công.');
                         window.location.href = "/Business/Index";
                     }
-                    
-                    
+
+
 
                 },
                 error: function (error) {
