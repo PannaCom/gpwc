@@ -16,7 +16,15 @@
 @section meta {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 }
-
+<div id="fb-root"></div>
+<script>
+(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.8&appId=1725256021138211";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 @if (Model != null)
 {
     <div class="row" style="background: #fff;">
@@ -30,6 +38,10 @@
 
                 <div class="content_baiviet">
                     @Html.Raw(@Model.new_content)
+                </div>
+                <div class="content_baiviet">
+                    <div class="fb-like" data-href="@ViewBag.url" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+                    <div class="fb-comments" data-href="@ViewBag.url" data-numposts="5"></div>
                 </div>
             </div>
         </div>

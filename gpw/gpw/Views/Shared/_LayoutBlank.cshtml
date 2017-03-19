@@ -3,7 +3,17 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
+    <title>@ViewBag.title</title>
+    <meta name="description" content="@Html.Raw(@ViewBag.des)">
+    <meta name="robots" content="index,follow,noodp" />
+    <meta name="author" content="vietgiapha.com" />
+    <meta property="og:locale" content="vi_VN" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="@Html.Raw(ViewBag.url)" />
+    <meta property="og:title" content="@Html.Raw(@ViewBag.title)" />
+    <meta property="og:description" content="@Html.Raw(@ViewBag.des)" />
+    <meta property="og:image" itemprop="thumbnailUrl" content="@ViewBag.image" />
+    <meta property="fb:admins" content="100006557590947" />
 </head>
 <body>
     <div>

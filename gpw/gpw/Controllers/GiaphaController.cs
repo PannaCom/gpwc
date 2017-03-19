@@ -50,6 +50,11 @@ namespace gpw.Controllers
             ViewBag.user_id = user_id;
             ViewBag.group_id = group_id;
             ViewBag.title_des = db.giapha_des.Find(group_id).giapha_name;
+            ViewBag.des = db.giapha_des.Find(group_id).des;
+            ViewBag.image = "http://vietgiapha.com/images/logo.png";
+            ViewBag.url = Config.domain + "/giapha/share?user_id=" + user_id + "&group_id=" + group_id;
+            //ViewBag.title = "Tạo cây gia phả - Phả hệ phả đồ " + ViewBag.title_des;
+
             return View();
         }
         public ActionResult Tree(long? user_id,long? group_id)
@@ -79,6 +84,9 @@ namespace gpw.Controllers
             ViewBag.user_id = user_id;
             ViewBag.group_id = group_id;
             ViewBag.title_des = db.giapha_des.Find(group_id).giapha_name;
+            ViewBag.des = db.giapha_des.Find(group_id).des;
+            ViewBag.image = "http://vietgiapha.com/images/logo.png";
+            ViewBag.url = Config.domain + "/giapha/share?user_id=" + user_id + "&group_id=" + group_id;
             return View();
         }
         public string allTree(ref NodeItem[] NI)

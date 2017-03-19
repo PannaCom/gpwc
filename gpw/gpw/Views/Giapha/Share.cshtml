@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.title = "Cây gia phả - Phả hệ phả đồ " + ViewBag.title_des;
+    Layout = "~/Views/Shared/_LayoutBlank.cshtml";
+}
+@*<link rel="stylesheet" href="/Scripts/tree/font-awesome.min.css">*@
+<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="/Scripts/tree/dist/css/jquery.orgchart.css">
+<link rel="stylesheet" href="/Scripts/tree/style.css">
+<h2>Cây gia phả, Phả hệ phả đồ @ViewBag.title_des</h2>
+<script>
+    var AllTree=@Html.Raw(ViewBag.allTree);
+    var max_id=-1;
+    max_id=@ViewBag.max_id;
+    var allTreeItem=[];
+    var user_id = @ViewBag.user_id;
+    var group_id =@ViewBag.group_id;
+</script>
+<div id="chart-container" style="width:100%;position:relative;display:block; overflow: scroll;min-height:400px;"></div>
+<div class="home-link">
+    <iframe src="https://www.facebook.com/plugins/like.php?href=http://vietgiapha.com/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&width=450&layout=standard&action=like&size=small&show_faces=true&share=true&height=80&appId=1725256021138211" width="450" height="80" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowtransparency="true"></iframe>
+    <i class="fa fa-star"></i>
+    <a href="/">Về trang chủ</a>
+    <i class="fa fa-star"></i>
+</div>
+<script type="text/javascript" src="/Scripts/tree/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="/Scripts/tree/html2canvas.min.js"></script>
+<script type="text/javascript" src="/Scripts/tree/dist/js/jquery.orgchart.js"></script>
+@*<script type="text/javascript" src="/Scripts/tree/scripts.js"></script>*@
+<script>
+(function($){
+
+    $(function() {
+        var datascource =AllTree;
+        var ttNode="";
+    var getId = function() {
+        //return (new Date().getTime()) * 1000 + Math.floor(Math.random() * 1001);
+        max_id=max_id+1;
+        //alert(max_id);
+        return max_id;
+    };
+    
+    $('#chart-container').orgchart({
+      'data' : datascource,
+      'exportButton': true,
+      'exportFilename': 'GiaPha',
+      'parentNodeSymbol': 'fa-th-large',
+      'nodeContent': 'title',
+      'nodeId': 'id',
+      'nodeTitle': 'name',
+      'createNode': function($node, data) {
+          $node[0].id = data.id;
+          $node[0].nodeTitle=data.nodeTitle;
+              //getId();
+      }
+    })    
+    .on('click', '.orgchart', function(event) {
+      if (!$(event.target).closest('.node').length) {
+        $('#selected-node').val('');
+      }
+    });
+
+    $('input[name="chart-state"]').on('click', function() {
+      $('.orgchart').toggleClass('view-state', this.value !== 'view');
+      $('#edit-panel').toggleClass('view-state', this.value === 'view');
+      if ($(this).val() === 'edit') {
+        $('.orgchart').find('tr').removeClass('hidden')
+          .find('td').removeClass('hidden')
+          .find('.node').removeClass('slide-up slide-down slide-right slide-left');
+      } else {
+        $('#btn-reset').trigger('click');
+      }
+    });
+    $('.orgchart').toggleClass('view-state', this.value !== 'view');
+    $('#edit-panel').toggleClass('view-state', this.value === 'view');
+    $('.orgchart').find('tr').removeClass('hidden')
+      .find('td').removeClass('hidden')
+      .find('.node').removeClass('slide-up slide-down slide-right slide-left');
+
+    $('input[name="node-type"]').on('click', function() {
+      var $this = $(this);
+      if ($this.val() === 'parent') {
+        $('#edit-panel').addClass('edit-parent-node');
+        $('#new-nodelist').children(':gt(0)').remove();
+      } else {
+        $('#edit-panel').removeClass('edit-parent-node');
+      }
+    });
+
+    
+
+    
+
+  });
+
+})(jQuery);
+    //document.getElementById("rd-edit").checked=true;
+
+</script>
