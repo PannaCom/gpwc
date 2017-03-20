@@ -24,7 +24,7 @@
         js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.8&appId=1725256021138211";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
-<div id="chart-container" style="width:100%;position:relative;display:block; overflow: scroll;min-height:400px;"></div>
+<div id="chart-container" style="width:100%;position:relative;display:block; overflow: scroll;min-height:500px;"></div>
 <div style="width:100%;position:relative;display:block;">
     <div id="selected-node"></div>&nbsp;<div id="selected-node-title"></div>
 </div>
@@ -32,11 +32,18 @@
     <div class="fb-like" data-href="http://vietgiapha.com/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
     <i class="fa fa-star"></i>
     <a href="/">Về trang chủ</a>
+    <i class="fa fa-star"></i>    
+    Kiểu hiển thị: <a href="/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=l2r">Từ trái qua phải</a>
+    <i class="fa fa-star"></i>
+    <a href="/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=r2l">Từ phải qua trái</a>
+    <i class="fa fa-star"></i>
+    <a href="/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=t2b">Từ trên xuống dưới</a>
     <i class="fa fa-star"></i>
 </div>
 <script type="text/javascript" src="/Scripts/tree/jquery-3.1.0.min.js"></script>
 <script type="text/javascript" src="/Scripts/tree/html2canvas.min.js"></script>
 <script type="text/javascript" src="/Scripts/tree/dist/js/jquery.orgchart.js"></script>
+<script type="text/javascript" src="/Scripts/tree/jspdf.debug.js" ></script>
 @*<script type="text/javascript" src="/Scripts/tree/scripts.js"></script>*@
 <script>
 (function($){
@@ -55,10 +62,13 @@
       'data' : datascource,
       'exportButton': true,
       'exportFilename': 'GiaPha',
+      'exportFileextension': 'png',
       'parentNodeSymbol': 'fa-th-large',
       'nodeContent': 'title',
       'nodeId': 'id',
       'nodeTitle': 'name',
+      'direction': '@ViewBag.dir',
+      'verticalDepth': 4,
       'createNode': function($node, data) {
           $node[0].id = data.id;
           $node[0].nodeTitle=data.nodeTitle;

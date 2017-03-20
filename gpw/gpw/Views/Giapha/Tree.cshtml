@@ -35,7 +35,7 @@
     <input type="text" id="selected-node" class="selected-node-group">
     <label class="selected-node-group">Ghi chú:</label>
     <input type="text" id="selected-node-title" class="selected-node-group">
-    <button type="button" id="btn-save-node">Lưu</button>
+    <button type="button" id="btn-save-node">Lưu nút này</button>
     <label>Nút mới:</label>
     <ul id="new-nodelist">
         <li><input type="text" class="new-node" placeholder="Tên nút mới"></li>
@@ -61,7 +61,13 @@
     <a href="/">Về trang chủ</a>
     <i class="fa fa-star"></i>
     <div class="fb-like" data-href="http://vietgiapha.com/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
-    
+    <i class="fa fa-star"></i>
+    Kiểu hiển thị: <a href="/GiaPha/Tree?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=l2r">Từ trái qua phải</a>
+    <i class="fa fa-star"></i>
+    <a href="/GiaPha/Tree?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=r2l">Từ phải qua trái</a>
+    <i class="fa fa-star"></i>
+    <a href="/GiaPha/Tree?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=t2b">Từ trên xuống dưới</a>
+    <i class="fa fa-star"></i>
 </div>
 <script type="text/javascript" src="/Scripts/tree/jquery-3.1.0.min.js"></script>
 <script type="text/javascript" src="/Scripts/tree/html2canvas.min.js"></script>
@@ -106,6 +112,8 @@
       'parentNodeSymbol': 'fa-th-large',
       'nodeContent': 'title',
       'nodeId': 'id',
+      'direction': '@ViewBag.dir',
+      'verticalDepth': 4,
       'nodeTitle': 'name',
       'createNode': function($node, data) {
           $node[0].id = data.id;

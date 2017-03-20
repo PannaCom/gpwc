@@ -27,7 +27,7 @@ namespace gpw.Controllers
             public int status { get; set; }
         }
 
-        public ActionResult Share(long? user_id, long? group_id)
+        public ActionResult Share(long? user_id, long? group_id,string dir)
         {
             long? max_id = -1;
             if (user_id == null) user_id = -1;
@@ -45,6 +45,8 @@ namespace gpw.Controllers
                 NI[i] = niit;
                 if (p[i].id_node > max_id) max_id = p[i].id_node;
             }
+            if (dir == null || dir == "") dir = "t2b";
+            ViewBag.dir = dir;
             ViewBag.allTree = allTree(ref NI);
             ViewBag.max_id = max_id;
             ViewBag.user_id = user_id;
@@ -57,7 +59,7 @@ namespace gpw.Controllers
 
             return View();
         }
-        public ActionResult Tree(long? user_id,long? group_id)
+        public ActionResult Tree(long? user_id,long? group_id,string dir)
         {
             var thanhvien_id = configs.getCookie("thanhvien_id");
             long? _id = Convert.ToInt32(thanhvien_id);
@@ -79,6 +81,8 @@ namespace gpw.Controllers
                 NI[i] = niit;
                 if (p[i].id_node > max_id) max_id = p[i].id_node;
             }
+            if (dir == null || dir == "") dir = "t2b";
+            ViewBag.dir = dir;
             ViewBag.allTree = allTree(ref NI);
             ViewBag.max_id = max_id;
             ViewBag.user_id = user_id;
