@@ -39,6 +39,14 @@
           <Property Name="quan_he_id" Type="int" />
           <Property Name="do_sau" Type="int" />
         </EntityType>
+        <EntityType Name="gallery">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="251" />
+          <Property Name="image" Type="nvarchar" MaxLength="150" />
+        </EntityType>
         <EntityType Name="gia_pha">
           <Key>
             <PropertyRef Name="id" />
@@ -200,6 +208,7 @@
           <EntitySet Name="cats" EntityType="Self.cats" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="cats_all_name" EntityType="Self.cats_all_name" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="friends" EntityType="Self.friends" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="gallery" EntityType="Self.gallery" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="gia_pha" EntityType="Self.gia_pha" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="giapha_des" EntityType="Self.giapha_des" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="hoc_van" EntityType="Self.hoc_van" Schema="dbo" store:Type="Tables" />
@@ -232,6 +241,7 @@
           <EntitySet Name="giapha_des" EntityType="gpwModel.giapha_des" />
           <EntitySet Name="businesses" EntityType="gpwModel.business" />
           <EntitySet Name="user_business" EntityType="gpwModel.user_business" />
+          <EntitySet Name="galleries" EntityType="gpwModel.gallery" />
         </EntityContainer>
         <EntityType Name="cat">
           <Key>
@@ -422,6 +432,14 @@
           <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="lon" Type="Double" />
           <Property Name="lat" Type="Double" />
+        </EntityType>
+        <EntityType Name="gallery">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
+          <Property Name="image" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -630,6 +648,15 @@
                 <ScalarProperty Name="des" ColumnName="des" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="galleries">
+            <EntityTypeMapping TypeName="gpwModel.gallery">
+              <MappingFragment StoreEntitySet="gallery">
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

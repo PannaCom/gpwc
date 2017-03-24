@@ -40,5 +40,6 @@ namespace gpw.Models
         public virtual DbSet<giapha_des> giapha_des { get; set; }
         public virtual DbSet<business> businesses { get; set; }
         public virtual DbSet<user_business> user_business { get; set; }
+        public virtual DbSet<gallery> galleries { get; set; }
     }
 }

@@ -200,6 +200,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BusinessController.cs" />
     <Compile Include="Controllers\CatsController.cs" />
+    <Compile Include="Controllers\galleryController.cs" />
     <Compile Include="Controllers\GiaPhaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -221,6 +222,9 @@
       <DependentUpon>gpwModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\friend.cs">
+      <DependentUpon>gpwModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\gallery.cs">
       <DependentUpon>gpwModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\giapha_des.cs">
@@ -865,6 +869,14 @@
     <Content Include="Views\Business\Details.cshtml" />
     <Content Include="Views\Business\Edit.cshtml" />
     <Content Include="Views\Business\Index.cshtml" />
+    <Content Include="Views\GiaPha\Share.cshtml" />
+    <Content Include="Views\Home\_LoadNewTopHot2.cshtml" />
+    <Content Include="Views\Home\PhanMemGiaPha.cshtml" />
+    <Content Include="Views\gallery\Create.cshtml" />
+    <Content Include="Views\gallery\Delete.cshtml" />
+    <Content Include="Views\gallery\Details.cshtml" />
+    <Content Include="Views\gallery\Edit.cshtml" />
+    <Content Include="Views\gallery\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
