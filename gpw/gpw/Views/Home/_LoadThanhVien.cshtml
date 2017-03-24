@@ -1,0 +1,16 @@
+﻿@model List<gpw.Models.thanh_vien>
+<div class="col-md-12 item_thanhvien border_w0">
+    <h3>Thành viên mới nhất:</h3>
+    <ul id="person_flat">
+        @if (Model != null)
+        {
+
+            foreach (var item in Model)
+            {
+                <li><a href="/ThanhVien/Details/@item.id">@item.ho_ten</a>, </li>
+
+            }
+
+        }
+    </ul>
+</div>

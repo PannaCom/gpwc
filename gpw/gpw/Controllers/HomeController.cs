@@ -262,6 +262,10 @@ namespace gpw.Controllers
             var model = db.businesses.Select(x => x).ToList();
             return PartialView("_LoadDoanhNghiep", model);
         }
-
+        public ActionResult LoadThanhVien()
+        {
+            var model = db.thanh_vien.OrderByDescending(o=>o.id).Select(x => x).Take(4).ToList();
+            return PartialView("_LoadThanhVien", model);
+        }
     }
 }
