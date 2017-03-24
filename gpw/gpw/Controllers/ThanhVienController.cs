@@ -22,6 +22,10 @@ namespace gpw.Controllers
         // GET: ThanhVien
         public ActionResult Index()
         {
+            if (configs.getCookie("admin") == null || configs.getCookie("admin") == "")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+            }
             return View(db.thanh_vien.ToList());
         }
         // GET: ThanhVien
@@ -319,6 +323,11 @@ namespace gpw.Controllers
         // GET: ThanhVien/Delete/5
         public ActionResult Delete(long? id)
         {
+            if (configs.getCookie("admin") == null || configs.getCookie("admin") == "")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

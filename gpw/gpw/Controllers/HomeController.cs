@@ -156,6 +156,15 @@ namespace gpw.Controllers
         {
             return View();
         }
+        public ActionResult PhanMemGiaPha(string dir)
+        {
+            if (dir == null || dir == "") dir = "t2b";
+            ViewBag.dir = dir;
+            ViewBag.des = "Phần mềm gia phả, cây gia phả, sơ đồ phả hệ, phả đồ";
+            ViewBag.image = "http://vietgiapha.com/images/logo.png";
+            ViewBag.url = Config.domain + "/Home/PhanMemGiaPha";
+            return View();
+        }
         public ActionResult GioiThieu()
         {
             return View();

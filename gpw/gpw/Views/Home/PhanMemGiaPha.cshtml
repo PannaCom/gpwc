@@ -1,0 +1,273 @@
+﻿@{
+    ViewBag.title = "Ví dụ về Phần mềm gia phả soạn thảo trên website sơ đồ phả hệ";
+    Layout = "~/Views/Shared/_LayoutBlank.cshtml";
+}
+@*<link rel="stylesheet" href="/Scripts/tree/font-awesome.min.css">*@
+<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="/Scripts/tree/dist/css/jquery.orgchart.css">
+<link rel="stylesheet" href="/Scripts/tree/style.css">
+<h2>Ví dụ về Phần mềm gia phả soạn thảo trên website sơ đồ phả hệ</h2>
+<script>
+    
+    var max_id=-1;
+    max_id=18;
+    var allTreeItem=[];
+    
+</script>
+<div id="fb-root"></div>
+<script>
+(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.8&appId=1725256021138211";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="chart-container" style="width:100%;position:relative;display:block; overflow: scroll;min-height:400px;"></div>
+<div id="edit-panel" class="view-state" @*style="width:100%;position:fixed;display:block;bottom:10px;"*@>
+    <span id="chart-state-panel" class="radio-panel">
+        <input type="radio" name="chart-state" id="rd-view" value="view"><label for="rd-view">Xem</label>
+        <input type="radio" name="chart-state" id="rd-edit" value="edit" checked="true"><label for="rd-edit">Sửa</label>
+    </span>
+    <label class="selected-node-group">Nút đang chọn:</label>
+    <input type="text" id="selected-node" class="selected-node-group">
+    <label class="selected-node-group">Ghi chú:</label>
+    <input type="text" id="selected-node-title" class="selected-node-group">
+    <button type="button" id="btn-save-node">Lưu nút này</button>
+    <label>Nút mới:</label>
+    <ul id="new-nodelist">
+        <li><input type="text" class="new-node" placeholder="Tên nút mới"></li>
+        @*<li><input type="text" class="new-node" placeholder="Ghi chú"></li>*@
+    </ul>
+    <i class="fa fa-plus-circle btn-inputs" id="btn-add-input"></i>
+    <i class="fa fa-minus-circle btn-inputs" id="btn-remove-input"></i>
+    <span id="node-type-panel" class="radio-panel">
+        <input type="radio" name="node-type" id="rd-parent" value="parent"><label for="rd-parent">Nút Cha(Gốc)</label>
+        <input type="radio" name="node-type" id="rd-child" value="children"><label for="rd-child">Nút Con</label>
+        <input type="radio" name="node-type" id="rd-sibling" value="siblings"><label for="rd-sibling">Nút Anh em</label>
+    </span><br />
+    <button type="button" id="btn-add-nodes">Thêm nút mới</button>
+    <button type="button" id="btn-delete-nodes">Xóa nút</button>
+    @*<button type="button" id="btn-reset">Khởi tạo</button>*@
+    @*<label >Ghi chú:</label>
+        <input type="text" id="title-node" class="selected-node-group">*@
+    <button type="button" id="btn-save-all">LƯU CẢ CÂY DỮ LIỆU</button>
+</div>
+<div class="home-link">
+    <a href="/thanhvien/create">Đăng ký thành viên</a>
+    <i class="fa fa-star"></i>
+    <a href="/">Về trang chủ</a>
+    <i class="fa fa-star"></i>
+    <div class="fb-like" data-href="http://vietgiapha.com/Home/PhanMemGiaPha" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+    <i class="fa fa-star"></i>
+    Kiểu hiển thị: <a href="/Home/PhanMemGiaPha?dir=l2r">Từ trái qua phải</a>
+    <i class="fa fa-star"></i>
+    <a href="/Home/PhanMemGiaPha?dir=r2l">Từ phải qua trái</a>
+    <i class="fa fa-star"></i>
+    <a href="/Home/PhanMemGiaPha?dir=t2b">Từ trên xuống dưới</a>
+    @*<i class="fa fa-star"></i>
+    <a href="/GiaPha/Tree?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=@ViewBag.dir&depth=4">Thu nhỏ gia phả</a>
+    <i class="fa fa-star"></i>
+    <a href="/GiaPha/Tree?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=@ViewBag.dir&depth=114">Phóng to gia phả</a>
+    <i class="fa fa-star"></i>*@
+</div>
+<script type="text/javascript" src="/Scripts/tree/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="/Scripts/tree/html2canvas.min.js"></script>
+<script type="text/javascript" src="/Scripts/tree/dist/js/jquery.orgchart.js"></script>
+@*<script type="text/javascript" src="/Scripts/tree/scripts.js"></script>*@
+<script>
+(function($){
+
+    $(function() {
+        var datascource ={'id': '1', 'name': 'Nguyễn Văn A', 'title': 'Cụ Tổ',
+            'children': [{'id': '3', 'name': 'Nguyễn Văn B', 'title': '',
+            },{'id': '5', 'name': 'Nguyễn Văn C', 'title': '',
+            'children': [{'id': '7', 'name': 'Nguyễn Văn D', 'title': '',
+                'children': [{'id': '11', 'name': 'Nguyễn Văn E', 'title': '',
+                    'children': [{'id': '15', 'name': 'Nguyễn Văn F', 'title': '',
+                    },{'id': '17', 'name': 'Nguyễn Văn G', 'title': '',
+                        },]
+                },{'id': '13', 'name': 'Nguyễn Văn H', 'title': '',
+                    },]
+            },{'id': '9', 'name': 'Nguyễn Văn I', 'title': '',
+                },]
+            },]
+        };;
+        var ttNode="";
+    var getId = function() {
+        //return (new Date().getTime()) * 1000 + Math.floor(Math.random() * 1001);
+        max_id=max_id+1;
+        //alert(max_id);
+        return max_id;
+    };
+    
+    $('#chart-container').orgchart({
+      'data' : datascource,
+      'exportButton': true,
+      'exportFilename': 'GiaPha',
+      'parentNodeSymbol': 'fa-th-large',
+      'nodeContent': 'title',
+      'nodeId': 'id',
+      'direction': '@ViewBag.dir',      
+      'nodeTitle': 'name',
+      'createNode': function($node, data) {
+          $node[0].id = data.id;
+          $node[0].nodeTitle=data.nodeTitle;
+             
+      }
+    })
+    .on('click', '.node', function() {
+      var $this = $(this);
+      $('#selected-node').val($this.find('.title').text()).data('node', $this);
+      $('#selected-node-title').val($this.find('.content').text()).data('node', $this);
+      var $node = $('#selected-node').data('node');
+      //alert($this.find('.title').text()+'-'+$this.find('.content').text()+'-'+$node[0].id);
+    })
+    .on('click', '.orgchart', function(event) {
+      if (!$(event.target).closest('.node').length) {
+        $('#selected-node').val('');
+      }
+    });
+
+    $('input[name="chart-state"]').on('click', function() {
+      $('.orgchart').toggleClass('view-state', this.value !== 'view');
+      $('#edit-panel').toggleClass('view-state', this.value === 'view');
+      if ($(this).val() === 'edit') {
+        $('.orgchart').find('tr').removeClass('hidden')
+          .find('td').removeClass('hidden')
+          .find('.node').removeClass('slide-up slide-down slide-right slide-left');
+      } else {
+        $('#btn-reset').trigger('click');
+      }
+    });
+    $('.orgchart').toggleClass('view-state', this.value !== 'view');
+    $('#edit-panel').toggleClass('view-state', this.value === 'view');
+    $('.orgchart').find('tr').removeClass('hidden')
+      .find('td').removeClass('hidden')
+      .find('.node').removeClass('slide-up slide-down slide-right slide-left');
+
+    $('input[name="node-type"]').on('click', function() {
+      var $this = $(this);
+      if ($this.val() === 'parent') {
+        $('#edit-panel').addClass('edit-parent-node');
+        $('#new-nodelist').children(':gt(0)').remove();
+      } else {
+        $('#edit-panel').removeClass('edit-parent-node');
+      }
+    });
+
+    $('#btn-add-input').on('click', function() {
+        $('#new-nodelist').append('<li><input type="text" class="new-node" placeholder="Tên nút mới"></li>');
+        //$('#new-nodelist').append('<li><input type="text" class="new-node" placeholder="Ghi chú"></li>');
+    });
+
+    $('#btn-remove-input').on('click', function() {
+      var inputs = $('#new-nodelist').children('li');
+      if (inputs.length > 1) {
+          inputs.last().remove();
+      }
+    });
+    $('#btn-save-node').on('click', function() {        
+        if (window.confirm('Bạn có muốn đăng ký làm thành viên để lưu lại các dữ liệu?')) {
+            window.location.href = '/ThanhVien/Create';
+        }
+    });
+    $('#btn-save-all').on('click', function() {
+        if (window.confirm('Bạn có muốn đăng ký làm thành viên để lưu lại các dữ liệu?')) {
+            window.location.href = '/ThanhVien/Create';
+        }
+    });
+
+    $('#btn-add-nodes').on('click', function() {
+      var $chartContainer = $('#chart-container');
+      var nodeVals = [];
+      $('#new-nodelist').find('.new-node').each(function(index, item) {
+          var validVal = item.value.trim();
+          //alert(item.id);
+        if (validVal.length) {
+          nodeVals.push(validVal);
+        }
+      });
+      var $node = $('#selected-node').data('node');
+      if (!nodeVals.length) {
+        alert('Nhập giá trị cho nút mới này');
+        return;
+      }
+      var nodeType = $('input[name="node-type"]:checked');
+      if (!nodeType.length) {
+        alert('Chọn kiểu cho nút này (Cha,Con,Anh em)?');
+        return;
+      }
+      if (nodeType.val() !== 'parent' && !$('.orgchart').length) {
+        alert('Tạo nút gốc trước khi bạn muốn xây dựng cây gia phả từ đầu!');
+        return;
+      }
+      if (nodeType.val() !== 'parent' && !$node) {
+        alert('Bạn phải chọn một nút nào đó trong cây gia phả');
+        return;
+      }
+      if (nodeType.val() === 'parent') {
+        if (!$chartContainer.children().length) {// if the original chart has been deleted
+          $chartContainer.orgchart({
+            'data' : { 'name': nodeVals[0]},
+            'exportButton': true,
+            'exportFilename': 'GiaPha',
+            'parentNodeSymbol': 'fa-th-large',
+            'createNode': function($node, data) {
+              $node[0].id = getId();
+            }
+          })
+          .find('.orgchart').addClass('view-state');
+        } else {
+            $chartContainer.orgchart('addParent', $chartContainer.find('.node:first'), { 'name': nodeVals[0], 'Id': getId(), 'id': getId() });
+        }
+      } else if (nodeType.val() === 'siblings') {
+        $chartContainer.orgchart('addSiblings', $node,
+          { 'siblings': nodeVals.map(function(item) { return { 'name': item, 'relationship': '110', 'Id': getId(), 'id': getId() }; })
+        });
+      } else {
+        var hasChild = $node.parent().attr('colspan') > 0 ? true : false;
+        if (!hasChild) {
+          var rel = nodeVals.length > 1 ? '110' : '100';
+          $chartContainer.orgchart('addChildren', $node, {
+              'children': nodeVals.map(function(item) {
+                  return { 'name': item, 'relationship': rel, 'Id': getId(), 'id': getId() };
+              })
+            }, $.extend({}, $chartContainer.find('.orgchart').data('options'), { depth: 0 }));
+        } else {
+          $chartContainer.orgchart('addSiblings', $node.closest('tr').siblings('.nodes').find('.node:first'),
+            { 'siblings': nodeVals.map(function(item) { return { 'name': item, 'relationship': '110', 'Id': getId(), 'id': getId() }; })
+          });
+        }
+      }
+    });
+
+    $('#btn-delete-nodes').on('click', function() {
+      var $node = $('#selected-node').data('node');
+      if (!$node) {
+        alert('Chọn nút để xóa');
+        return;
+      } else
+      {
+          if (window.confirm('Bạn có muốn đăng ký làm thành viên để xóa các dữ liệu?')) {
+              window.location.href = '/ThanhVien/Create';
+          }
+
+      }
+      $('#chart-container').orgchart('removeNodes', $node);
+      $('#selected-node').val('').data('node', null);
+    });
+
+    $('#btn-reset').on('click', function() {
+      $('.orgchart').find('.focused').removeClass('focused');
+      $('#selected-node').val('');
+      $('#new-nodelist').find('input:first').val('').parent().siblings().remove();
+      $('#node-type-panel').find('input').prop('checked', false);
+    });
+
+  });
+
+})(jQuery);
+    //document.getElementById("rd-edit").checked=true;
+
+</script>

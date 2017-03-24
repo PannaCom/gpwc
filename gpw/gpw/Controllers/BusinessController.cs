@@ -10,6 +10,7 @@ using gpw.Models;
 using PagedList;
 using PagedList.Mvc;
 using System.IO;
+using gpw.helpers;
 
 namespace gpw.Controllers
 {
@@ -22,6 +23,11 @@ namespace gpw.Controllers
         [Authorize]
         public ActionResult Index(int? pg, string search)
         {
+            if (configs.getCookie("admin") == null || configs.getCookie("admin") == "")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+            }
+
             int pageSize = 25;
             if (pg == null) pg = 1;
             int pageNumber = (pg ?? 1);
@@ -171,6 +177,11 @@ namespace gpw.Controllers
         // GET: Business/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (configs.getCookie("admin") == null || configs.getCookie("admin") == "")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -202,6 +213,10 @@ namespace gpw.Controllers
         // GET: Business/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (configs.getCookie("admin") == null || configs.getCookie("admin") == "")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

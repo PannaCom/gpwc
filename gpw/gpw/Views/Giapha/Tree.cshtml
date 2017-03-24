@@ -1,9 +1,22 @@
-﻿
-@{
+﻿@{
     ViewBag.title = "Tạo cây gia phả - Phả hệ phả đồ " + ViewBag.title_des;
     Layout = "~/Views/Shared/_LayoutBlank.cshtml";
 }
-@*<link rel="stylesheet" href="/Scripts/tree/font-awesome.min.css">*@
+<style>
+    .modal {    
+        background-color:#00ff21;
+        width:80%;
+        position:fixed;
+        left:10%;
+        display:none;
+        float:left;
+        top:20%;
+    }
+    
+    
+
+</style>
+
 <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="/Scripts/tree/dist/css/jquery.orgchart.css">
 <link rel="stylesheet" href="/Scripts/tree/style.css">
@@ -62,298 +75,357 @@
     <i class="fa fa-star"></i>
     <div class="fb-like" data-href="http://vietgiapha.com/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
     <i class="fa fa-star"></i>
+    <a href="#" onclick="showShareLink();">Chia sẻ link</a>
+    <i class="fa fa-star"></i>
     Kiểu hiển thị: <a href="/GiaPha/Tree?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=l2r">Từ trái qua phải</a>
     <i class="fa fa-star"></i>
     <a href="/GiaPha/Tree?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=r2l">Từ phải qua trái</a>
     <i class="fa fa-star"></i>
     <a href="/GiaPha/Tree?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=t2b">Từ trên xuống dưới</a>
     <i class="fa fa-star"></i>
+    <a href="/GiaPha/Tree?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=@ViewBag.dir&depth=4">Thu nhỏ gia phả</a>
+    <i class="fa fa-star"></i>
+    <a href="/GiaPha/Tree?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=@ViewBag.dir&depth=114">Phóng to gia phả</a>
+    <i class="fa fa-star"></i>
 </div>
-<script type="text/javascript" src="/Scripts/tree/jquery-3.1.0.min.js"></script>
-<script type="text/javascript" src="/Scripts/tree/html2canvas.min.js"></script>
-<script type="text/javascript" src="/Scripts/tree/dist/js/jquery.orgchart.js"></script>
-@*<script type="text/javascript" src="/Scripts/tree/scripts.js"></script>*@
-<script>
-(function($){
+<div class="modal fade" id="modal_sharesocial" tabindex="-1" role="dialog" aria-labelledby="modal_sharesocialLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="hideShareLink();">×</button>
+                <h4 class="modal-title" id="modal_sharesocialLabel">Sao chép liên kết bên dưới vào khay nhớ tạm thời của bạn để chia sẻ những kết quả này</h4>
+            </div>
+            <textarea id="holdtext" class="holdtext" style="display:none;"></textarea>
+            <div class="modal-body"><form id="frmShareLink"><div class="form-horizontal"><div class="form-group"><div class="input-group"><input class="form-control" id="inputShareLink" name="inputShareLink"  type="text" style="width:80%;" value="http://vietgiapha.com/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id"><span class="input-group-btn"><button type="button" class="btn btn-default" id="btnShareLink" ><i class="fa fa-copy"></i></button></span></div></div></div></form></div>
 
-    $(function() {
-        var datascource =AllTree;
-        var ttNode="";
-    var getId = function() {
-        //return (new Date().getTime()) * 1000 + Math.floor(Math.random() * 1001);
-        max_id=max_id+1;
-        //alert(max_id);
-        return max_id;
-    };
-    var findAllChild = function($node) {
-        var $allnode=$node.closest('table').children(':last').children().find('.node:first');//$node.children(':first').find('.node');//children('.nodes').parent().
-        //var $allnode=$node.children('.node');
-        //alert("child"+$allnode.length);
-        for(var j=0;j<$allnode.length;j++){
-            var $this = $($allnode[j]);  
-            //alert("ok3");
-            if (ttNode.indexOf(","+$allnode[j].id+",")<0){
-                //alert("child node"+$allnode[j].id+"-"+$this.find('.title').text());//+"-"+$this.find('.name').text()
-                //alert('curent is '+$this.find('.title').text()+", child is "+$chartContainer.get);
-                var $parent_id=$this.closest('.nodes').parent().children(':first').find('.node');//$this.closest('table').parent(':first').parent().find('.node:last');//$this.closest('.nodes').siblings(':first').data('node');parent().children(':first').find('.node').
-                var n_parent_id=$parent_id[0].id;
-                var item = { id: $allnode[j].id, name: $this.find('.title').text(),title: $this.find('.content').text(),parent_id:n_parent_id};
-                //alert("child node"+$allnode[j].id+"-"+$this.find('.title').text()+"-"+n_parent_id);//+"-"+$this.find('.name').text()
-                allTreeItem.push(item);
-                ttNode+=","+$allnode[j].id+",";
-                findAllChild($this);//findAllChild
-            }
-        }
-    };
-    $('#chart-container').orgchart({
-      'data' : datascource,
-      'exportButton': true,
-      'exportFilename': 'GiaPha',
-      'parentNodeSymbol': 'fa-th-large',
-      'nodeContent': 'title',
-      'nodeId': 'id',
-      'direction': '@ViewBag.dir',
-      'verticalDepth': 4,
-      'nodeTitle': 'name',
-      'createNode': function($node, data) {
-          $node[0].id = data.id;
-          $node[0].nodeTitle=data.nodeTitle;
-              //getId();
-      }
-    })
-    .on('click', '.node', function() {
-      var $this = $(this);
-      $('#selected-node').val($this.find('.title').text()).data('node', $this);    
-      $('#selected-node-title').val($this.find('.content').text()).data('node', $this);  
-      var $node = $('#selected-node').data('node');
-      //alert($this.find('.title').text()+'-'+$this.find('.content').text()+'-'+$node[0].id);
-    })
-    .on('click', '.orgchart', function(event) {
-      if (!$(event.target).closest('.node').length) {
-        $('#selected-node').val('');
-      }
-    });
+        </div>
+    </div>
+</div>
+    <script type="text/javascript" src="/Scripts/tree/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="/Scripts/tree/html2canvas.min.js"></script>
+    <script type="text/javascript" src="/Scripts/tree/dist/js/jquery.orgchart.js"></script>
+    @*<script type="text/javascript" src="/Scripts/tree/scripts.js"></script>*@
+    <script>
+        (function($){
 
-    $('input[name="chart-state"]').on('click', function() {
-      $('.orgchart').toggleClass('view-state', this.value !== 'view');
-      $('#edit-panel').toggleClass('view-state', this.value === 'view');
-      if ($(this).val() === 'edit') {
-        $('.orgchart').find('tr').removeClass('hidden')
-          .find('td').removeClass('hidden')
-          .find('.node').removeClass('slide-up slide-down slide-right slide-left');
-      } else {
-        $('#btn-reset').trigger('click');
-      }
-    });
-    $('.orgchart').toggleClass('view-state', this.value !== 'view');
-    $('#edit-panel').toggleClass('view-state', this.value === 'view');
-    $('.orgchart').find('tr').removeClass('hidden')
-      .find('td').removeClass('hidden')
-      .find('.node').removeClass('slide-up slide-down slide-right slide-left');
+            $(function() {
+                var datascource =AllTree;
+                var ttNode="";
+                var getId = function() {
+                    //return (new Date().getTime()) * 1000 + Math.floor(Math.random() * 1001);
+                    max_id=max_id+1;
+                    //alert(max_id);
+                    return max_id;
+                };
+                var findAllChild = function($node) {
+                    var $allnode=$node.closest('table').children(':last').children().find('.node:first');//$node.children(':first').find('.node');//children('.nodes').parent().
+                    //var $allnode=$node.children('.node');
+                    //alert("child"+$allnode.length);
+                    for(var j=0;j<$allnode.length;j++){
+                        var $this = $($allnode[j]);
+                        //alert("ok3");
+                        if (ttNode.indexOf(","+$allnode[j].id+",")<0){
+                            //alert("child node"+$allnode[j].id+"-"+$this.find('.title').text());//+"-"+$this.find('.name').text()
+                            //alert('curent is '+$this.find('.title').text()+", child is "+$chartContainer.get);
+                            var $parent_id=$this.closest('.nodes').parent().children(':first').find('.node');//$this.closest('table').parent(':first').parent().find('.node:last');//$this.closest('.nodes').siblings(':first').data('node');parent().children(':first').find('.node').
+                            var n_parent_id=$parent_id[0].id;
+                            var item = { id: $allnode[j].id, name: $this.find('.title').text(),title: $this.find('.content').text(),parent_id:n_parent_id};
+                            //alert("child node"+$allnode[j].id+"-"+$this.find('.title').text()+"-"+n_parent_id);//+"-"+$this.find('.name').text()
+                            allTreeItem.push(item);
+                            ttNode+=","+$allnode[j].id+",";
+                            findAllChild($this);//findAllChild
+                        }
+                    }
+                };
+                $('#chart-container').orgchart({
+                    'data' : datascource,
+                    'exportButton': true,
+                    'exportFilename': 'GiaPha',
+                    'parentNodeSymbol': 'fa-th-large',
+                    'nodeContent': 'title',
+                    'nodeId': 'id',
+                    'direction': '@ViewBag.dir',
+                    'verticalDepth': @ViewBag.depth,
+                    'nodeTitle': 'name',
+                    'createNode': function($node, data) {
+                        $node[0].id = data.id;
+                        $node[0].nodeTitle=data.nodeTitle;
+                        //getId();
+                    }
+                })
+                .on('click', '.node', function() {
+                    var $this = $(this);
+                    $('#selected-node').val($this.find('.title').text()).data('node', $this);
+                    $('#selected-node-title').val($this.find('.content').text()).data('node', $this);
+                    var $node = $('#selected-node').data('node');
+                    //alert($this.find('.title').text()+'-'+$this.find('.content').text()+'-'+$node[0].id);
+                })
+                .on('click', '.orgchart', function(event) {
+                    if (!$(event.target).closest('.node').length) {
+                        $('#selected-node').val('');
+                    }
+                });
 
-    $('input[name="node-type"]').on('click', function() {
-      var $this = $(this);
-      if ($this.val() === 'parent') {
-        $('#edit-panel').addClass('edit-parent-node');
-        $('#new-nodelist').children(':gt(0)').remove();
-      } else {
-        $('#edit-panel').removeClass('edit-parent-node');
-      }
-    });
+                $('input[name="chart-state"]').on('click', function() {
+                    $('.orgchart').toggleClass('view-state', this.value !== 'view');
+                    $('#edit-panel').toggleClass('view-state', this.value === 'view');
+                    if ($(this).val() === 'edit') {
+                        $('.orgchart').find('tr').removeClass('hidden')
+                          .find('td').removeClass('hidden')
+                          .find('.node').removeClass('slide-up slide-down slide-right slide-left');
+                    } else {
+                        $('#btn-reset').trigger('click');
+                    }
+                });
+                $('.orgchart').toggleClass('view-state', this.value !== 'view');
+                $('#edit-panel').toggleClass('view-state', this.value === 'view');
+                $('.orgchart').find('tr').removeClass('hidden')
+                  .find('td').removeClass('hidden')
+                  .find('.node').removeClass('slide-up slide-down slide-right slide-left');
 
-    $('#btn-add-input').on('click', function() {
-        $('#new-nodelist').append('<li><input type="text" class="new-node" placeholder="Tên nút mới"></li>');
-        //$('#new-nodelist').append('<li><input type="text" class="new-node" placeholder="Ghi chú"></li>');
-    });
+                $('input[name="node-type"]').on('click', function() {
+                    var $this = $(this);
+                    if ($this.val() === 'parent') {
+                        $('#edit-panel').addClass('edit-parent-node');
+                        $('#new-nodelist').children(':gt(0)').remove();
+                    } else {
+                        $('#edit-panel').removeClass('edit-parent-node');
+                    }
+                });
 
-    $('#btn-remove-input').on('click', function() {
-      var inputs = $('#new-nodelist').children('li');
-      if (inputs.length > 1) {
-          inputs.last().remove();
-      }
-    });
-    $('#btn-save-node').on('click', function() {
-        //var $this = $('#selected-node');
-        //$('#selected-node').val($this.find('.title').text()).data('node', $this);    
-        //$('#selected-node-title').val($this.find('.content').text()).data('node', $this);  
-        var $node = $('#selected-node').data('node');
-        //alert($this.find('.title').text()+'-'+$this.find('.content').text()+'-'+$node[0].id);
-        var id=$node[0].id;
-        var name=$('#selected-node').val();
-        var title=$('#selected-node-title').val();
-        var $this = $($('#selected-node')); 
-        var $parent_id=$node.closest('.nodes').parent().children(':first').find('.node');//$this.closest('table').parent(':first').parent().find('.node:last');//$this.closest('.nodes').siblings(':first').data('node');parent().children(':first').find('.node').
-        var parent_id=$parent_id[0].id;
-        $.ajax({
-            url: '/GiaPha/UpdateNode',
-            type: 'POST',            
-            datatype: 'text',
-            data:"&id="+id+"&name="+name+"&title="+title+"&parent_id="+parent_id+"&user_id="+user_id+"&group_id="+group_id,
-            success: function(data){ 
-                if (data=="1"){
-                    alert("Ghi dữ liệu thành công!");
-                }; 
-            },
-            error: function (jqXHR, exception) {
-                alert(exception.toString());
+                $('#btn-add-input').on('click', function() {
+                    $('#new-nodelist').append('<li><input type="text" class="new-node" placeholder="Tên nút mới"></li>');
+                    //$('#new-nodelist').append('<li><input type="text" class="new-node" placeholder="Ghi chú"></li>');
+                });
+
+                $('#btn-remove-input').on('click', function() {
+                    var inputs = $('#new-nodelist').children('li');
+                    if (inputs.length > 1) {
+                        inputs.last().remove();
+                    }
+                });
+                $('#btn-save-node').on('click', function() {
+                    //var $this = $('#selected-node');
+                    //$('#selected-node').val($this.find('.title').text()).data('node', $this);
+                    //$('#selected-node-title').val($this.find('.content').text()).data('node', $this);
+                    var $node = $('#selected-node').data('node');
+                    //alert($this.find('.title').text()+'-'+$this.find('.content').text()+'-'+$node[0].id);
+                    var id=$node[0].id;
+                    var name=$('#selected-node').val();
+                    var title=$('#selected-node-title').val();
+                    var $this = $($('#selected-node'));
+                    var $parent_id=$node.closest('.nodes').parent().children(':first').find('.node');//$this.closest('table').parent(':first').parent().find('.node:last');//$this.closest('.nodes').siblings(':first').data('node');parent().children(':first').find('.node').
+                    var parent_id=$parent_id[0].id;
+                    $.ajax({
+                        url: '/GiaPha/UpdateNode',
+                        type: 'POST',
+                        datatype: 'text',
+                        data:"&id="+id+"&name="+name+"&title="+title+"&parent_id="+parent_id+"&user_id="+user_id+"&group_id="+group_id,
+                        success: function(data){
+                            if (data=="1"){
+                                alert("Ghi dữ liệu thành công!");
+                            };
+                        },
+                        error: function (jqXHR, exception) {
+                            alert(exception.toString());
+                        }
+                    });
+                });
+                $('#btn-save-all').on('click', function() {
+                    var $chartContainer = $('#chart-container');
+                    var $temp=$chartContainer.find('.node');
+                    ttNode="";
+                    allTreeItem=[];
+                    for(var i=0;i<$temp.length;i++){
+                        var $this = $($temp[i]);
+                        //alert($temp[i].id+"-"+$this.find('.title').text()+"-"+$this.find('.name').text());
+                        //alert('curent is '+$this.find('.title').text()+", child is "+$chartContainer.get);
+                        if (ttNode.indexOf(","+$temp[i].id+",")<0){
+                            var $parent_id=$this.closest('.nodes').parent().children(':first').find('.node');//$this.closest('table').parent(':first').parent().find('.node:last');//$this.closest('.nodes').siblings(':first').data('node');parent().children(':first').find('.node').
+                            var n_parent_id=0;
+                            if (i>0) n_parent_id=$parent_id[0].id;
+                            //alert("parent node:"+$temp[i].id+"-"+$this.find('.title').text()+"-"+$this.find('.content').text()+"-"+n_parent_id);//+"-"+$this.find('.name').text()
+                            var item = { id: $temp[i].id, name: $this.find('.title').text(),title: $this.find('.content').text(),parent_id:n_parent_id};
+                            allTreeItem.push(item);
+                            ttNode+=","+$temp[i].id+",";
+                            findAllChild($this);
+                        }
+
+                    }
+                    //document.getElementById("btn-save-all").disable=true;
+                    $("#btn-save-all").html("ĐANG LƯU XIN CHỜ...");
+                    $("#btn-save-all").prop("disabled",true);
+
+                    var data = { user_id: -1, TreeItem: allTreeItem };
+                    //'data' is much more complicated in my real application
+                    var sTreeItem = JSON.stringify(data);
+                    //contentType: "application/json; charset=utf-8",
+                    //datatype: 'json',
+                    $.ajax({
+                        url: '/GiaPha/AddNew',
+                        type: 'POST',
+                        datatype: 'text',
+                        data:"TreeItem="+sTreeItem+"&user_id="+user_id+"&group_id="+group_id,
+                        success: function(data){
+                            if (data=="1"){
+                                alert("Ghi dữ liệu thành công!");
+                                $("#btn-save-all").prop("disabled",false);
+                                $("#btn-save-all").html("LƯU CẢ CÂY DỮ LIỆU");
+                            };
+                        },
+                        error: function (jqXHR, exception) {
+                            alert(exception.toString());
+                            $("#btn-save-all").prop("disabled",false);
+                            $("#btn-save-all").html("LƯU CẢ CÂY DỮ LIỆU");
+                        }
+                    });
+                });
+
+                $('#btn-add-nodes').on('click', function() {
+                    var $chartContainer = $('#chart-container');
+                    var nodeVals = [];
+                    $('#new-nodelist').find('.new-node').each(function(index, item) {
+                        var validVal = item.value.trim();
+                        //alert(item.id);
+                        if (validVal.length) {
+                            nodeVals.push(validVal);
+                        }
+                    });
+                    var $node = $('#selected-node').data('node');
+                    if (!nodeVals.length) {
+                        alert('Nhập giá trị cho nút mới này');
+                        return;
+                    }
+                    var nodeType = $('input[name="node-type"]:checked');
+                    if (!nodeType.length) {
+                        alert('Chọn kiểu cho nút này (Cha,Con,Anh em)?');
+                        return;
+                    }
+                    if (nodeType.val() !== 'parent' && !$('.orgchart').length) {
+                        alert('Tạo nút gốc trước khi bạn muốn xây dựng cây gia phả từ đầu!');
+                        return;
+                    }
+                    if (nodeType.val() !== 'parent' && !$node) {
+                        alert('Bạn phải chọn một nút nào đó trong cây gia phả');
+                        return;
+                    }
+                    if (nodeType.val() === 'parent') {
+                        if (!$chartContainer.children().length) {// if the original chart has been deleted
+                            $chartContainer.orgchart({
+                                'data' : { 'name': nodeVals[0]},
+                                'exportButton': true,
+                                'exportFilename': 'GiaPha',
+                                'parentNodeSymbol': 'fa-th-large',
+                                'createNode': function($node, data) {
+                                    $node[0].id = getId();
+                                }
+                            })
+                            .find('.orgchart').addClass('view-state');
+                        } else {
+                            $chartContainer.orgchart('addParent', $chartContainer.find('.node:first'), { 'name': nodeVals[0], 'Id': getId(), 'id': getId() });
+                        }
+                    } else if (nodeType.val() === 'siblings') {
+                        $chartContainer.orgchart('addSiblings', $node,
+                          { 'siblings': nodeVals.map(function(item) { return { 'name': item, 'relationship': '110', 'Id': getId(), 'id': getId() }; })
+                          });
+                    } else {
+                        var hasChild = $node.parent().attr('colspan') > 0 ? true : false;
+                        if (!hasChild) {
+                            var rel = nodeVals.length > 1 ? '110' : '100';
+                            $chartContainer.orgchart('addChildren', $node, {
+                                'children': nodeVals.map(function(item) {
+                                    return { 'name': item, 'relationship': rel, 'Id': getId(), 'id': getId() };
+                                })
+                            }, $.extend({}, $chartContainer.find('.orgchart').data('options'), { depth: 0 }));
+                        } else {
+                            $chartContainer.orgchart('addSiblings', $node.closest('tr').siblings('.nodes').find('.node:first'),
+                              { 'siblings': nodeVals.map(function(item) { return { 'name': item, 'relationship': '110', 'Id': getId(), 'id': getId() }; })
+                              });
+                        }
+                    }
+                });
+
+                $('#btn-delete-nodes').on('click', function() {
+                    var $node = $('#selected-node').data('node');
+                    if (!$node) {
+                        alert('Chọn nút để xóa');
+                        return;
+                    } else
+                    {
+                        var $parent_id=$node.closest('.nodes').parent().children(':first').find('.node');//$this.closest('table').parent(':first').parent().find('.node:last');//$this.closest('.nodes').siblings(':first').data('node');parent().children(':first').find('.node').
+                        var n_parent_id=0;
+                        if ($node[0] === $('.orgchart').find('.node:first')[0]) {
+                            alert("Đây là nút Cụ tổ, không thể xóa được!");
+                            return;
+                        }
+                        if (window.confirm('Bạn có chắc chắn xóa nút này! Tất cả các con của nút này(nếu có) sẽ bị xóa?')) {
+                            //var $parent_id=$node.closest('.nodes').parent().children(':first').find('.node');//$this.closest('table').parent(':first').parent().find('.node:last');//$this.closest('.nodes').siblings(':first').data('node');parent().children(':first').find('.node').
+                            //var n_parent_id=0;
+                            n_parent_id=$parent_id[0].id;
+                            $.ajax({
+                                url: '/GiaPha/DelNode',
+                                type: 'POST',
+                                datatype: 'text',
+                                data:"parent_id="+n_parent_id+"&id_node="+$node[0].id+"&user_id="+user_id+"&group_id="+group_id,
+                                success: function(data){
+                                    if (data=="1"){
+                                        window.location.reload();
+                                    };
+                                },
+                                error: function (jqXHR, exception) {
+                                    alert("Chưa xóa được dữ liệu này!");
+                                }
+                            });
+                        }
+
+                    }
+                    $('#chart-container').orgchart('removeNodes', $node);
+                    $('#selected-node').val('').data('node', null);
+                });
+
+                $('#btn-reset').on('click', function() {
+                    $('.orgchart').find('.focused').removeClass('focused');
+                    $('#selected-node').val('');
+                    $('#new-nodelist').find('input:first').val('').parent().siblings().remove();
+                    $('#node-type-panel').find('input').prop('checked', false);
+                });
+
+            });
+
+        })(jQuery);
+        //document.getElementById("rd-edit").checked=true;
+        //function copyLink(){
+        //    //document.getElementById("holdtext").innerText="ví dụ";//document.getElementById("inputShareLink").value;
+        //    var copyTextarea = document.querySelector('#inputShareLink');
+        //    copyTextarea.select();
+
+        //    try {
+        //        var successful = document.execCommand('copy');
+        //        var msg = successful ? 'successful' : 'unsuccessful';
+        //        console.log('Copying text command was ' + msg);
+        //        alert("Đã copy link thành công, bạn có thể mang đi chia sẻ bây giờ!");
+        //    } catch (err) {
+        //        console.log('Oops, unable to copy');
+        //    }
+        //}
+        var copyTextareaBtn = document.querySelector('#btnShareLink');
+        copyTextareaBtn.addEventListener('click', function (event) {
+            var copyTextarea = document.querySelector('#inputShareLink');
+            copyTextarea.select();
+
+            try {
+                var successful = document.execCommand('copy');
+                var msg = successful ? 'Đã sao chép để chia sẻ' : 'unsuccessful';
+                notifysucc(msg);
+            } catch (err) {
+                console.log('Oops, unable to copy');
             }
         });
-    });
-    $('#btn-save-all').on('click', function() {
-        var $chartContainer = $('#chart-container');
-        var $temp=$chartContainer.find('.node');
-        ttNode="";
-        allTreeItem=[];
-        for(var i=0;i<$temp.length;i++){
-            var $this = $($temp[i]);        
-            //alert($temp[i].id+"-"+$this.find('.title').text()+"-"+$this.find('.name').text());
-            //alert('curent is '+$this.find('.title').text()+", child is "+$chartContainer.get);
-            if (ttNode.indexOf(","+$temp[i].id+",")<0){
-                var $parent_id=$this.closest('.nodes').parent().children(':first').find('.node');//$this.closest('table').parent(':first').parent().find('.node:last');//$this.closest('.nodes').siblings(':first').data('node');parent().children(':first').find('.node').
-                var n_parent_id=0;
-                if (i>0) n_parent_id=$parent_id[0].id;
-                //alert("parent node:"+$temp[i].id+"-"+$this.find('.title').text()+"-"+$this.find('.content').text()+"-"+n_parent_id);//+"-"+$this.find('.name').text()
-                var item = { id: $temp[i].id, name: $this.find('.title').text(),title: $this.find('.content').text(),parent_id:n_parent_id};
-                allTreeItem.push(item);
-                ttNode+=","+$temp[i].id+",";
-                findAllChild($this);
-            }
-            
+
+        function showShareLink(){
+            $("#modal_sharesocial").show();
         }
-       
-        var data = { user_id: -1, TreeItem: allTreeItem };
-        //'data' is much more complicated in my real application
-        var sTreeItem = JSON.stringify(data);
-        //contentType: "application/json; charset=utf-8",
-        //datatype: 'json',
-        $.ajax({
-            url: '/GiaPha/AddNew',
-            type: 'POST',            
-            datatype: 'text',
-            data:"TreeItem="+sTreeItem+"&user_id="+user_id+"&group_id="+group_id,
-            success: function(data){ 
-                if (data=="1"){
-                    alert("Ghi dữ liệu thành công!");
-                }; 
-            },
-            error: function (jqXHR, exception) {
-                alert(exception.toString());
-            }
-        });
-    });
-    
-    $('#btn-add-nodes').on('click', function() {
-      var $chartContainer = $('#chart-container');
-      var nodeVals = [];
-      $('#new-nodelist').find('.new-node').each(function(index, item) {
-          var validVal = item.value.trim();
-          //alert(item.id);
-        if (validVal.length) {
-          nodeVals.push(validVal);
+        function hideShareLink(){
+            $("#modal_sharesocial").hide();
         }
-      });
-      var $node = $('#selected-node').data('node');
-      if (!nodeVals.length) {
-        alert('Nhập giá trị cho nút mới này');
-        return;
-      }
-      var nodeType = $('input[name="node-type"]:checked');
-      if (!nodeType.length) {
-        alert('Chọn kiểu cho nút này (Cha,Con,Anh em)?');
-        return;
-      }
-      if (nodeType.val() !== 'parent' && !$('.orgchart').length) {
-        alert('Tạo nút gốc trước khi bạn muốn xây dựng cây gia phả từ đầu!');
-        return;
-      }
-      if (nodeType.val() !== 'parent' && !$node) {
-        alert('Bạn phải chọn một nút nào đó trong cây gia phả');
-        return;
-      }
-      if (nodeType.val() === 'parent') {
-        if (!$chartContainer.children().length) {// if the original chart has been deleted
-          $chartContainer.orgchart({
-            'data' : { 'name': nodeVals[0]},
-            'exportButton': true,
-            'exportFilename': 'GiaPha',
-            'parentNodeSymbol': 'fa-th-large',
-            'createNode': function($node, data) {
-              $node[0].id = getId();
-            }
-          })
-          .find('.orgchart').addClass('view-state');
-        } else {
-            $chartContainer.orgchart('addParent', $chartContainer.find('.node:first'), { 'name': nodeVals[0], 'Id': getId(), 'id': getId() });
-        }
-      } else if (nodeType.val() === 'siblings') {
-        $chartContainer.orgchart('addSiblings', $node,
-          { 'siblings': nodeVals.map(function(item) { return { 'name': item, 'relationship': '110', 'Id': getId(), 'id': getId() }; })
-        });
-      } else {
-        var hasChild = $node.parent().attr('colspan') > 0 ? true : false;
-        if (!hasChild) {
-          var rel = nodeVals.length > 1 ? '110' : '100';
-          $chartContainer.orgchart('addChildren', $node, {
-              'children': nodeVals.map(function(item) {
-                  return { 'name': item, 'relationship': rel, 'Id': getId(), 'id': getId() };
-              })
-            }, $.extend({}, $chartContainer.find('.orgchart').data('options'), { depth: 0 }));
-        } else {
-          $chartContainer.orgchart('addSiblings', $node.closest('tr').siblings('.nodes').find('.node:first'),
-            { 'siblings': nodeVals.map(function(item) { return { 'name': item, 'relationship': '110', 'Id': getId(), 'id': getId() }; })
-          });
-        }
-      }
-    });
-
-    $('#btn-delete-nodes').on('click', function() {
-      var $node = $('#selected-node').data('node');
-      if (!$node) {
-        alert('Chọn nút để xóa');
-        return;
-      } else 
-      {
-              var $parent_id=$node.closest('.nodes').parent().children(':first').find('.node');//$this.closest('table').parent(':first').parent().find('.node:last');//$this.closest('.nodes').siblings(':first').data('node');parent().children(':first').find('.node').
-              var n_parent_id=0;
-              if ($node[0] === $('.orgchart').find('.node:first')[0]) {
-                  alert("Đây là nút Cụ tổ, không thể xóa được!");
-                  return;
-              }
-              if (window.confirm('Bạn có chắc chắn xóa nút này! Tất cả các con của nút này(nếu có) sẽ bị xóa?')) {
-                  //var $parent_id=$node.closest('.nodes').parent().children(':first').find('.node');//$this.closest('table').parent(':first').parent().find('.node:last');//$this.closest('.nodes').siblings(':first').data('node');parent().children(':first').find('.node').
-                  //var n_parent_id=0;
-                  n_parent_id=$parent_id[0].id;
-                  $.ajax({
-                      url: '/GiaPha/DelNode',
-                      type: 'POST',            
-                      datatype: 'text',
-                      data:"parent_id="+n_parent_id+"&id_node="+$node[0].id+"&user_id="+user_id+"&group_id="+group_id,
-                      success: function(data){ 
-                          if (data=="1"){
-                              window.location.reload();
-                          }; 
-                      },
-                      error: function (jqXHR, exception) {
-                          alert("Chưa xóa được dữ liệu này!");
-                      }
-                  });
-              }
-          
-      }
-      $('#chart-container').orgchart('removeNodes', $node);
-      $('#selected-node').val('').data('node', null);
-    });
-
-    $('#btn-reset').on('click', function() {
-      $('.orgchart').find('.focused').removeClass('focused');
-      $('#selected-node').val('');
-      $('#new-nodelist').find('input:first').val('').parent().siblings().remove();
-      $('#node-type-panel').find('input').prop('checked', false);
-    });
-
-  });
-
-})(jQuery);
-    //document.getElementById("rd-edit").checked=true;
-
-</script>
+    </script>

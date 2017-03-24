@@ -29,7 +29,7 @@
     <div id="selected-node"></div>&nbsp;<div id="selected-node-title"></div>
 </div>
 <div class="home-link">
-    <div class="fb-like" data-href="http://vietgiapha.com/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+    <div class="fb-like" data-href="http://vietgiapha.com/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=@ViewBag.dir&depth=4" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
     <i class="fa fa-star"></i>
     <a href="/">Về trang chủ</a>
     <i class="fa fa-star"></i>    
@@ -38,6 +38,10 @@
     <a href="/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=r2l">Từ phải qua trái</a>
     <i class="fa fa-star"></i>
     <a href="/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=t2b">Từ trên xuống dưới</a>
+    <i class="fa fa-star"></i>
+    <a href="/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=@ViewBag.dir&depth=4">Thu nhỏ gia phả</a>
+    <i class="fa fa-star"></i>
+    <a href="/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=@ViewBag.dir&depth=114">Phóng to gia phả</a>
     <i class="fa fa-star"></i>
 </div>
 <script type="text/javascript" src="/Scripts/tree/jquery-3.1.0.min.js"></script>
@@ -68,7 +72,7 @@
       'nodeId': 'id',
       'nodeTitle': 'name',
       'direction': '@ViewBag.dir',
-      'verticalDepth': 4,
+      'verticalDepth': @ViewBag.depth,
       'createNode': function($node, data) {
           $node[0].id = data.id;
           $node[0].nodeTitle=data.nodeTitle;
