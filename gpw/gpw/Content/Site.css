@@ -110,6 +110,9 @@
         width: 100px;
         top: -26px;
     }
+
+    
+
 }
 
 @media(min-width: 763px) {
@@ -137,6 +140,11 @@
     .item_dsnews {
         /*height: 390px;*/
     }
+
+    .item_maugiapha .caption {
+    height: 40px;
+}
+
 }
 
 #panel_newsitem .item_img {
@@ -941,4 +949,31 @@ Thanks :)*/
 
 .main_wrapper {
   
+}
+
+a.item_maugiapha {
+    border: 0;
+}
+
+a.item_maugiapha:hover {
+    text-decoration: none!important;
+    border: 0;
+}
+
+.item_maugiapha img{
+     height: 200px;
+    width: 100%;
+}
+
+.item_maugiapha .caption {
+        padding-left: 0;
+    padding-right: 0;
+}
+
+.item_maugiapha .caption h3 {
+           margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #f00;
+    text-align: center;
 }

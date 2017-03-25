@@ -1,40 +1,292 @@
-﻿@model IEnumerable<gpw.Models.gallery>
-
+﻿@model PagedList.IPagedList<gpw.Models.gallery>
+@using PagedList.Mvc;
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Quản trị danh sách thư viện ảnh";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Index</h2>
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.image)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.image)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
+<div class="row">
+
+    @*Thêm, sửa, xóa gallery*@
+    <div class="col-md-4">
+        <div class="form-horizontal" style="border: 1px solid #cbcbcb; padding: 10px;">
+            <form id="form_new_gallery" name="form_new_gallery" method="post" enctype="multipart/form-data">
+                <fieldset>
+                    <legend id="form_name">Thêm mẫu gia phả</legend>
+                    @Html.AntiForgeryToken()
+
+
+                    <input type="hidden" name="gallery_id" id="gallery_id" value="0" />
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label for="gallery_name">Tên mẫu phả đồ:</label>
+                            <input type="text" name="gallery_name" id="gallery_name" class="form-control" placeholder="Tên mẫu phả đồ" />
+                        </div>
+                    </div>
+                                        
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label for="gallery_image">Hình ảnh:</label>
+                            <input type="file" name="gallery_image" id="gallery_image" class="form-control" />
+                        </div>
+                        <div class="col-sm-12">
+                            <img class="img-responsive" width="300" height="300" src="" id="blah" style="display: none;">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-primary" onclick="save_gallery(event);" id="btnSaveGallery">Cập nhật</button>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
+        </div>
+
+    </div>
+
+    <div class="col-md-8">
+        @using (Html.BeginForm("Index", "Gallery", FormMethod.Get, new { @class = "form-inline", role = "form", @id = "search-gallery", onsubmit = "return validate()" }))
+        {
+            <div class="form-group">
+                <label for="searchQuery" class="control-label">Tìm kiếm: </label>
+                @Html.TextBox("search", "", new { @class = "form-control", placeholder = "Nhập từ khóa cần tìm " })
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-primary"><i class="fa fa-search"></i>Tìm kiếm</button>
+            </div>
+        }
+
+        <script>
+            function validate() {
+                if (document.getElementById("search").value === "") {
+                    alert('Vui lòng nhập từ khóa tìm kiếm');
+                    return false;
+                } else {
+                    return true;
+                };
+            }
+        </script>
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-striped" id="table-gallery">
+                <thead>
+                    <tr>
+                        <th>#id</th>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        if (Model.Count > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+
+                                <tr>
+                                    <td>#@item.id</td>
+                                    <td>@item.name</td>
+                                    <td>
+                                        <img style="width: 200px;" src="@item.image" />
+                                    </td>
+
+                                    <td>
+                                        <a href="/gallery/Edit/@item.id" class="btn btn-primary edit_gallery" data-id="@item.id"><i class="fa fa-edit"></i> Sửa</a>
+                                        <a href="/gallery/Delete/@item.id" class="btn btn-danger delete_gallery" data-id="@item.id"><i class="fa fa-close"></i> Xóa</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4">Chưa có thư viện mẫu gia phả nào, vui lòng thêm mới.</td>
+                            </tr>
+                        }
+
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4">Chưa có thư viện mẫu gia phả nào, vui lòng thêm mới.</td>
+                        </tr>
+                    }
+                </tbody>
+
+
+
+
+
+            </table>
+        </div>
+
+        @if (Model != null)
+        {
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { pg = page, search = ViewBag.search }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+        }
+
+    </div>
+</div>
+@section Scripts {
+    <script>
+
+        $(document).ready(function () {
+            $("#gallery_image").change(function () {
+                readURL(this);
+            });
+
+            $('.edit_gallery').on('click', function (e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                $.ajax({
+                    url: '/gallery/editgallery?id=' + id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data) {
+                            $('legend#form_name').empty().html('Sửa mẫu gia phả ' + data.name);
+                            document.getElementById("gallery_id").value = data.id;
+                            document.getElementById("gallery_name").value = data.name;
+                            $('#blah').attr('src', data.image).show();
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+            })
+
+            $('.delete_gallery').on('click', function (e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                if (confirm('Bạn chắc chắn muốn xóa mẫu gia phả này???')) {
+                    $.ajax({
+                        url: '/gallery/deletegallery',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { id: id },
+                        success: function (data) {
+                            if (data == "1") {
+                                alert('Đã xóa mẫu gia phả này khỏi danh sách.');
+                                //$(this).closest('tr').remove();
+                                window.location.href = "/gallery/Index";
+                            }
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    })
+                }
+
+            })
+
+        })
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                if (!input.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)) {
+                    alert('Tệp bạn chọn không đúng định dạng ảnh.');
+                    return false;
+                }
+                if (!input.files[0].type.match('image.*')) {
+                    alert('Tệp bạn chọn không phải là ảnh.');
+                    return false;
+                }
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result).show();
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function save_gallery(e) {
+            e.preventDefault();
+            var $file = document.getElementById('gallery_image'),
+            $formData = new FormData();
+            if (document.getElementById("gallery_name").value === "") {
+                var _mes = 'Vui lòng nhập tên mẫu gia phả.';
+                alert(_mes);
+                document.getElementById("gallery_name").focus();
+                return false;
+            }
+
+            if ($('#blah').attr('src') == "") {
+                alert('Vui lòng chọn hình ảnh tải lên.');
+                return false;
+            }
+
+            if ($file.files.length > 0) {
+                if (!$file.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)) {
+                    alert('Tệp bạn chọn không đúng định dạng ảnh.');
+                    return false;
+                }
+                if (!$file.files[0].type.match('image.*')) {
+                    alert('Tệp bạn chọn không phải là ảnh.');
+                    return false;
+                }
+                if ($file.files.length > 0) {
+                    for (var i = 0; i < $file.files.length; i++) {
+                        $formData.append('file-' + i, $file.files[i]);
+                    }
+                }
+            }
+
+            $formData.append("id", document.getElementById("gallery_id").value);
+            $formData.append("name", document.getElementById("gallery_name").value);
+
+            document.getElementById('btnSaveGallery').innerHTML = 'Đang cập nhật thư viện...';
+            document.getElementById('btnSaveGallery').disabled = true;
+            $.ajax({
+                url: '/gallery/savegallery',
+                type: 'POST',
+                data: $formData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data) {
+
+                        document.getElementById("gallery_name").value = "";
+                        $('#blah').attr('src', "").hide();
+                        document.getElementById("gallery_image").value = "";
+                        document.getElementById('btnSaveGallery').innerHTML = 'Cập nhật';
+                        document.getElementById('btnSaveGallery').disabled = false;
+
+                        alert('Đã cập nhật thành công.');
+                        window.location.href = "/gallery/Index";
+                    }
+
+
+
+                },
+                error: function (error) {
+                    alert('Vui lòng kiểm tra lại kết nối internet, error: ' + error, 5000);
+                }
+            });
+
+
+        }
+
+
+    </script>
 }
-
-</table>
