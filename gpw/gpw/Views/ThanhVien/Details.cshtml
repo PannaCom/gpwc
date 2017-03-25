@@ -2,7 +2,7 @@
 @model gpw.Models.thanh_vien
 
 @{
-    ViewBag.Title = "Trang cá nhân ";
+    ViewBag.Title = "Trang cá nhân "+Model.ho_ten;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -81,61 +81,17 @@
                 <h3>Thống kê thành viên</h3>
             </div>
             <div class="panel-body">
-                @*@{Html.RenderAction("DsUser");}*@
-                <div class="col-md-12 item_thanhvien">
-                    <h3>Thành viên già nhất:</h3>
-                    <ul id="person_flat">
-                        <li><a href="#">Dương Trung Hiếu</a> <i>Ngày sinh: 4/11/1960</i></li>
-                    </ul>
-                </div>
-                <div class="col-md-12 item_thanhvien">
-                    <h3>Thành viên trẻ nhất:</h3>
-                    <ul id="person_flat">
-                        <li><a href="#">Dương Viết Xuân</a> <i>Ngày sinh: 23/11/2000</i></li>
-                    </ul>
-                </div>
+                @{Html.RenderAction("LoadThanhVien", "Home");}
                 <div class="col-md-12 item_thanhvien border_w0">
-                    <h3>Thành viên mới nhất:</h3>
-                    <ul id="person_flat">
-                        <li><a href="#">Dương Thị Mùi</a>, </li>
-                        <li><a href="#">Dương Văn Dần</a>, </li>
-                        <li><a href="#">Dương Thúy Mùi</a>, </li>
-                        <li><a href="#">Dương Văn Nhàn</a>, </li>
-                        <li><a href="#">Dương Thúy Nhàn</a>,</li>
-                        <li><span>...</span></li>
-                        @*<li><a href="#"><img src="~/images/person-girl-flat.png" /></a></li>*@
-                    </ul>
+                    <h3>Mẫu gia phả</h3>
+                    <a class="image-popup-vertical-fit" href="/Images/maugiapha.jpg">
+                        <img src="/Images/maugiapha0.jpg" class="img-responsive image-popup-vertical-fit" alt="Gia Phả Họ Phan" height="170">
+                    </a>
                 </div>
-
-                <a href="#" style="float: right;">Xem tất cả</a>
             </div>
         </div>
 
-        <div class="panel panel-default box_giapha">
-            <div class="panel-body">
-                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="height: 80px;">
-
-                    <!-- Wrapper for slides -->
-                    <div class="carousel-inner" role="listbox">
-                        <div class="item active">
-                            <p>Đừng so sánh mình với bất cứ ai trong thế giới này. Nếu bạn làm như vậy có nghĩa bạn đang sỉ nhục chính bản thân mình. </p>
-                            <b style="float: right; margin-top: 5px;">Bill Gates</b>
-                        </div>
-                        <div class="item">
-                            <p>Ta không được chọn nơi mình sinh ra. Nhưng ta được chọn cách mình sẽ sống.</p>
-                            <b style="float: right; margin-top: 5px;">Khuyết danh</b>
-                        </div>
-                    </div>
-
-                    <!-- Indicators -->
-                    <ol class="carousel-indicators" style="bottom: 0;">
-                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active" style="background: #333;"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="1" style="background: #333;"></li>
-                    </ol>
-                </div>
-            </div>
-
-        </div>
+        
 
     </div>
 </div>

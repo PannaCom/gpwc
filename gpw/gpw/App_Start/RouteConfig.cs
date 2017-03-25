@@ -14,9 +14,24 @@ namespace gpw
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             // Router SEO
             routes.MapRoute(
-                "daily",
+                "gioi thieu",
                 "gioi-thieu",
                 new { controller = "Home", action = "GioiThieu" }
+            );
+            routes.MapRoute(
+               "thiet ke website",
+               "thiet-ke-website-gia-pha-dong-ho",
+               new { controller = "Home", action = "ThietKeWebsite" }
+           );
+            routes.MapRoute(
+               "phan mem gia pha",
+               "phan-mem-gia-pha",
+               new { controller = "Home", action = "PhanMemGiaPha" }
+           );
+            routes.MapRoute(
+                "thiet ke gia pha",
+                "thiet-ke-gia-pha",
+                new { controller = "gallery", action = "list" }
             );
             routes.MapRoute(
                 "detail tin tuc",

@@ -11,6 +11,10 @@ using PagedList;
 using PagedList.Mvc;
 using System.IO;
 using gpw.helpers;
+using ImageProcessor.Web;
+using ImageProcessor.Processors;
+using ImageProcessor.Imaging;
+using System.Drawing;
 namespace gpw.Controllers
 {
     public class galleryController : Controller
@@ -66,7 +70,9 @@ namespace gpw.Controllers
             {
                 var originalDirectory = new DirectoryInfo(string.Format("{0}images\\gallery", Server.MapPath(@"\")));
                 string pathString = System.IO.Path.Combine(originalDirectory.ToString());
-                var _fileName = Guid.NewGuid().ToString("N") + ".jpg";
+                string basicUID = Guid.NewGuid().ToString("N");
+                var _fileName = basicUID + ".jpg";
+                var _fileName2 = basicUID + "_2.jpg";
                 bool isExists = System.IO.Directory.Exists(pathString);
                 if (!isExists)
                     System.IO.Directory.CreateDirectory(pathString);
@@ -75,6 +81,7 @@ namespace gpw.Controllers
 
                 _file.SaveAs(path);
                 fName = "/images/gallery/" + _fileName;
+                resizeImage(pathString,_fileName, _fileName2);
             }
 
             if (id == 0)
@@ -104,7 +111,38 @@ namespace gpw.Controllers
 
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+        public string smooth()
+        {
+            
+            var p = (from q in db.galleries select q).ToList();
+            for (int i = 0; i < p.Count; i++)
+            {
+                string physicalPath = HttpContext.Server.MapPath("../Images/Gallery\\");
+                string nameFile = p[i].image.Replace("/images/gallery/", "");
+                string nameFile2 = nameFile.Replace(".jpg", "_2.jpg");
+                if (!System.IO.File.Exists(physicalPath +"/"+ nameFile)) continue;
+                
+                //return resizeImage(Config.imgWidthProduct, Config.imgHeightProduct, physicalPath + nameFile, Config.ProductImagePath + "/" + nameFile);
+                ImageProcessor.ImageFactory iFF = new ImageProcessor.ImageFactory();
+                ////Tạo ra file thumbail không có watermark
+                Size size1 = new Size(255, 170);
+                iFF.Load(physicalPath + "/" + nameFile).Resize(size1).BackgroundColor(Color.WhiteSmoke).Save(physicalPath + "/" + nameFile2);
+                //iFF.Load(physicalPath + nameFile).co(Color.White).Resize(size1).Save(physicalPath + nameFile);
+            }
+            return "ok";
+        }
+        public string resizeImage(string fullPath, string path,string path2)
+        {
+            string physicalPath = fullPath;
+            string nameFile = path;
+            string nameFile2 = path2;
+            ImageProcessor.ImageFactory iFF = new ImageProcessor.ImageFactory();
+            ////Tạo ra file thumbail không có watermark
+            Size size1 = new Size(255, 170);
+            iFF.Load(physicalPath + "/" + nameFile).Resize(size1).BackgroundColor(Color.WhiteSmoke).Save(physicalPath + "/" + nameFile2);
+            return "ok";
 
+        }
         [Authorize]
         public ActionResult editgallery(int id)
         {
@@ -146,7 +184,9 @@ namespace gpw.Controllers
             }
             
             data = data.OrderByDescending(x => x.id);
-
+            ViewBag.des = "Thiết kế gia phả, phả đồ, phả hệ theo yêu cầu riêng của mỗi dòng họ, dịch vụ uy tín, chuyên nghiệp, giúp khách hàng nắm bắt những thông tin về lịch sử dòng họ của mình.";
+            ViewBag.image = "http://vietgiapha.com/images/gallery/049e5884e9f741efbcfdbac8a077063e_2.jpg";
+            ViewBag.url = Config.domain + "/thiet-ke-gia-pha";
             return View(data.ToList().ToPagedList(pageNumber, pageSize));
         }
 
@@ -253,5 +293,6 @@ namespace gpw.Controllers
             }
             base.Dispose(disposing);
         }
+        
     }
 }

@@ -169,6 +169,10 @@ namespace gpw.Controllers
         {
             return View();
         }
+        public ActionResult ThietKeWebsite()
+        {
+            return View();
+        }
         public string generateSiteMap()
         {
 
@@ -195,6 +199,21 @@ namespace gpw.Controllers
                     writer.WriteElementString("loc", "http://vietgiapha.com");
                     writer.WriteElementString("changefreq", "always");
                     writer.WriteElementString("priority", "1");
+                    writer.WriteEndElement();
+                    writer.WriteStartElement("url");
+                    writer.WriteElementString("loc", "http://vietgiapha.com/thiet-ke-gia-pha");
+                    writer.WriteElementString("changefreq", "weekly");
+                    writer.WriteElementString("priority", "0.99");
+                    writer.WriteEndElement();
+                    writer.WriteStartElement("url");
+                    writer.WriteElementString("loc", "http://vietgiapha.com/thiet-ke-website-gia-pha-dong-ho");
+                    writer.WriteElementString("changefreq", "weekly");
+                    writer.WriteElementString("priority", "0.99");
+                    writer.WriteEndElement();
+                    writer.WriteStartElement("url");
+                    writer.WriteElementString("loc", "http://vietgiapha.com/phan-mem-gia-pha");
+                    writer.WriteElementString("changefreq", "weekly");
+                    writer.WriteElementString("priority", "0.99");
                     writer.WriteEndElement();
                     //writer.WriteStartElement("url");
                     //writer.WriteElementString("loc", "http://vietgiapha.com/gioi-thieu");

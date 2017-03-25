@@ -12,8 +12,6 @@
         float:left;
         top:20%;
     }
-    
-    
 
 </style>
 
@@ -93,10 +91,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="hideShareLink();">×</button>
-                <h4 class="modal-title" id="modal_sharesocialLabel">Sao chép liên kết bên dưới vào khay nhớ tạm thời của bạn để chia sẻ những kết quả này</h4>
+                <h4 class="modal-title" id="modal_sharesocialLabel">Đường dẫn bên dưới là địa chỉ chia sẻ, bạn có thể gửi cho người khác qua email hoặc paste lên mạng xã hội </h4>
             </div>
             <textarea id="holdtext" class="holdtext" style="display:none;"></textarea>
-            <div class="modal-body"><form id="frmShareLink"><div class="form-horizontal"><div class="form-group"><div class="input-group"><input class="form-control" id="inputShareLink" name="inputShareLink"  type="text" style="width:80%;" value="http://vietgiapha.com/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id"><span class="input-group-btn"><button type="button" class="btn btn-default" id="btnShareLink" ><i class="fa fa-copy"></i></button></span></div></div></div></form></div>
+            <div class="modal-body"><form id="frmShareLink"><div class="form-horizontal"><div class="form-group"><div class="input-group"><input class="form-control" id="inputShareLink" name="inputShareLink" type="text" style="width:80%;" value="http://vietgiapha.com/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=@ViewBag.dir&depth=@ViewBag.depth"><span class="input-group-btn"><button type="button" class="btn btn-default" id="btnShareLink" ><i class="fa fa-copy"></i></button></span></div></div></div></form></div>
 
         </div>
     </div>

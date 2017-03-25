@@ -2,6 +2,17 @@
     ViewBag.title = "Cây gia phả - Phả hệ phả đồ " + ViewBag.title_des;
     Layout = "~/Views/Shared/_LayoutBlank.cshtml";
 }
+<style>
+    .modal {
+        background-color: #00ff21;
+        width: 80%;
+        position: fixed;
+        left: 10%;
+        display: none;
+        float: left;
+        top: 20%;
+    }
+</style>
 @*<link rel="stylesheet" href="/Scripts/tree/font-awesome.min.css">*@
 <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="/Scripts/tree/dist/css/jquery.orgchart.css">
@@ -33,6 +44,8 @@
     <i class="fa fa-star"></i>
     <a href="/">Về trang chủ</a>
     <i class="fa fa-star"></i>    
+    <a href="#" onclick="showShareLink();">Chia sẻ link</a>
+    <i class="fa fa-star"></i>
     Kiểu hiển thị: <a href="/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=l2r">Từ trái qua phải</a>
     <i class="fa fa-star"></i>
     <a href="/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=r2l">Từ phải qua trái</a>
@@ -43,6 +56,19 @@
     <i class="fa fa-star"></i>
     <a href="/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=@ViewBag.dir&depth=114">Phóng to gia phả</a>
     <i class="fa fa-star"></i>
+</div>
+<div class="modal fade" id="modal_sharesocial" tabindex="-1" role="dialog" aria-labelledby="modal_sharesocialLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="hideShareLink();">×</button>
+                <h4 class="modal-title" id="modal_sharesocialLabel">Đường dẫn bên dưới là địa chỉ chia sẻ, bạn có thể gửi cho người khác qua email hoặc paste lên mạng xã hội </h4>
+            </div>
+            <textarea id="holdtext" class="holdtext" style="display:none;"></textarea>
+            <div class="modal-body"><form id="frmShareLink"><div class="form-horizontal"><div class="form-group"><div class="input-group"><input class="form-control" id="inputShareLink" name="inputShareLink" type="text" style="width:80%;" value="http://vietgiapha.com/GiaPha/Share?user_id=@ViewBag.user_id&group_id=@ViewBag.group_id&dir=@ViewBag.dir&depth=@ViewBag.depth"><span class="input-group-btn"><button type="button" class="btn btn-default" id="btnShareLink"><i class="fa fa-copy"></i></button></span></div></div></div></form></div>
+
+        </div>
+    </div>
 </div>
 <script type="text/javascript" src="/Scripts/tree/jquery-3.1.0.min.js"></script>
 <script type="text/javascript" src="/Scripts/tree/html2canvas.min.js"></script>
@@ -126,5 +152,24 @@
 
 })(jQuery);
     //document.getElementById("rd-edit").checked=true;
+    var copyTextareaBtn = document.querySelector('#btnShareLink');
+    copyTextareaBtn.addEventListener('click', function (event) {
+        var copyTextarea = document.querySelector('#inputShareLink');
+        copyTextarea.select();
 
+        try {
+            var successful = document.execCommand('copy');
+            var msg = successful ? 'Đã sao chép để chia sẻ' : 'unsuccessful';
+            notifysucc(msg);
+        } catch (err) {
+            console.log('Oops, unable to copy');
+        }
+    });
+
+    function showShareLink(){
+        $("#modal_sharesocial").show();
+    }
+    function hideShareLink(){
+        $("#modal_sharesocial").hide();
+    }
 </script>
