@@ -1,0 +1,37 @@
+﻿@model PagedList.IPagedList<gpw.Models.gallery>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Mẫu phả đồ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row" style="background: #fff;">
+    <div class="page-header">
+        <h1 class="text-center" style="color: red;">Mẫu gia phả</h1>
+    </div>
+</div>
+
+<div class="row" style="background: #fff;">
+    <div class="col-md-12">
+
+        <div id="gallery_giapha">
+
+            @if (Model != null)
+            {
+                foreach (var item in @Model)
+                {
+                    <div class="col-sm-6 col-md-3">
+                        <a href="@item.image" class="thumbnail item_maugiapha">
+                            <img src="@item.image" alt="@item.name" class="img_show">
+                            <div class="caption">
+                                <h3>@item.name</h3>
+                            </div>
+                        </a>
+                    </div>
+                }
+            }
+
+        </div>
+
+    </div>
+</div>
