@@ -7218,3 +7218,23 @@ button.close {
     }
 }
 /*# sourceMappingURL=bootstrap.min.css.map */
+@media only screen and (max-width: 360px)  {
+    img{
+        max-width:320px;
+    }
+}
+@media only screen and (max-width: 414px)  {
+    img{
+        max-width:400px;
+    }
+}
+@media only screen and (max-width: 375px)  {
+    img{
+        max-width:360px;
+    }
+}
+@media only screen and (max-width: 320px)  {
+    img{
+        max-width:305px;
+    }
+}
