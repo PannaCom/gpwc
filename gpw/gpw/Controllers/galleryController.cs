@@ -48,6 +48,7 @@ namespace gpw.Controllers
             return View(data.ToList().ToPagedList(pageNumber, pageSize));
         }
 
+		[Authorize]
         [HttpPost]
         public ActionResult savegallery(HttpPostedFileBase _file, int id, string name)
         {
