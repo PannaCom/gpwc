@@ -14,6 +14,7 @@ using System.IO;
 using gpw.helpers;
 using PagedList;
 using PagedList.Mvc;
+using System.Drawing;
 
 namespace gpw.Controllers
 {
@@ -319,6 +320,16 @@ namespace gpw.Controllers
                         //bm.Save(path, ici, ep);
                         //bm.Save(path);
                         file.SaveAs(path);
+                        FileInfo f2 = new FileInfo(path);
+                        if (f2.Length > 100000) {
+                            int percent = 50;
+                            if (f2.Length > 1000000) percent = 10;
+                            else
+                                if (f2.Length > 500000) percent = 20;
+                                else if (f2.Length > 300000) percent = 30;
+                            ImageProcessor.ImageFactory iFF = new ImageProcessor.ImageFactory();
+                            iFF.Load(path).Quality(percent).Save(path);
+                        }
                         fName = "/images/news/" + strDay + "/" + _fileName;
                     }
                 }
@@ -329,7 +340,51 @@ namespace gpw.Controllers
             }
             return Json(new { Message = fName }, JsonRequestBehavior.AllowGet);
         }
+        public string smooth()
+        {
 
+            var p = (from q in db.news select q).ToList();
+            for (int i = 0; i < p.Count; i++)
+            {
+                string physicalPath = HttpContext.Server.MapPath("../Images/news\\");
+                string nameFile = p[i].new_img.Replace("/images/news/", "");
+                if (!System.IO.File.Exists(physicalPath + "/" + nameFile)) continue;
+
+                //return resizeImage(Config.imgWidthProduct, Config.imgHeightProduct, physicalPath + nameFile, Config.ProductImagePath + "/" + nameFile);
+                
+                FileInfo f2 = new FileInfo(physicalPath + "/" + nameFile);
+                if (f2.Length > 100000)
+                {
+                    int percent = 50;
+                    if (f2.Length > 1000000) percent = 10;
+                    else
+                    if (f2.Length > 500000) percent = 20;
+                    else if (f2.Length > 300000) percent = 30;
+                    ImageProcessor.ImageFactory iFF = new ImageProcessor.ImageFactory();
+                    //int depth = (int)(f2.Length / 90000);
+                    //float need = (float)((f2.Length - (depth * 90000)) / f2.Length);
+                    //float percent = 1 - need;
+                    iFF.Load(physicalPath + "/" + nameFile).Quality(percent).Save(physicalPath + nameFile);
+                }
+                ////Tạo ra file thumbail không có watermark
+                //Size size1 = new Size(255, 170);
+                //iFF.Load(physicalPath + "/" + nameFile).Resize(size1).BackgroundColor(Color.WhiteSmoke).Save(physicalPath + "/" + nameFile);
+                //iFF.Load(physicalPath + nameFile).co(Color.White).Resize(size1).Save(physicalPath + nameFile);
+            }
+            return "ok";
+        }
+        //public string resizeImage(string fullPath, string path, string path2)
+        //{
+        //    string physicalPath = fullPath;
+        //    string nameFile = path;
+        //    string nameFile2 = path2;
+        //    ImageProcessor.ImageFactory iFF = new ImageProcessor.ImageFactory();
+        //    ////Tạo ra file thumbail không có watermark
+        //    Size size1 = new Size(255, 170);
+        //    iFF.Load(physicalPath + "/" + nameFile).Resize(size1).BackgroundColor(Color.WhiteSmoke).Save(physicalPath + "/" + nameFile2);
+        //    return "ok";
+
+        //}
         [AllowAnonymous]
         public ActionResult tin(string url, int? pg)
         {
