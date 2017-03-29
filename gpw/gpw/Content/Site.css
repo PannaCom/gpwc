@@ -10,16 +10,16 @@
     /* height: 310px; */
     /* width: 100%; */
     /* text-align: center; */
-    margin: 38px auto;
+    margin: 0 auto;
 }
 
     .logo img {
-        width: 264px;
-        height: auto;
-        position: absolute;
-        z-index: 9999;
-        top: 6px;
-        left: 1px;
+    width: 170px;
+    height: auto;
+    position: absolute;
+    z-index: 9999;
+    top: 30px;
+    left: 50px;
     }
 
 .trongdong {
@@ -29,10 +29,11 @@
     -o-animation: xoayanh 30s infinite linear;
     -webkit-animation: xoayanh 30s infinite linear;
     animation: xoayanh 30s infinite linear;
-    width: 280px;
-    height: 280px;
+        width: 160px;
+    height: 160px;
     position: absolute;
-    top: -25px;
+    top: 9px;
+    left: 61px;
     border-radius: 50%;
 }
 
@@ -118,7 +119,7 @@
 @media(min-width: 763px) {
 
     #header {
-        height: 310px;
+        height: 50%;
     }
 
     .item_new_top {
