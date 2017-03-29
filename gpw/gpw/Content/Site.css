@@ -19,7 +19,7 @@
     position: absolute;
     z-index: 9999;
     top: 30px;
-    left: 50px;
+    left: 10px;
     }
 
 .trongdong {
@@ -33,7 +33,7 @@
     height: 160px;
     position: absolute;
     top: 9px;
-    left: 61px;
+    left: 19px;
     border-radius: 50%;
 }
 
