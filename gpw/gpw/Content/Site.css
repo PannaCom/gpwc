@@ -119,7 +119,8 @@
 @media(min-width: 763px) {
 
     #header {
-        height: 50%;
+           height: 100%;
+    max-height: 173px;
     }
 
     .item_new_top {
