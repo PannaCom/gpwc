@@ -35,7 +35,7 @@ namespace gpw.Controllers
             return View();
         }
 
-        [Authorize]
+        //[Authorize]
         public ActionResult Search(string keyword, int? pg)
         {
             int pageSize = 25;
@@ -43,16 +43,16 @@ namespace gpw.Controllers
             int pageNumber = (pg ?? 1);
             ViewBag.pg = pg;
             if (keyword == null) keyword = "";
-            
-            string sql = "SELECT t1.Id as id, ho_ten as ho_ten, dia_chi as dia_chi, hinh_anh as hinh_anh, Email as email, PhoneNumber as phone_number from users t1 join thong_tin_user t2 on t1.Id = t2.user_id";
+            ViewBag.keyword = keyword;
+            string sql = "select * from news where new_title like N'%" + keyword + "%' or new_des like N'%" + keyword + "%'";
 
-            if (keyword != null && keyword != "")
-            {
-                ViewBag.keyword = keyword;
-                sql += " where t1.Email like '%" + keyword + "%'" + " or t1.PhoneNumber like '%" + keyword + "%'";
-            }
+            //if (keyword != null && keyword != "")
+            //{
+            //    ViewBag.keyword = keyword;
+            //    sql += " where t1.Email like '%" + keyword + "%'" + " or t1.PhoneNumber like '%" + keyword + "%'";
+            //}
 
-            var data = db.Database.SqlQuery<ListUser>(sql).ToList();
+            var data = db.Database.SqlQuery<news>(sql).ToList();
 
             return View(data.ToPagedList(pageNumber, pageSize));
         }
@@ -170,6 +170,10 @@ namespace gpw.Controllers
             return View();
         }
         public ActionResult ThietKeWebsite()
+        {
+            return View();
+        }
+        public ActionResult HuongDan()
         {
             return View();
         }

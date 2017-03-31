@@ -9,12 +9,12 @@
 @if (configs.getCookie("thanhvien_id") != "")
 {
     <li>
-        @Html.ActionLink("Thành viên " + thanh_vien, "Details", "ThanhVien", routeValues: new { id = configs.getCookie("thanhvien_id") }, htmlAttributes: new { title = "Trang cá nhân" })
+        @Html.ActionLink(thanh_vien, "Details", "ThanhVien", routeValues: new { id = configs.getCookie("thanhvien_id") }, htmlAttributes: new { title = "Trang cá nhân",style="color:yellow;" })
     </li>
     <li><a href="/ThanhVien/DangXuat">Đăng xuất</a></li>
 }
 else
 {
-    <li>@Html.ActionLink("Đăng ký Tạo gia phả", "Create", "ThanhVien", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-    <li>@Html.ActionLink("Đăng nhập thành viên", "Login", "ThanhVien", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    <li>@Html.ActionLink("Tạo gia phả", "Create", "ThanhVien", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+    <li>@Html.ActionLink("Đăng nhập", "Login", "ThanhVien", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
 }

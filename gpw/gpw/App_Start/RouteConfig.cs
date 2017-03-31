@@ -29,6 +29,11 @@ namespace gpw
                new { controller = "Home", action = "PhanMemGiaPha" }
            );
             routes.MapRoute(
+              "huong dan phan mem gia pha",
+              "huong-dan-su-dung-phan-mem-gia-pha",
+              new { controller = "Home", action = "HuongDan" }
+          );
+            routes.MapRoute(
                 "thiet ke gia pha",
                 "thiet-ke-gia-pha",
                 new { controller = "gallery", action = "list" }
