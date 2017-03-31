@@ -186,6 +186,20 @@
           <Property Name="status" Type="int" />
           <Property Name="title" Type="nvarchar" MaxLength="251" />
         </EntityType>
+        <EntityType Name="user_news">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="251" />
+          <Property Name="des" Type="nvarchar" MaxLength="1688" />
+          <Property Name="full_content" Type="ntext" />
+          <Property Name="status" Type="int" />
+          <Property Name="date_time" Type="datetime" />
+          <Property Name="user_id" Type="bigint" />
+          <Property Name="user_name" Type="nvarchar" MaxLength="251" />
+          <Property Name="tags" Type="nvarchar" MaxLength="688" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="Id" />
@@ -219,6 +233,7 @@
           <EntitySet Name="thanh_vien" EntityType="Self.thanh_vien" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_business" EntityType="Self.user_business" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_family_tree" EntityType="Self.user_family_tree" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_news" EntityType="Self.user_news" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -242,6 +257,7 @@
           <EntitySet Name="businesses" EntityType="gpwModel.business" />
           <EntitySet Name="user_business" EntityType="gpwModel.user_business" />
           <EntitySet Name="galleries" EntityType="gpwModel.gallery" />
+          <EntitySet Name="user_news" EntityType="gpwModel.user_news" />
         </EntityContainer>
         <EntityType Name="cat">
           <Key>
@@ -440,6 +456,20 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
           <Property Name="image" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="user_news">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
+          <Property Name="des" Type="String" MaxLength="1688" FixedLength="false" Unicode="true" />
+          <Property Name="full_content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="date_time" Type="DateTime" Precision="3" />
+          <Property Name="user_id" Type="Int64" />
+          <Property Name="user_name" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
+          <Property Name="tags" Type="String" MaxLength="688" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -657,6 +687,21 @@
               <MappingFragment StoreEntitySet="gallery">
                 <ScalarProperty Name="image" ColumnName="image" />
                 <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_news">
+            <EntityTypeMapping TypeName="gpwModel.user_news">
+              <MappingFragment StoreEntitySet="user_news">
+                <ScalarProperty Name="tags" ColumnName="tags" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="full_content" ColumnName="full_content" />
+                <ScalarProperty Name="des" ColumnName="des" />
+                <ScalarProperty Name="title" ColumnName="title" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

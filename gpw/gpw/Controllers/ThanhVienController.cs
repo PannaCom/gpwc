@@ -53,6 +53,26 @@ namespace gpw.Controllers
             var quan_he = db.giapha_des.Where(x => x.thanhvien_id == thanhvien_id && x.status==0).Select(x => x).ToList();
             return View(quan_he.ToPagedList(pageNumber, pageSize));
         }
+        //public ActionResult VietBai(long? id)
+        //{
+        //    try { 
+        //        string thanhvien_id = configs.getCookie("thanhvien_id");             
+        //        if (thanhvien_id == null || thanhvien_id=="") return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+        //    }
+        //    user_news p = db.user_news.Find(id);
+        //    if (p != null)
+        //    {
+        //        ViewBag.title = p.title;
+        //        ViewBag.des = p.des;
+        //        ViewBag.full_content = p.full_content;
+
+
+        //    }
+        //}
         // GET: ThanhVien/Details/5
         public ActionResult Details(long? id)
         {

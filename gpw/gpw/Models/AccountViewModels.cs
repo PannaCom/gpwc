@@ -229,7 +229,7 @@ namespace gpw.Models
         //public IEnumerable<System.Web.Mvc.SelectListItem> cats_all_name { get; set; }
         public string cats_name { get; set; }
         [Display(Name = "Quê quán")]
-        [Required(ErrorMessage = "Vui lòng nhập quê quán.")]
+        //[Required(ErrorMessage = "Vui lòng nhập quê quán.")]
         //public IEnumerable<System.Web.Mvc.SelectListItem> cats_all_name { get; set; }
         public string que_quan { get; set; }
     }
