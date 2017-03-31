@@ -1,0 +1,31 @@
+﻿@model gpw.Models.user_news
+
+@{
+    ViewBag.Title = "Xóa bài viết";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row" style="background: #fff;">
+
+
+
+    <h2>@ViewBag.Title</h2>
+    @if (Model != null)
+    {
+        <p>@Model.title</p>
+    }
+    <h3>Bạn có muốn xóa bài viết này?</h3>
+    <div>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Xác nhận xóa" class="btn btn-default" /> |
+                @Html.ActionLink("Trở lại danh sách bài viết", "VietBai")
+            </div>
+        }
+    </div>
+
+</div>

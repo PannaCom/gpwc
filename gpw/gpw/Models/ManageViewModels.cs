@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using System;
 
 namespace gpw.Models
 {
@@ -92,6 +93,5 @@ namespace gpw.Models
         public string email { get; set; }
         public string phone_number { get; set; }
     }
-
 
 }

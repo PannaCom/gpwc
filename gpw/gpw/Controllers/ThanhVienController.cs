@@ -12,6 +12,7 @@ using System.IO;
 using Newtonsoft.Json;
 using PagedList;
 using PagedList.Mvc;
+using System.Drawing;
 
 namespace gpw.Controllers
 {
@@ -640,6 +641,338 @@ namespace gpw.Controllers
             }
 
             return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult VietBai(int? pg, string search)
+        {
+            if (configs.getCookie("thanhvien_id") == "") return RedirectToAction("Login");
+            var thanhvien_id = configs.getCookie("thanhvien_id");
+
+            long? _id = 0;
+            try
+            {
+                _id = Convert.ToInt64(configs.getCookie("thanhvien_id"));
+            }
+            catch { }
+
+            var data = (from s in db.user_news where s.user_id == _id orderby s.id descending select s).ToList();
+
+            int pageSize = 25;
+            if (pg == null) pg = 1;
+            int pageNumber = (pg ?? 1);
+            ViewBag.pg = pg;
+
+            
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                search = search.Trim();
+                data = data.Where(x => x.title.Contains(search)).ToList();
+                ViewBag.search = search;
+            }
+
+            return View(data.ToPagedList(pageNumber, pageSize));
+        }
+
+        public ActionResult AddNew()
+        {
+            if (configs.getCookie("thanhvien_id") == "") return RedirectToAction("Login");
+            var thanhvien_id = configs.getCookie("thanhvien_id");
+
+            long? _id = 0;
+            try
+            {
+                _id = Convert.ToInt64(configs.getCookie("thanhvien_id"));
+            }
+            catch { }
+            var _thanhvien = db.thanh_vien.Find(_id);
+            if (_thanhvien == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.trang_thai = new List<SelectListItem>() {
+                new SelectListItem() { Value = "1", Text = "Công khai" },
+                new SelectListItem() { Value = "0", Text = "Lưu Nháp" }
+            };
+
+            return View();
+        }
+
+        [HttpPost, ValidateInput(false)]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddNew(user_news_model model, HttpPostedFileBase _file)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["error"] = "Vui lòng kiểm tra lại các trường.";
+                return RedirectToAction("AddNew");
+            }
+
+            var thanhvien_id = configs.getCookie("thanhvien_id");
+
+            long? _id = 0;
+            try
+            {
+                _id = Convert.ToInt64(configs.getCookie("thanhvien_id"));
+            }
+            catch { }
+            var _thanhvien = db.thanh_vien.Find(_id);
+            if (_thanhvien == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            try
+            {
+                string fName = null;
+                string fNamethumb = null;
+                if (Request.Files.Count > 0)
+                {
+                    foreach (string file in Request.Files)
+                    {
+                        _file = Request.Files[file];
+                    }
+                }
+                //Save file content goes here
+                if (_file != null && _file.ContentLength > 0)
+                {
+                    var originalDirectory = new DirectoryInfo(string.Format("{0}images\\user_new", Server.MapPath(@"\")));
+                    string pathString = System.IO.Path.Combine(originalDirectory.ToString());
+                    string basicUID = Guid.NewGuid().ToString("N");
+                    var _fileName = basicUID + ".jpg";
+                    var _fileName2 = basicUID + "_thumb.jpg";
+                    bool isExists = System.IO.Directory.Exists(pathString);
+                    if (!isExists)
+                        System.IO.Directory.CreateDirectory(pathString);
+
+                    var path = string.Format("{0}\\{1}", pathString, _fileName);
+                    var pathThumb = string.Format("{0}\\{1}", pathString, _fileName2);
+
+                    // Lưu ảnh gốc
+                    _file.SaveAs(path);
+                    fName = "/images/user_new/" + _fileName;
+
+                    // Lưu ảnh thumb
+                    System.Drawing.Image bm = System.Drawing.Image.FromStream(_file.InputStream);
+                    // Thay đổi kích thước ảnh
+                    bm = ResizeBitmap((Bitmap)bm, 255, 177); /// new width, height
+                    bm.Save(pathThumb);
+
+                    fNamethumb = "/images/user_new/" + _fileName2;
+
+                }
+
+                user_news addnew = new user_news();
+                addnew.title = model.title ?? null;
+                addnew.des = model.des ?? null;
+                addnew.full_content = model.full_content ?? null;
+                addnew.date_time = DateTime.Now;
+                addnew.user_id = _thanhvien.id;
+                addnew.user_name = _thanhvien.email;
+                addnew.status = model.status ?? null;
+                addnew.tags = model.tags ?? null;
+                addnew.img = fName ?? null;
+                addnew.imgthumb = fNamethumb ?? null;
+                db.user_news.Add(addnew);
+                db.SaveChanges();
+
+                TempData["update"] = "Thêm bài viết thành công";
+            }
+            catch
+            {
+                TempData["error"] = "Vui lòng kiểm tra lại các trường.";
+                return RedirectToAction("AddNew");
+            }
+
+            return RedirectToAction("VietBai");
+        }
+
+        private Bitmap ResizeBitmap(Bitmap b, int nWidth, int nHeight)
+        {
+            Bitmap result = new Bitmap(nWidth, nHeight);
+            using (Graphics g = Graphics.FromImage((System.Drawing.Image)result))
+                g.DrawImage(b, 0, 0, nWidth, nHeight);
+            return result;
+        }
+
+        public ActionResult EditNew(long? id)
+        {
+            if (configs.getCookie("thanhvien_id") == "") return RedirectToAction("Login");
+            var thanhvien_id = configs.getCookie("thanhvien_id");
+
+            long? _id = 0;
+            try
+            {
+                _id = Convert.ToInt64(configs.getCookie("thanhvien_id"));
+            }
+            catch { }
+            var _thanhvien = db.thanh_vien.Find(_id);
+            if (_thanhvien == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.trang_thai = new List<SelectListItem>() {
+                new SelectListItem() { Value = "1", Text = "Công khai" },
+                new SelectListItem() { Value = "0", Text = "Lưu Nháp" }
+            };
+                
+            var editnew = db.user_news.Find(id);
+            if (editnew == null)
+            {
+                return RedirectToAction("VietBai");
+            }
+            if (editnew.user_id != _thanhvien.id)
+            {
+                return RedirectToAction("VietBai");
+            }
+
+            var data = new user_news_model()
+            {
+                id = editnew.id,
+                img = editnew.img,
+                des = editnew.des,
+                full_content = editnew.full_content,
+                status = editnew.status,
+                tags = editnew.tags,
+                title = editnew.title
+            };
+            return View(data);
+
+        }
+
+
+        [HttpPost, ValidateInput(false)]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditNew(user_news_model model, HttpPostedFileBase _file)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["error"] = "Vui lòng kiểm tra lại các trường.";
+                return RedirectToAction("AddNew");
+            }
+
+            var thanhvien_id = configs.getCookie("thanhvien_id");
+
+            long? _id = 0;
+            try
+            {
+                _id = Convert.ToInt64(configs.getCookie("thanhvien_id"));
+            }
+            catch { }
+            var _thanhvien = db.thanh_vien.Find(_id);
+            if (_thanhvien == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            try
+            {
+                string fName = null;
+                string fNamethumb = null;
+                if (Request.Files.Count > 0)
+                {
+                    foreach (string file in Request.Files)
+                    {
+                        _file = Request.Files[file];
+                    }
+                }
+                //Save file content goes here
+                if (_file != null && _file.ContentLength > 0)
+                {
+                    var originalDirectory = new DirectoryInfo(string.Format("{0}images\\user_new", Server.MapPath(@"\")));
+                    string pathString = System.IO.Path.Combine(originalDirectory.ToString());
+                    string basicUID = Guid.NewGuid().ToString("N");
+                    var _fileName = basicUID + ".jpg";
+                    var _fileName2 = basicUID + "_thumb.jpg";
+                    bool isExists = System.IO.Directory.Exists(pathString);
+                    if (!isExists)
+                        System.IO.Directory.CreateDirectory(pathString);
+
+                    var path = string.Format("{0}\\{1}", pathString, _fileName);
+                    var pathThumb = string.Format("{0}\\{1}", pathString, _fileName2);
+
+                    // Lưu ảnh gốc
+                    _file.SaveAs(path);
+                    fName = "/images/user_new/" + _fileName;
+
+                    // Lưu ảnh thumb
+                    System.Drawing.Image bm = System.Drawing.Image.FromStream(_file.InputStream);
+                    // Thay đổi kích thước ảnh
+                    bm = ResizeBitmap((Bitmap)bm, 255, 177); /// new width, height
+                    bm.Save(pathThumb);
+
+                    fNamethumb = "/images/user_new/" + _fileName2;
+
+                }
+
+                var editnew = db.user_news.Find(model.id);
+                editnew.title = model.title ?? null;
+                editnew.des = model.des ?? null;
+                editnew.full_content = model.full_content ?? null;
+                editnew.date_edit = DateTime.Now;
+                editnew.status = model.status ?? null;
+                editnew.tags = model.tags ?? null;
+                if (fName != null)
+                {
+                    editnew.img = fName ?? null;
+                }
+                if (fNamethumb != null)
+                {
+                    editnew.imgthumb = fNamethumb ?? null;
+                }
+                db.Entry(editnew).State = EntityState.Modified;
+                db.SaveChanges();
+
+                TempData["update"] = "Cập nhật bài viết thành công";
+            }
+            catch
+            {
+                TempData["error"] = "Vui lòng kiểm tra lại các trường.";
+                return RedirectToAction("EditNew", new { id = model.id });
+            }
+
+            return RedirectToAction("VietBai");
+        }
+
+        public ActionResult DeleteNew(long? id)
+        {
+            if (configs.getCookie("thanhvien_id") == "") return RedirectToAction("Login");
+            var thanhvien_id = configs.getCookie("thanhvien_id");
+
+            long? _id = 0;
+            try
+            {
+                _id = Convert.ToInt64(configs.getCookie("thanhvien_id"));
+            }
+            catch { }
+            var _thanhvien = db.thanh_vien.Find(_id);
+            if (_thanhvien == null)
+            {
+                return RedirectToAction("Login");
+            }
+            var editnew = db.user_news.Find(id);
+            if (editnew == null)
+            {
+                return RedirectToAction("VietBai");
+            }
+            if (editnew.user_id != _thanhvien.id)
+            {
+                return RedirectToAction("VietBai");
+            }
+
+            return View(editnew);
+        }
+
+        // POST: News/Delete/5
+        [HttpPost, ActionName("DeleteNew")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteNewConfirmed(long id)
+        {
+            var news = db.user_news.Find(id);
+            db.user_news.Remove(news);
+            db.SaveChanges();
+            return RedirectToAction("VietBai");
         }
 
     }

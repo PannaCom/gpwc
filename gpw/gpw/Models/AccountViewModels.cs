@@ -265,4 +265,29 @@ namespace gpw.Models
         public Nullable<double> qq_lon { get; set; }
         public Nullable<double> qq_lat { get; set; }
     }
+
+    public class user_news_model
+    {
+        public long id { get; set; }
+        [Display(Name = "Tiêu đề tin")]
+        [Required(ErrorMessage = "Vui lòng nhập tiêu đề tin.")]
+        public string title { get; set; }
+
+        [Display(Name = "Mô tả")]
+        public string des { get; set; }
+
+        [Required(ErrorMessage = "Vui lòng nhập nội dung tin.")]
+        [Display(Name = "Nội dung tin")]
+        public string full_content { get; set; }
+
+        [Display(Name = "Tag")]
+        public string tags { get; set; }
+
+        [Display(Name = "Hình ảnh")]
+        public string img { get; set; }
+
+        [Required(ErrorMessage = "Vui lòng nhập trạng thái.")]
+        [Display(Name = "Trạng thái")]
+        public int? status { get; set; }
+    }
 }

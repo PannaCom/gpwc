@@ -12,19 +12,12 @@ namespace gpw.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class user_news
+    public partial class friends_mobile
     {
         public long id { get; set; }
-        public string title { get; set; }
-        public string des { get; set; }
-        public string full_content { get; set; }
+        public string number_1 { get; set; }
+        public string number_2 { get; set; }
         public Nullable<int> status { get; set; }
         public Nullable<System.DateTime> date_time { get; set; }
-        public Nullable<long> user_id { get; set; }
-        public string user_name { get; set; }
-        public string tags { get; set; }
-        public string img { get; set; }
-        public string imgthumb { get; set; }
-        public Nullable<System.DateTime> date_edit { get; set; }
     }
 }

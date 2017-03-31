@@ -2,7 +2,7 @@
 @model gpw.Models.thanh_vien
 
 @{
-    ViewBag.Title = "Trang cá nhân "+Model.ho_ten;
+    ViewBag.Title = "Trang cá nhân " + Model.ho_ten;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,11 +11,11 @@
 }
 
 @*@{
-    if (configs.getCookie("ten_thanh_vien") != "")
-    {
-        ViewBag.Title += configs.getCookie("ten_thanh_vien");
-    }
-}*@
+        if (configs.getCookie("ten_thanh_vien") != "")
+        {
+            ViewBag.Title += configs.getCookie("ten_thanh_vien");
+        }
+    }*@
 
 
 <div class="row section_1" style="background: #fff;">
@@ -23,13 +23,15 @@
         <div class="page-header">
             <h1>@ViewBag.Title</h1>
         </div>
-        @if (ViewBag.isAdmin==1)
+        @if (ViewBag.isAdmin == 1)
         {
             <p>
-                @Html.ActionLink("Sửa thông tin cá nhân", "Edit", new { id = Model.id }) | <a href="/ThanhVien/CayGiaPha?thanhvien_id=@Model.id">Khai báo gia phả</a>
+                @Html.ActionLink("Sửa thông tin cá nhân", "Edit", new { id = Model.id }) |
+                <a href="/ThanhVien/CayGiaPha?thanhvien_id=@Model.id">Khai báo gia phả</a>
+                | <a href="/ThanhVien/VietBai">Viết bài</a>
             </p>
         }
-        
+
         @if (Model != null)
         {
             <div class="thumbnail">
@@ -42,7 +44,7 @@
                     <p>Ngày sinh: @string.Format("{0:dd/MM/yyyy}", @Model.ngay_sinh)</p>
                 </div>
             </div>
-            
+
             { Html.RenderAction("LoadThanhVien", "ThanhVien", new { id = Model.id }); }
         }
 
@@ -91,8 +93,7 @@
             </div>
         </div>
 
-        
+
 
     </div>
 </div>
-

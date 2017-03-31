@@ -41,6 +41,8 @@ namespace gpw.Models
         public virtual DbSet<business> businesses { get; set; }
         public virtual DbSet<user_business> user_business { get; set; }
         public virtual DbSet<gallery> galleries { get; set; }
+        public virtual DbSet<friends_mobile> friends_mobile { get; set; }
+        public virtual DbSet<user_family_tree_mobile> user_family_tree_mobile { get; set; }
         public virtual DbSet<user_news> user_news { get; set; }
     }
 }

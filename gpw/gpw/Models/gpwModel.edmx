@@ -39,6 +39,16 @@
           <Property Name="quan_he_id" Type="int" />
           <Property Name="do_sau" Type="int" />
         </EntityType>
+        <EntityType Name="friends_mobile">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="number_1" Type="nvarchar" MaxLength="50" />
+          <Property Name="number_2" Type="nvarchar" MaxLength="50" />
+          <Property Name="status" Type="int" />
+          <Property Name="date_time" Type="datetime" />
+        </EntityType>
         <EntityType Name="gallery">
           <Key>
             <PropertyRef Name="id" />
@@ -186,6 +196,20 @@
           <Property Name="status" Type="int" />
           <Property Name="title" Type="nvarchar" MaxLength="251" />
         </EntityType>
+        <EntityType Name="user_family_tree_mobile">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="phone_id" Type="bigint" />
+          <Property Name="name_node" Type="nvarchar" MaxLength="251" />
+          <Property Name="id_node" Type="int" />
+          <Property Name="parent_id_node" Type="int" />
+          <Property Name="group_id" Type="bigint" />
+          <Property Name="date_time" Type="datetime" />
+          <Property Name="status" Type="int" />
+          <Property Name="title" Type="nvarchar" MaxLength="251" />
+        </EntityType>
         <EntityType Name="user_news">
           <Key>
             <PropertyRef Name="id" />
@@ -199,6 +223,9 @@
           <Property Name="user_id" Type="bigint" />
           <Property Name="user_name" Type="nvarchar" MaxLength="251" />
           <Property Name="tags" Type="nvarchar" MaxLength="688" />
+          <Property Name="img" Type="nvarchar" MaxLength="251" />
+          <Property Name="imgthumb" Type="nvarchar" MaxLength="251" />
+          <Property Name="date_edit" Type="datetime" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -222,6 +249,7 @@
           <EntitySet Name="cats" EntityType="Self.cats" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="cats_all_name" EntityType="Self.cats_all_name" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="friends" EntityType="Self.friends" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="friends_mobile" EntityType="Self.friends_mobile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="gallery" EntityType="Self.gallery" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="gia_pha" EntityType="Self.gia_pha" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="giapha_des" EntityType="Self.giapha_des" Schema="dbo" store:Type="Tables" />
@@ -233,6 +261,7 @@
           <EntitySet Name="thanh_vien" EntityType="Self.thanh_vien" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_business" EntityType="Self.user_business" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_family_tree" EntityType="Self.user_family_tree" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_family_tree_mobile" EntityType="Self.user_family_tree_mobile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_news" EntityType="Self.user_news" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
@@ -257,6 +286,8 @@
           <EntitySet Name="businesses" EntityType="gpwModel.business" />
           <EntitySet Name="user_business" EntityType="gpwModel.user_business" />
           <EntitySet Name="galleries" EntityType="gpwModel.gallery" />
+          <EntitySet Name="friends_mobile" EntityType="gpwModel.friends_mobile" />
+          <EntitySet Name="user_family_tree_mobile" EntityType="gpwModel.user_family_tree_mobile" />
           <EntitySet Name="user_news" EntityType="gpwModel.user_news" />
         </EntityContainer>
         <EntityType Name="cat">
@@ -457,6 +488,30 @@
           <Property Name="name" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
           <Property Name="image" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="friends_mobile">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="number_1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="number_2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="date_time" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="user_family_tree_mobile">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="phone_id" Type="Int64" />
+          <Property Name="name_node" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
+          <Property Name="id_node" Type="Int32" />
+          <Property Name="parent_id_node" Type="Int32" />
+          <Property Name="group_id" Type="Int64" />
+          <Property Name="date_time" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="title" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="user_news">
           <Key>
             <PropertyRef Name="id" />
@@ -470,6 +525,9 @@
           <Property Name="user_id" Type="Int64" />
           <Property Name="user_name" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
           <Property Name="tags" Type="String" MaxLength="688" FixedLength="false" Unicode="true" />
+          <Property Name="img" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
+          <Property Name="imgthumb" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
+          <Property Name="date_edit" Type="DateTime" Precision="3" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -691,9 +749,38 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="friends_mobile">
+            <EntityTypeMapping TypeName="gpwModel.friends_mobile">
+              <MappingFragment StoreEntitySet="friends_mobile">
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="number_2" ColumnName="number_2" />
+                <ScalarProperty Name="number_1" ColumnName="number_1" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_family_tree_mobile">
+            <EntityTypeMapping TypeName="gpwModel.user_family_tree_mobile">
+              <MappingFragment StoreEntitySet="user_family_tree_mobile">
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="group_id" ColumnName="group_id" />
+                <ScalarProperty Name="parent_id_node" ColumnName="parent_id_node" />
+                <ScalarProperty Name="id_node" ColumnName="id_node" />
+                <ScalarProperty Name="name_node" ColumnName="name_node" />
+                <ScalarProperty Name="phone_id" ColumnName="phone_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="user_news">
             <EntityTypeMapping TypeName="gpwModel.user_news">
               <MappingFragment StoreEntitySet="user_news">
+                <ScalarProperty Name="date_edit" ColumnName="date_edit" />
+                <ScalarProperty Name="imgthumb" ColumnName="imgthumb" />
+                <ScalarProperty Name="img" ColumnName="img" />
                 <ScalarProperty Name="tags" ColumnName="tags" />
                 <ScalarProperty Name="user_name" ColumnName="user_name" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />

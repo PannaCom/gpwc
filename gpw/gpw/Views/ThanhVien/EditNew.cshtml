@@ -1,0 +1,201 @@
+﻿@model gpw.Models.user_news_model
+
+@{
+    ViewBag.Title = "Thêm bài viết";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
+<link href="~/Scripts/dropzone/dropzone.css" rel="stylesheet" />
+<script src="~/Scripts/dropzone/dropzone.js"></script>
+
+<div class="row" style="background: #fff;">
+    <div class="col-md-12">
+        <div class="page-header">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="row" style="background: #fff;">
+    <div class="col-md-10">
+        <div class="form-horizontal">
+
+            @using (Html.BeginForm("EditNew", "ThanhVien", FormMethod.Post, new { role = "form", id = "form_EditNew", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.id)
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="control-label">Tiêu đề bài viết</label>
+                        @Html.TextBoxFor(m => m.title, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="control-label">Tải ảnh bài viết</label>
+                        <div id="hinhanh_baiviet" class="dropzone" style="padding: 0; height: 27px; min-height: 0; width: 200px; background: #5993c5; color: #fff;">
+                            <div class="dz-default dz-message" data-dz-message style="margin: 0;">
+                                <span><i class="fa fa-plus fa-2x"></i> Tải ảnh bài viết.</span>
+                            </div>
+                        </div>
+
+                        <div class="anhbaiviet1">
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="control-label">Nội dung bài viết</label>
+                        @Html.TextAreaFor(m => m.full_content, htmlAttributes: new { @class = "form-control", rows = "10" })
+                        @Html.ValidationMessageFor(model => model.full_content, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label for="gallery_image">Hình ảnh:</label>
+                        <input type="file" name="gallery_image" id="gallery_image" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <img class="img-responsive" width="300" height="300" src="" id="blah" style="display: none;">
+                    </div>
+                </div>
+
+                if (@Model.img != null)
+                {
+                    <script>
+                        $('#blah').attr('src', '@Model.img').fadeIn();
+                    </script>
+                }
+
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="control-label">Mô tả bài viết</label>
+                        @Html.TextAreaFor(m => m.des, htmlAttributes: new { @class = "form-control", rows = "5" })
+                        @Html.ValidationMessageFor(model => model.des, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    <div class="col-md-12">
+                        <label class="control-label">Trạng thái bài viết</label>
+                        @Html.DropDownListFor(m => m.status, new SelectList(ViewBag.trang_thai, "Value", "Text"), "Chọn trạng thái", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                if (@Model.status != null)
+                {
+                    <script>
+                        $('#status').val('@Model.status');
+                    </script>
+                }
+
+                <div class="form-group">
+
+                    <div class="col-md-12">
+                        <label class="control-label">Tag tin</label>
+                        @Html.EditorFor(model => model.tags, new { htmlAttributes = new { @class = "form-control", placeholder = "tag1, tag2, tag3" } })
+                        @Html.ValidationMessageFor(model => model.tags, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <button class="btn btn-primary" id="btn_dangky">Cập nhật</button>
+                    </div>
+                </div>
+
+            }
+
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        $(document).ready(function () {
+            $("#gallery_image").change(function () {
+                readURL(this);
+            });
+
+            CKEDITOR.replace('full_content', {
+                uiColor: '#337ab7',
+                height: '300px',
+            });
+
+        })
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                if (!input.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)) {
+                    alert('Tệp bạn chọn không đúng định dạng ảnh.');
+                    return false;
+                }
+                if (!input.files[0].type.match('image.*')) {
+                    alert('Tệp bạn chọn không phải là ảnh.');
+                    return false;
+                }
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result).show();
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        Dropzone.autoDiscover = false;
+        //hinhanh_baiviet
+        var hinhanh_baiviet = new Dropzone("div#hinhanh_baiviet", {
+            url: "/News/uploadimg",
+            addRemoveLinks: true,
+            maxFiles: 10,
+            maxFilesize: 5,
+            uploadMultiple: true,
+            acceptedFiles: "image/*",
+            dictFallbackMessage: "Trình duyệt của bạn không hỗ trợ kéo thả tệp để tải lên.",
+            dictFallbackText: "Please use the fallback form below to upload your files like in the olden days.",
+            dictFileTooBig: "Tệp có dung lượng quá lớn ({{filesize}}MiB). Dung lượng cho phép: {{maxFilesize}}MiB.",
+            dictInvalidFileType: "Tệp bạn chọn không được phép tải lên.",
+            dictResponseError: "Đã xảy ra lỗi {{statusCode}}.",
+            dictCancelUpload: "Hủy tải lên",
+            dictCancelUploadConfirmation: "Bạn chắc chắn muốn hủy tải lên?",
+            dictRemoveFile: "Loại bỏ tệp tin",
+            dictMaxFilesExceeded: "Bạn không thể tải lên quá 1 hình.",
+            success: function (file, response) {
+                var imgPath = response.Message;
+                if (imgPath !== "") {
+                    //file.previewElement.classList.add("dz-success");
+                    this.removeFile(file);
+                    if ($('.anhbaiviet1').length) {
+                        var img = "<img style='width: 100px; height: 100px; margin-right: 5px;' src='" + imgPath + "' />";
+                        //console.log(img);
+                        $('.anhbaiviet1').append(img);
+                    }
+                }
+            },
+            error: function (file, response) {
+                //file.previewElement.classList.add("dz-error");
+                //$(file.previewElement).find('.dz-error-message').text(response);
+                alert(response);
+                this.removeFile(file);
+            },
+            HiddenFilesPath: 'body'
+        });
+
+    </script>
+}
