@@ -483,55 +483,7 @@ namespace gpw.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult uploadimg()
-        {
-            var fName = "";
-            try
-            {
-                foreach (string fileName in Request.Files)
-                {
-                    HttpPostedFileBase file = Request.Files[fileName];
-                    //Save file content goes here
-                    if (file != null && file.ContentLength > 0)
-                    {
-                        var originalDirectory = new DirectoryInfo(string.Format("{0}images\\users", Server.MapPath(@"\")));
-                        string strDay = DateTime.Now.ToString("yyyyMM");
-                        string pathString = System.IO.Path.Combine(originalDirectory.ToString(), strDay);
-
-                        var _fileName = Guid.NewGuid().ToString("N") + ".jpg";
-
-                        bool isExists = System.IO.Directory.Exists(pathString);
-
-                        if (!isExists)
-                            System.IO.Directory.CreateDirectory(pathString);
-
-                        var path = string.Format("{0}\\{1}", pathString, _fileName);
-                        //System.Drawing.Image bm = System.Drawing.Image.FromStream(file.InputStream);
-                        // Thay đổi kích thước ảnh
-                        //bm = ResizeBitmap((Bitmap)bm, 100, 100); /// new width, height
-                        //// Giảm dung lượng ảnh trước khi lưu
-                        //ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
-                        //ImageCodecInfo ici = null;
-                        //foreach (ImageCodecInfo codec in codecs)
-                        //{
-                        //    if (codec.MimeType == "image/jpeg")
-                        //        ici = codec;
-                        //}
-                        //EncoderParameters ep = new EncoderParameters();
-                        //ep.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, (long)80);
-                        //bm.Save(path, ici, ep);
-                        //bm.Save(path);
-                        file.SaveAs(path);
-                        fName = "/images/users/" + strDay + "/" + _fileName;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                configs.SaveTolog(ex.ToString());
-            }
-            return Json(new { Message = fName }, JsonRequestBehavior.AllowGet);
-        }
+        
 
         public ActionResult Login()
         {
@@ -697,6 +649,68 @@ namespace gpw.Controllers
 
             return View();
         }
+
+        public ActionResult uploadimg()
+        {
+            var fName = "";
+            try
+            {
+                foreach (string fileName in Request.Files)
+                {
+                    HttpPostedFileBase file = Request.Files[fileName];
+                    //Save file content goes here
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        var originalDirectory = new DirectoryInfo(string.Format("{0}images\\news", Server.MapPath(@"\")));
+                        string strDay = DateTime.Now.ToString("yyyyMM");
+                        string pathString = System.IO.Path.Combine(originalDirectory.ToString(), strDay);
+
+                        var _fileName = Guid.NewGuid().ToString("N") + ".jpg";
+
+                        bool isExists = System.IO.Directory.Exists(pathString);
+
+                        if (!isExists)
+                            System.IO.Directory.CreateDirectory(pathString);
+
+                        var path = string.Format("{0}\\{1}", pathString, _fileName);
+                        //System.Drawing.Image bm = System.Drawing.Image.FromStream(file.InputStream);
+                        // Thay đổi kích thước ảnh
+                        //bm = ResizeBitmap((Bitmap)bm, 100, 100); /// new width, height
+                        //// Giảm dung lượng ảnh trước khi lưu
+                        //ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
+                        //ImageCodecInfo ici = null;
+                        //foreach (ImageCodecInfo codec in codecs)
+                        //{
+                        //    if (codec.MimeType == "image/jpeg")
+                        //        ici = codec;
+                        //}
+                        //EncoderParameters ep = new EncoderParameters();
+                        //ep.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, (long)80);
+                        //bm.Save(path, ici, ep);
+                        //bm.Save(path);
+                        file.SaveAs(path);
+                        FileInfo f2 = new FileInfo(path);
+                        if (f2.Length > 100000)
+                        {
+                            int percent = 50;
+                            if (f2.Length > 1000000) percent = 10;
+                            else
+                                if (f2.Length > 500000) percent = 20;
+                                else if (f2.Length > 300000) percent = 30;
+                            ImageProcessor.ImageFactory iFF = new ImageProcessor.ImageFactory();
+                            iFF.Load(path).Quality(percent).Save(path);
+                        }
+                        fName = "/images/news/" + strDay + "/" + _fileName;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                configs.SaveTolog(ex.ToString());
+            }
+            return Json(new { Message = fName }, JsonRequestBehavior.AllowGet);
+        }
+
 
         [HttpPost, ValidateInput(false)]
         [ValidateAntiForgeryToken]
