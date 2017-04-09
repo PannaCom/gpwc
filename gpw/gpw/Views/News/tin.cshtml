@@ -61,7 +61,7 @@
         <div class="category-pagination" style="padding: 10px;">
             @if (Model != null)
             {
-                @Html.PagedListPager(Model, page => Url.RouteUrl("dmTin", new { pg = page, url = ViewBag.url }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+                @Html.PagedListPager(Model, page => Url.RouteUrl("danh muc tin", new { pg = page, url = ViewBag.url }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
             }
         </div>
     </div>
