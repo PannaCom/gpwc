@@ -17,6 +17,8 @@ namespace gpw.Models
         public long id { get; set; }
         public Nullable<long> user_id { get; set; }
         public string name_node { get; set; }
+        public string phone_node { get; set; }
+        public string image_node { get; set; }
         public Nullable<int> id_node { get; set; }
         public Nullable<int> parent_id_node { get; set; }
         public Nullable<long> group_id { get; set; }

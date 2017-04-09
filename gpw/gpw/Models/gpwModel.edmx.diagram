@@ -15,15 +15,15 @@
         <EntityTypeShape EntityType="gpwModel.quan_he_thanh_vien" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="gpwModel.cats_all_name" Width="1.5" PointX="3.375" PointY="8.75" />
         <EntityTypeShape EntityType="gpwModel.gia_pha" Width="1.5" PointX="9.375" PointY="0.75" />
-        <EntityTypeShape EntityType="gpwModel.user_family_tree" Width="1.5" PointX="9.375" PointY="5.75" />
         <EntityTypeShape EntityType="gpwModel.thanh_vien" Width="1.5" PointX="7.375" PointY="9.75" />
         <EntityTypeShape EntityType="gpwModel.giapha_des" Width="1.5" PointX="5.375" PointY="6.75" />
         <EntityTypeShape EntityType="gpwModel.business" Width="1.5" PointX="9.375" PointY="9.75" />
         <EntityTypeShape EntityType="gpwModel.user_business" Width="1.5" PointX="11.375" PointY="0.75" />
         <EntityTypeShape EntityType="gpwModel.gallery" Width="1.5" PointX="3.375" PointY="11.75" />
         <EntityTypeShape EntityType="gpwModel.friends_mobile" Width="1.5" PointX="11.375" PointY="8.75" />
-        <EntityTypeShape EntityType="gpwModel.user_family_tree_mobile" Width="1.5" PointX="11.375" PointY="11.75" />
         <EntityTypeShape EntityType="gpwModel.user_news" Width="1.5" PointX="13.375" PointY="0.75" />
+        <EntityTypeShape EntityType="gpwModel.user_family_tree_mobile" Width="1.5" PointX="11.375" PointY="11.75" />
+        <EntityTypeShape EntityType="gpwModel.user_family_tree" Width="1.5" PointX="7.375" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
