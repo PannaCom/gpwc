@@ -91,6 +91,8 @@ namespace gpw.Controllers
                 var tv_id = configs.getCookie("thanhvien_id");
                 long? _id = Convert.ToInt32(tv_id);
                 if (_id == id) ViewBag.isAdmin = 1; else ViewBag.isAdmin = 0;
+                var p = (from q in db.user_news where q.user_id == id orderby q.date_time descending select q).Take(10).ToList();
+                ViewBag.user_news = p;
             }
             catch (Exception ex)
             {
@@ -98,7 +100,24 @@ namespace gpw.Controllers
             }
             return View(thanh_vien);
         }
-
+        public ActionResult BaiViet(long? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            user_news un = db.user_news.Find(id);
+            if (un == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.des = un.des;
+            ViewBag.image = Config.domain + un.img;
+            if (un.img == null) ViewBag.image = "http://vietgiapha.com/images/logo.png";
+            ViewBag.url = Config.domain + "/bai-viet/" + Config.unicodeToNoMark(un.user_name) + "/" + Config.unicodeToNoMark(un.title) + "-" + un.id;
+            ViewBag.title = un.title;
+            return View(un);
+        }
         // GET: ThanhVien/Create
         public ActionResult Create()
         {
@@ -607,7 +626,7 @@ namespace gpw.Controllers
             }
             catch { }
 
-            var data = (from s in db.user_news where s.user_id == _id orderby s.id descending select s).ToList();
+            var data = (from s in db.user_news where s.user_id == _id orderby s.date_time descending select s).ToList();
 
             int pageSize = 25;
             if (pg == null) pg = 1;
@@ -811,15 +830,16 @@ namespace gpw.Controllers
 
         public ActionResult EditNew(long? id)
         {
-            if (configs.getCookie("thanhvien_id") == "") return RedirectToAction("Login");
-            var thanhvien_id = configs.getCookie("thanhvien_id");
-
             long? _id = 0;
-            try
-            {
-                _id = Convert.ToInt64(configs.getCookie("thanhvien_id"));
+            if (configs.getCookie("thanhvien_id") == "") return RedirectToAction("Login");
+            if (configs.getCookie("admin") == "") { 
+                var thanhvien_id = configs.getCookie("thanhvien_id");
+                try
+                {
+                    _id = Convert.ToInt64(configs.getCookie("thanhvien_id"));
+                }
+                catch { }
             }
-            catch { }
             var _thanhvien = db.thanh_vien.Find(_id);
             if (_thanhvien == null)
             {

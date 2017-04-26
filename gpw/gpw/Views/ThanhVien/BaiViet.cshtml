@@ -1,4 +1,4 @@
-﻿@model gpw.Models.news
+﻿@model gpw.Models.user_news
 
 
 @{
@@ -7,11 +7,11 @@
 }
 
 @*@{
-    if (Model != null)
-    {
-        ViewBag.title += @Model.new_title;
-    }    
-}*@
+        if (Model != null)
+        {
+            ViewBag.title += @Model.new_title;
+        }
+    }*@
 
 @section meta {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -31,13 +31,13 @@
         <div class="col-md-8">
             <div style="padding: 0 10px;">
                 <div class="page-header" style="margin-top: 0;">
-                    <h1>@Model.new_title</h1>
+                    <h1>@Model.title</h1>
                 </div>
 
-                <p><i>Ngày gửi: @Model.ngay_tao.Value.ToString("dd-MM-yyyy hh:mm")</i></p>
+                <p><i>Ngày gửi: @Model.date_time.Value.ToString("dd-MM-yyyy hh:mm")</i></p>
 
                 <div class="content_baiviet">
-                    @Html.Raw(@Model.new_content)
+                    @Html.Raw(@Model.full_content)
                 </div>
                 <div class="content_baiviet">
                     <div class="fb-like" data-href="@ViewBag.url" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
@@ -56,14 +56,14 @@
 
                 <div class="panel-body">
                     @*@using (Html.BeginForm("Search", "Home", FormMethod.Post, htmlAttributes: new { @class = "form-inline", role = "form", @id = "form_search" }))
-                {
-                    <div class="form-group">
-                        <div class="input-group">
-                            <input type="search" name="keyword" id="keyword" class="form-control" placeholder="Nhập địa chỉ email hoặc số điện thoại" required />
-                        </div>
-                    </div>
-                    <button class="btn btn-primary"><i class="fa fa-search"></i> Tìm kiếm</button>
-                }*@
+                        {
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="search" name="keyword" id="keyword" class="form-control" placeholder="Nhập địa chỉ email hoặc số điện thoại" required />
+                                </div>
+                            </div>
+                            <button class="btn btn-primary"><i class="fa fa-search"></i> Tìm kiếm</button>
+                        }*@
                     <div class="search-bar">
                         <form action="/Home/Search" method="GET" role="form" id="form_search">
                             <div class="form-group">
@@ -74,30 +74,24 @@
                     </div>
                 </div>
             </div>
-            <div class="panel panel-default box_giapha">
-                <div class="panel-heading kf_heading_1" style="padding-bottom: 0;">
-                    <h3>Bài viết mới của thành viên</h3>
-                </div>
-                <div class="panel-body">
-                    @{Html.RenderAction("LoadUserPost", "Home");}
-                </div>
-            </div>
+
             <div class="panel panel-default box_giapha">
                 <div class="panel-heading kf_heading_1" style="padding-bottom: 0;">
                     <h3>Thống kê thành viên</h3>
                 </div>
                 <div class="panel-body">
-                    @{Html.RenderAction("LoadThanhVien","Home");}                    
+                    @{Html.RenderAction("LoadThanhVien", "Home");}
+                    @{Html.RenderAction("LoadUserPost", "Home");}
                     <div class="col-md-12 item_thanhvien border_w0">
                         <h3>Mẫu gia phả</h3>
-                        <a class="image-popup-vertical-fit" href="/Images/maugiapha.jpg" >
+                        <a class="image-popup-vertical-fit" href="/Images/maugiapha.jpg">
                             <img src="/Images/maugiapha0.jpg" class="img-responsive image-popup-vertical-fit" alt="Gia Phả Họ Phan" height="170">
                         </a>
                     </div>
                 </div>
             </div>
 
-           
+
 
         </div>
 

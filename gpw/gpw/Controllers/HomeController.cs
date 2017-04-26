@@ -97,25 +97,31 @@ namespace gpw.Controllers
 
         public ActionResult LoadNewHot()
         {
-            var model = db.news.Where(x => x.isHot == 1).OrderByDescending(x=>x.id).Select(x => x).Take(10).ToList();
+            var model = db.news.Where(x => x.isHot == 1).OrderByDescending(x=>x.ngay_tao).Take(10).ToList();
             return PartialView("_LoadNewHot", model);
         }
 
         public ActionResult LoadNewHot2()
         {
-            var model = (from s in db.news where s.isHot == 1 orderby s.id descending select s).Take(3).ToList();
+            var model = (from s in db.news where s.isHot == 1 orderby s.ngay_tao descending select s).Take(3).ToList();
             //var model = db.news.Where(x => x.isHot == 1).OrderByDescending(x => x.id).Select(x => x).Take(7).ToList();
             return PartialView("_LoadNewHot2", model);
         }
 
         public ActionResult LoadNewTopHot2()
         {
-            var model = (from s in db.news where s.isHot == 1 orderby s.id descending select s).Skip(3).Take(3).ToList();
+            var model = (from s in db.news where s.isHot == 1 orderby s.ngay_tao descending select s).Skip(3).Take(3).ToList();
 
             //var model = db.news.Where(x => x.isHot == 1).OrderByDescending(x => x.id).Select(x => x).Skip(7).Take(3).ToList();
             return PartialView("_LoadNewTopHot2", model);
         }
+        public ActionResult LoadUserPost()
+        {
+            var model = (from s in db.user_news where s.status!=null && s.status==1 orderby s.date_time descending select s).Take(6).ToList();
 
+            //var model = db.news.Where(x => x.isHot == 1).OrderByDescending(x => x.id).Select(x => x).Skip(7).Take(3).ToList();
+            return PartialView("_LoadUserPost", model);
+        }
         public ActionResult LoadNewCat()
         {
             var model = from c in db.cats select c;
@@ -130,19 +136,19 @@ namespace gpw.Controllers
 
         public ActionResult LoadNewInCat(int cat_id)
         {
-            var model = db.news.Where(x => x.cat_id == cat_id).OrderByDescending(x => x.id).Select(x => x).ToList().Take(8);// && x.isHot == 0
+            var model = db.news.Where(x => x.cat_id == cat_id).OrderByDescending(x => x.ngay_tao).Take(8).ToList();// && x.isHot == 0
             return PartialView("_LoadNewInCat", model.ToList());
         }
 
         public ActionResult LoadNewInCat2(int cat_id)
         {
-            var model = db.news.Where(x => x.cat_id == cat_id).OrderByDescending(x => x.id).Select(x => x).ToList().Skip(1).Take(8);
+            var model = db.news.Where(x => x.cat_id == cat_id).OrderByDescending(x => x.ngay_tao).Skip(1).Take(8).ToList();//Select(x => x).
             return PartialView("_LoadNewInCat2", model.ToList());// && x.isHot == 0
         }
 
         public ActionResult LoadNewInCat_top(int cat_id)
         {
-            var model = db.news.Where(x => x.cat_id == cat_id).OrderByDescending(x => x.id).Select(x => x).First();// && x.isHot == 0
+            var model = db.news.Where(x => x.cat_id == cat_id).OrderByDescending(x => x.ngay_tao).First();// && x.isHot == 0//Select(x => x).
             return PartialView("_LoadNewInCat_top", model);
         }
 
@@ -249,7 +255,7 @@ namespace gpw.Controllers
                     writer.WriteElementString("changefreq", "daily");
                     writer.WriteElementString("priority", "0.97");
                     writer.WriteEndElement();
-                    var p4 = (from q in db.news select q).OrderByDescending(o => o.id).ToList();
+                    var p4 = (from q in db.news select q).OrderByDescending(o => o.ngay_tao).ToList();
                     for (int i = 0; i < p4.Count; i++)
                     {
                         try
@@ -287,7 +293,7 @@ namespace gpw.Controllers
         }
         public ActionResult LoadThanhVien()
         {
-            var model = db.thanh_vien.OrderByDescending(o=>o.id).Select(x => x).Take(4).ToList();
+            var model = db.thanh_vien.OrderByDescending(o => o.ngay_tao).Take(4).ToList();//Select(x => x)
             return PartialView("_LoadThanhVien", model);
         }
     }

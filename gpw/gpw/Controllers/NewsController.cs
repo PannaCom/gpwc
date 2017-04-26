@@ -78,7 +78,7 @@ namespace gpw.Controllers
                 ViewBag.search = search;
             }
 
-            data = data.OrderByDescending(x => x.id);
+            data = data.OrderByDescending(x => x.ngay_tao);
 
             return View(data.ToPagedList(pageNumber, pageSize));
         }
@@ -404,7 +404,7 @@ namespace gpw.Controllers
             int pageNumber = (pg ?? 1);
             ViewBag.pg = pg;
 
-            var data = (from q in db.news where q.cat_id == cat.id orderby q.id descending select q);
+            var data = (from q in db.news where q.cat_id == cat.id orderby q.ngay_tao descending select q);
             if (data == null)
             {
                 return View(data);

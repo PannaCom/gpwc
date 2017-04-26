@@ -37,7 +37,7 @@
 
                 <div class="form-group">
                     <div class="col-md-12">
-                        <label class="control-label">Tải ảnh bài viết</label>
+                        <label class="control-label">Upload ảnh để chèn vào bài viết</label>
                         <div id="hinhanh_baiviet" class="dropzone" style="padding: 0; height: 27px; min-height: 0; width: 200px; background: #5993c5; color: #fff;">
                             <div class="dz-default dz-message" data-dz-message style="margin: 0;">
                                 <span><i class="fa fa-plus fa-2x"></i> Tải ảnh bài viết.</span>
@@ -62,7 +62,7 @@
 
                 <div class="form-group">
                     <div class="col-md-6">
-                        <label for="gallery_image">Hình ảnh:</label>
+                        <label for="gallery_image">Upload ảnh đại diện của bài:</label>
                         <input type="file" name="gallery_image" id="gallery_image" class="form-control" />
                     </div>
                     <div class="col-md-6">
@@ -105,7 +105,7 @@
                 <div class="form-group">
 
                     <div class="col-md-12">
-                        <label class="control-label">Tag tin</label>
+                        <label class="control-label">Từ khóa</label>
                         @Html.EditorFor(model => model.tags, new { htmlAttributes = new { @class = "form-control", placeholder = "tag1, tag2, tag3" } })
                         @Html.ValidationMessageFor(model => model.tags, "", new { @class = "text-danger" })
                     </div>
@@ -139,24 +139,7 @@
 
         })
 
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                if (!input.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)) {
-                    alert('Tệp bạn chọn không đúng định dạng ảnh.');
-                    return false;
-                }
-                if (!input.files[0].type.match('image.*')) {
-                    alert('Tệp bạn chọn không phải là ảnh.');
-                    return false;
-                }
-                reader.onload = function (e) {
-                    $('#blah').attr('src', e.target.result).show();
-                }
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
+        
 
         Dropzone.autoDiscover = false;
         //hinhanh_baiviet
@@ -195,7 +178,25 @@
                 this.removeFile(file);
             },
             HiddenFilesPath: 'body'
-        });
+        })
 
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                if (!input.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)) {
+                    alert('Tệp bạn chọn không đúng định dạng ảnh.');
+                    return false;
+                }
+                if (!input.files[0].type.match('image.*')) {
+                    alert('Tệp bạn chọn không phải là ảnh.');
+                    return false;
+                }
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result).show();
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
     </script>
 }
