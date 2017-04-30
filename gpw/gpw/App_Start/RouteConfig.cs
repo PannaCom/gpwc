@@ -46,7 +46,7 @@ namespace gpw
             routes.MapRoute(
                "detail tin tuc thanh vien",
                "bai-viet/{name}/{title}-{id}",
-               new { controller = "ThanhVien", action = "BaiViet", id = UrlParameter.Optional, name = UrlParameter.Optional, title = UrlParameter.Optional }
+               new { controller = "ThanhVien", action = "BaiViet", name = UrlParameter.Optional,title = UrlParameter.Optional, id = UrlParameter.Optional}
            );
             routes.MapRoute(
                 "danh muc tin",

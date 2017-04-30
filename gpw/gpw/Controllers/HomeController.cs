@@ -19,9 +19,26 @@ namespace gpw.Controllers
         private gpwEntities db = new gpwEntities();
         public ActionResult Index()
         {
+            var hot1 = (from s in db.news where s.isHot == 1 orderby s.ngay_tao descending select s).Take(3).ToList();
+            ViewBag.hot1 = hot1;
+            var hot2 = (from s in db.news where s.isHot == 1 orderby s.ngay_tao descending select s).Skip(3).Take(3).ToList();
+            ViewBag.hot2 = hot2;
+            var model = (from s in db.user_news where s.status != null && s.status == 1 orderby s.date_time descending select s).Take(6).ToList();
+            ViewBag.user_news = model;
+            var model1 = db.news.Where(x => x.cat_id == 1).OrderByDescending(x => x.ngay_tao).Take(8).ToList();
+            var model2 = db.news.Where(x => x.cat_id == 2).OrderByDescending(x => x.ngay_tao).Take(8).ToList();
+            var model4 = db.news.Where(x => x.cat_id == 4).OrderByDescending(x => x.ngay_tao).Take(8).ToList();
+            ViewBag.news1 = model1;
+            ViewBag.news2 = model2;
+            ViewBag.news4 = model4;
             return View();
         }
+        public ActionResult Test()
+        {
+            ViewBag.Message = "Your application description page.";
 
+            return View();
+        }
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -133,7 +150,21 @@ namespace gpw.Controllers
             var model = from c in db.cats select c;
             return PartialView("_LoadNewCat2", model.ToList());
         }
-
+        public ActionResult Cat1()
+        {
+            var model = db.news.Where(x => x.cat_id == 1).OrderByDescending(x => x.ngay_tao).Take(8).ToList();
+            return PartialView("Cat1", model.ToList());
+        }
+        public ActionResult Cat2()
+        {
+            var model = db.news.Where(x => x.cat_id == 2).OrderByDescending(x => x.ngay_tao).Take(8).ToList();
+            return PartialView("Cat2", model.ToList());
+        }
+        public ActionResult Cat4()
+        {
+            var model = db.news.Where(x => x.cat_id == 4).OrderByDescending(x => x.ngay_tao).Take(8).ToList();
+            return PartialView("Cat4", model.ToList());
+        }
         public ActionResult LoadNewInCat(int cat_id)
         {
             var model = db.news.Where(x => x.cat_id == cat_id).OrderByDescending(x => x.ngay_tao).Take(8).ToList();// && x.isHot == 0

@@ -1,0 +1,47 @@
+﻿@model List<gpw.Models.news>
+
+
+@if (Model != null)
+{
+    <section class="kf_our_agent_bg box_giapha panel">
+        <!--Heading Wrap Start-->
+        <div class="kf_heading_1 panel-heading">
+            <h3><a href="/tin/gioi-thieu">Giới thiệu dòng họ</a></h3>
+            <span class="kf_property_line"></span>
+        </div>
+        <!--Heading Wrap End-->
+        <!--Agent List Wrap Start-->
+        <div class="NewsLoad panel-body">
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    string _link = "../"+Config.unicodeToNoMark(item.new_title) + "-" + item.id;
+                    <div class="col-md-6" style="border-top: 1px solid #cbcbcb;border-bottom: 1px solid #cbcbcb;margin-bottom: 7px;background: #f5f5f5;">
+                        <div class="row">
+                            <div class="carousel-item post-images col-xs-4">
+                                <a href="@_link" alt="@item.new_title" class="thumb-zoom">
+                                    <img src="@item.new_img" class="img-responsive" style="height:163px;width:163px;border:1px solid #808080;border-radius:10px;">
+                                </a>
+                            </div>
+                            <div class="post-description col-xs-8">
+                                <a href="@_link">
+                                    <p class="post-title">
+                                        @item.new_title
+                                    </p>
+                                </a>
+                                <div class="col-xs-12 noPadding">
+                                    @item.new_des
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.category-single-post -->
+                }
+            </div>
+           
+        </div>
+        <!--Agent List Wrap End-->
+    </section>
+    
+}
+
+

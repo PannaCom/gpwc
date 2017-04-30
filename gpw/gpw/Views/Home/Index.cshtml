@@ -4,7 +4,7 @@
 }
 
 @section meta {
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 }
 <link href="~/Content/sld/flexslider.css" rel="stylesheet" />
 @*<div class=" row">
@@ -23,9 +23,11 @@
 
 <div class="row">
     <div class="col-md-8">
-        @{Html.RenderAction("LoadNewHot2");}
+        @*@{Html.RenderAction("LoadNewHot2");}
 
-        @{Html.RenderAction("LoadNewTopHot2");}
+        @{Html.RenderAction("LoadNewTopHot2");}*@
+        @{Html.RenderPartial("~/Views/Home/_LoadNewHot2.cshtml", (List<gpw.Models.news>)ViewBag.hot1);}
+        @{Html.RenderPartial("~/Views/Home/_LoadNewTopHot2.cshtml", (List<gpw.Models.news>)ViewBag.hot2);}
     </div>
     <div class="col-md-4">
         @*<img src="~/images/caudoiphai.png" class="img-responsive" style="display: inline-block;" />
@@ -61,10 +63,10 @@
                 <h3>Thống kê thành viên</h3>
             </div>
             <div class="panel-body">
-                @{Html.RenderAction("LoadThanhVien");}                
+                @{Html.RenderAction("LoadThanhVien");}
                 <div class="col-md-12 item_thanhvien border_w0" style="max-width:295px;">
                     <h3>Mẫu gia phả</h3>
-                    <a class="image-popup-vertical-fit" href="/Images/maugiapha.jpg" >
+                    <a class="image-popup-vertical-fit" href="/Images/maugiapha.jpg">
                         <img src="/Images/maugiapha0.jpg" class="img-responsive image-popup-vertical-fit" alt="Gia Phả Họ Phan" height="170">
                     </a>
                 </div>
@@ -72,30 +74,30 @@
         </div>
 
         @*<div class="panel panel-default box_giapha">
-            <div class="panel-body">
-                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="height: 80px;">
+                <div class="panel-body">
+                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="height: 80px;">
 
-                    <!-- Wrapper for slides -->
-                    <div class="carousel-inner" role="listbox">
-                        <div class="item active">
-                            <p>Đừng so sánh mình với bất cứ ai trong thế giới này. Nếu bạn làm như vậy có nghĩa bạn đang sỉ nhục chính bản thân mình. </p>
-                            <b style="float: right; margin-top: 5px;">Bill Gates</b>
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner" role="listbox">
+                            <div class="item active">
+                                <p>Đừng so sánh mình với bất cứ ai trong thế giới này. Nếu bạn làm như vậy có nghĩa bạn đang sỉ nhục chính bản thân mình. </p>
+                                <b style="float: right; margin-top: 5px;">Bill Gates</b>
+                            </div>
+                            <div class="item">
+                                <p>Ta không được chọn nơi mình sinh ra. Nhưng ta được chọn cách mình sẽ sống.</p>
+                                <b style="float: right; margin-top: 5px;">Khuyết danh</b>
+                            </div>
                         </div>
-                        <div class="item">
-                            <p>Ta không được chọn nơi mình sinh ra. Nhưng ta được chọn cách mình sẽ sống.</p>
-                            <b style="float: right; margin-top: 5px;">Khuyết danh</b>
-                        </div>
+
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators" style="bottom: 0;">
+                            <li data-target="#carousel-example-generic" data-slide-to="0" class="active" style="background: #333;"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="1" style="background: #333;"></li>
+                        </ol>
                     </div>
-
-                    <!-- Indicators -->
-                    <ol class="carousel-indicators" style="bottom: 0;">
-                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active" style="background: #333;"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="1" style="background: #333;"></li>
-                    </ol>
                 </div>
-            </div>
 
-        </div>*@
+            </div>*@
 
     </div>
 </div>
@@ -111,20 +113,25 @@
 
 <div class="row">
     <div class="col-md-12">
-        @{Html.RenderAction("LoadNewCat");}
+        @{Html.RenderPartial("~/Views/Home/Cat1.cshtml", (List<gpw.Models.news>)ViewBag.news1);}
+        @{Html.RenderPartial("~/Views/Home/Cat2.cshtml", (List<gpw.Models.news>)ViewBag.news2);}
+        @{Html.RenderPartial("~/Views/Home/Cat4.cshtml", (List<gpw.Models.news>)ViewBag.news4);}
+        @*@{Html.RenderAction("Cat1");}
+            @{Html.RenderAction("Cat2");}
+            @{Html.RenderAction("Cat4");}*@
     </div>
 </div>
 <div class="row">
     <div class="col-md-12">
-        @{Html.RenderAction("LoadUserPost");}
+        @{Html.RenderPartial("~/Views/Home/_LoadUserPost.cshtml", (List<gpw.Models.user_news>)ViewBag.user_news);}
     </div>
 </div>
 @*<div class="row">
-    @{Html.RenderAction("LoadNewCat2");}
-</div>*@
+        @{Html.RenderAction("LoadNewCat2");}
+    </div>*@
 
 @section scripts {
-<script src="~/Content/sld/jquery.flexslider-min.js"></script>
+    <script src="~/Content/sld/jquery.flexslider-min.js"></script>
     <script>
         if ($('.kf_agent_slider').length) {
             var owl = $(".kf_agent_slider");

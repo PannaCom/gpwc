@@ -15,8 +15,9 @@
         <!--Agent List Wrap Start-->
         <div class="NewsLoad panel-body">
             <div class="row">
-                @{Html.RenderAction("LoadNewInCat", new { cat_id = @item.id });}
+                @{Html.RenderPartial("~/Views/Home/_LoadNewInCat.cshtml", (List<gpw.Models.news>)ViewBag.news);}
             </div>
+            @*new { cat_id = @item.id }*@
         </div>
         <!--Agent List Wrap End-->
     </section>
