@@ -18,7 +18,7 @@ using System.Drawing;
 
 namespace gpw.Controllers
 {
-    [Authorize]
+    
     public class NewsController : Controller
     {
         private gpwEntities db = new gpwEntities();

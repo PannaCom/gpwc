@@ -5,25 +5,29 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="a050dfe844704baeb8983e595547060b" Name="Diagram1" ZoomLevel="93">
-        <EntityTypeShape EntityType="gpwModel.cat" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="gpwModel.friend" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="gpwModel.hoc_van" Width="1.5" PointX="0.75" PointY="3.75" />
-        <EntityTypeShape EntityType="gpwModel.news" Width="1.5" PointX="2.75" PointY="3.75" />
-        <EntityTypeShape EntityType="gpwModel.nghe_nghiep" Width="1.5" PointX="4.75" PointY="0.75" />
-        <EntityTypeShape EntityType="gpwModel.quan_he" Width="1.5" PointX="4.75" PointY="3.75" />
-        <EntityTypeShape EntityType="gpwModel.User" Width="1.5" PointX="0.75" PointY="8.75" />
-        <EntityTypeShape EntityType="gpwModel.quan_he_thanh_vien" Width="1.5" PointX="7.375" PointY="0.75" />
-        <EntityTypeShape EntityType="gpwModel.cats_all_name" Width="1.5" PointX="3.375" PointY="8.75" />
-        <EntityTypeShape EntityType="gpwModel.gia_pha" Width="1.5" PointX="9.375" PointY="0.75" />
-        <EntityTypeShape EntityType="gpwModel.thanh_vien" Width="1.5" PointX="7.375" PointY="9.75" />
-        <EntityTypeShape EntityType="gpwModel.giapha_des" Width="1.5" PointX="5.375" PointY="6.75" />
-        <EntityTypeShape EntityType="gpwModel.business" Width="1.5" PointX="9.375" PointY="9.75" />
-        <EntityTypeShape EntityType="gpwModel.user_business" Width="1.5" PointX="11.375" PointY="0.75" />
-        <EntityTypeShape EntityType="gpwModel.gallery" Width="1.5" PointX="3.375" PointY="11.75" />
-        <EntityTypeShape EntityType="gpwModel.friends_mobile" Width="1.5" PointX="11.375" PointY="8.75" />
-        <EntityTypeShape EntityType="gpwModel.user_news" Width="1.5" PointX="13.375" PointY="0.75" />
-        <EntityTypeShape EntityType="gpwModel.user_family_tree_mobile" Width="1.5" PointX="11.375" PointY="11.75" />
-        <EntityTypeShape EntityType="gpwModel.user_family_tree" Width="1.5" PointX="7.375" PointY="5.75" />
+        <EntityTypeShape EntityType="gpwModel.business" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="gpwModel.cat" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="gpwModel.cats_all_name" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="gpwModel.friend" Width="1.5" PointX="2.75" PointY="3.75" />
+        <EntityTypeShape EntityType="gpwModel.friends_mobile" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="gpwModel.gallery" Width="1.5" PointX="4.75" PointY="3.75" />
+        <EntityTypeShape EntityType="gpwModel.gia_pha" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="gpwModel.giapha_des" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="gpwModel.hoc_van" Width="1.5" PointX="2.75" PointY="6.75" />
+        <EntityTypeShape EntityType="gpwModel.news" Width="1.5" PointX="4.75" PointY="6.75" />
+        <EntityTypeShape EntityType="gpwModel.nghe_nghiep" Width="1.5" PointX="6.75" PointY="5.75" />
+        <EntityTypeShape EntityType="gpwModel.quan_he" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="gpwModel.quan_he_thanh_vien" Width="1.5" PointX="8.75" PointY="3.75" />
+        <EntityTypeShape EntityType="gpwModel.Role" Width="1.5" PointX="6.75" PointY="8.75" />
+        <EntityTypeShape EntityType="gpwModel.thanh_vien" Width="1.5" PointX="8.75" PointY="7.75" />
+        <EntityTypeShape EntityType="gpwModel.user_business" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="gpwModel.user_family_tree" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="gpwModel.user_family_tree_mobile" Width="1.5" PointX="10.75" PointY="4.75" />
+        <EntityTypeShape EntityType="gpwModel.user_news" Width="1.5" PointX="10.75" PointY="8.75" />
+        <EntityTypeShape EntityType="gpwModel.UserClaim" Width="1.5" PointX="2.75" PointY="11.75" />
+        <EntityTypeShape EntityType="gpwModel.UserLogin" Width="1.5" PointX="4.75" PointY="11.75" />
+        <EntityTypeShape EntityType="gpwModel.UserRole" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="gpwModel.User" Width="1.5" PointX="12.75" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

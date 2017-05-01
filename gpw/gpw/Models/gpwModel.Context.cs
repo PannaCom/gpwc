@@ -25,24 +25,28 @@ namespace gpw.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<business> businesses { get; set; }
         public virtual DbSet<cat> cats { get; set; }
+        public virtual DbSet<cats_all_name> cats_all_name { get; set; }
         public virtual DbSet<friend> friends { get; set; }
+        public virtual DbSet<friends_mobile> friends_mobile { get; set; }
+        public virtual DbSet<gallery> galleries { get; set; }
+        public virtual DbSet<gia_pha> gia_pha { get; set; }
+        public virtual DbSet<giapha_des> giapha_des { get; set; }
         public virtual DbSet<hoc_van> hoc_van { get; set; }
         public virtual DbSet<news> news { get; set; }
         public virtual DbSet<nghe_nghiep> nghe_nghiep { get; set; }
         public virtual DbSet<quan_he> quan_he { get; set; }
-        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<quan_he_thanh_vien> quan_he_thanh_vien { get; set; }
-        public virtual DbSet<cats_all_name> cats_all_name { get; set; }
-        public virtual DbSet<gia_pha> gia_pha { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<thanh_vien> thanh_vien { get; set; }
-        public virtual DbSet<giapha_des> giapha_des { get; set; }
-        public virtual DbSet<business> businesses { get; set; }
         public virtual DbSet<user_business> user_business { get; set; }
-        public virtual DbSet<gallery> galleries { get; set; }
-        public virtual DbSet<friends_mobile> friends_mobile { get; set; }
-        public virtual DbSet<user_news> user_news { get; set; }
-        public virtual DbSet<user_family_tree_mobile> user_family_tree_mobile { get; set; }
         public virtual DbSet<user_family_tree> user_family_tree { get; set; }
+        public virtual DbSet<user_family_tree_mobile> user_family_tree_mobile { get; set; }
+        public virtual DbSet<user_news> user_news { get; set; }
+        public virtual DbSet<UserClaim> UserClaims { get; set; }
+        public virtual DbSet<UserLogin> UserLogins { get; set; }
+        public virtual DbSet<UserRole> UserRoles { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }

@@ -47,7 +47,7 @@
           <Property Name="number_1" Type="nvarchar" MaxLength="50" />
           <Property Name="number_2" Type="nvarchar" MaxLength="50" />
           <Property Name="status" Type="int" />
-          <Property Name="date_time" Type="datetime" />
+          <Property Name="date_time" Type="smalldatetime" />
         </EntityType>
         <EntityType Name="gallery">
           <Key>
@@ -69,7 +69,7 @@
           <Property Name="tv_id_2" Type="bigint" />
           <Property Name="q_h_id" Type="int" />
           <Property Name="auto_id" Type="bigint" />
-          <Property Name="date_time" Type="datetime" />
+          <Property Name="date_time" Type="smalldatetime" />
           <Property Name="group_id" Type="bigint" />
           <Property Name="status" Type="int" />
           <Property Name="title" Type="nvarchar" MaxLength="151" />
@@ -82,7 +82,7 @@
           <Property Name="giapha_name" Type="nvarchar" MaxLength="551" />
           <Property Name="des" Type="ntext" />
           <Property Name="thanhvien_id" Type="bigint" />
-          <Property Name="date_time" Type="datetime" />
+          <Property Name="date_time" Type="smalldatetime" />
           <Property Name="status" Type="int" />
         </EntityType>
         <EntityType Name="hoc_van">
@@ -106,7 +106,7 @@
           <Property Name="quyen_hang" Type="int" />
           <Property Name="trang_thai" Type="int" />
           <Property Name="isHot" Type="tinyint" />
-          <Property Name="ngay_tao" Type="datetime" />
+          <Property Name="ngay_tao" Type="smalldatetime" />
           <Property Name="new_des" Type="nvarchar" MaxLength="505" />
         </EntityType>
         <EntityType Name="nghe_nghiep">
@@ -137,6 +137,18 @@
           <Property Name="qq_lat" Type="float" />
           <Property Name="thanh_vien_qh_id" Type="bigint" />
         </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'newvietgiapha.dbo.test' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="test">
+          <Property Name="abc" Type="nchar" MaxLength="10" />
+        </EntityType>-->
         <EntityType Name="thanh_vien">
           <Key>
             <PropertyRef Name="id" />
@@ -152,7 +164,7 @@
           <Property Name="doi_thu" Type="int" />
           <Property Name="gioi_tinh" Type="nvarchar" MaxLength="50" />
           <Property Name="ngay_sinh" Type="date" />
-          <Property Name="ngay_tao" Type="datetime" />
+          <Property Name="ngay_tao" Type="smalldatetime" />
           <Property Name="trang_thai" Type="int" />
           <Property Name="quyen_han" Type="int" />
           <Property Name="lon" Type="float" />
@@ -194,7 +206,7 @@
           <Property Name="id_node" Type="int" />
           <Property Name="parent_id_node" Type="int" />
           <Property Name="group_id" Type="bigint" />
-          <Property Name="date_time" Type="datetime" />
+          <Property Name="date_time" Type="smalldatetime" />
           <Property Name="status" Type="int" />
           <Property Name="title" Type="nvarchar" MaxLength="251" />
         </EntityType>
@@ -209,7 +221,7 @@
           <Property Name="id_node" Type="int" />
           <Property Name="parent_id_node" Type="int" />
           <Property Name="group_id" Type="bigint" />
-          <Property Name="date_time" Type="datetime" />
+          <Property Name="date_time" Type="smalldatetime" />
           <Property Name="status" Type="int" />
           <Property Name="title" Type="nvarchar" MaxLength="251" />
         </EntityType>
@@ -222,17 +234,56 @@
           <Property Name="des" Type="nvarchar" MaxLength="1688" />
           <Property Name="full_content" Type="ntext" />
           <Property Name="status" Type="int" />
-          <Property Name="date_time" Type="datetime" />
+          <Property Name="date_time" Type="smalldatetime" />
           <Property Name="user_id" Type="bigint" />
           <Property Name="user_name" Type="nvarchar" MaxLength="251" />
           <Property Name="tags" Type="nvarchar" MaxLength="688" />
           <Property Name="img" Type="nvarchar" MaxLength="251" />
           <Property Name="imgthumb" Type="nvarchar" MaxLength="251" />
-          <Property Name="date_edit" Type="datetime" />
+          <Property Name="date_edit" Type="smalldatetime" />
         </EntityType>
+        <EntityType Name="UserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'newvietgiapha.dbo.UserLogins' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="UserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'newvietgiapha.dbo.UserRoles' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="UserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'newvietgiapha.dbo.Users' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="Id" />
+            <PropertyRef Name="EmailConfirmed" />
+            <PropertyRef Name="PhoneNumberConfirmed" />
+            <PropertyRef Name="TwoFactorEnabled" />
+            <PropertyRef Name="LockoutEnabled" />
+            <PropertyRef Name="AccessFailedCount" />
+            <PropertyRef Name="UserName" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="256" />
@@ -242,7 +293,7 @@
           <Property Name="PhoneNumber" Type="nvarchar(max)" />
           <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
           <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
-          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEndDateUtc" Type="smalldatetime" />
           <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
@@ -261,38 +312,81 @@
           <EntitySet Name="nghe_nghiep" EntityType="Self.nghe_nghiep" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="quan_he" EntityType="Self.quan_he" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="quan_he_thanh_vien" EntityType="Self.quan_he_thanh_vien" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="thanh_vien" EntityType="Self.thanh_vien" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_business" EntityType="Self.user_business" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_family_tree" EntityType="Self.user_family_tree" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_family_tree_mobile" EntityType="Self.user_family_tree_mobile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_news" EntityType="Self.user_news" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserClaims" EntityType="Self.UserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserLogins" EntityType="Self.UserLogins" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [UserLogins].[LoginProvider] AS [LoginProvider], 
+    [UserLogins].[ProviderKey] AS [ProviderKey], 
+    [UserLogins].[UserId] AS [UserId]
+    FROM [dbo].[UserLogins] AS [UserLogins]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="UserRoles" EntityType="Self.UserRoles" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [UserRoles].[UserId] AS [UserId], 
+    [UserRoles].[RoleId] AS [RoleId]
+    FROM [dbo].[UserRoles] AS [UserRoles]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Users" EntityType="Self.Users" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Users].[Id] AS [Id], 
+    [Users].[Email] AS [Email], 
+    [Users].[EmailConfirmed] AS [EmailConfirmed], 
+    [Users].[PasswordHash] AS [PasswordHash], 
+    [Users].[SecurityStamp] AS [SecurityStamp], 
+    [Users].[PhoneNumber] AS [PhoneNumber], 
+    [Users].[PhoneNumberConfirmed] AS [PhoneNumberConfirmed], 
+    [Users].[TwoFactorEnabled] AS [TwoFactorEnabled], 
+    [Users].[LockoutEndDateUtc] AS [LockoutEndDateUtc], 
+    [Users].[LockoutEnabled] AS [LockoutEnabled], 
+    [Users].[AccessFailedCount] AS [AccessFailedCount], 
+    [Users].[UserName] AS [UserName]
+    FROM [dbo].[Users] AS [Users]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="gpwModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="gpwEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="businesses" EntityType="gpwModel.business" />
           <EntitySet Name="cats" EntityType="gpwModel.cat" />
+          <EntitySet Name="cats_all_name" EntityType="gpwModel.cats_all_name" />
           <EntitySet Name="friends" EntityType="gpwModel.friend" />
+          <EntitySet Name="friends_mobile" EntityType="gpwModel.friends_mobile" />
+          <EntitySet Name="galleries" EntityType="gpwModel.gallery" />
+          <EntitySet Name="gia_pha" EntityType="gpwModel.gia_pha" />
+          <EntitySet Name="giapha_des" EntityType="gpwModel.giapha_des" />
           <EntitySet Name="hoc_van" EntityType="gpwModel.hoc_van" />
           <EntitySet Name="news" EntityType="gpwModel.news" />
           <EntitySet Name="nghe_nghiep" EntityType="gpwModel.nghe_nghiep" />
           <EntitySet Name="quan_he" EntityType="gpwModel.quan_he" />
-          <EntitySet Name="Users" EntityType="gpwModel.User" />
           <EntitySet Name="quan_he_thanh_vien" EntityType="gpwModel.quan_he_thanh_vien" />
-          <EntitySet Name="cats_all_name" EntityType="gpwModel.cats_all_name" />
-          <EntitySet Name="gia_pha" EntityType="gpwModel.gia_pha" />
+          <EntitySet Name="Roles" EntityType="gpwModel.Role" />
           <EntitySet Name="thanh_vien" EntityType="gpwModel.thanh_vien" />
-          <EntitySet Name="giapha_des" EntityType="gpwModel.giapha_des" />
-          <EntitySet Name="businesses" EntityType="gpwModel.business" />
           <EntitySet Name="user_business" EntityType="gpwModel.user_business" />
-          <EntitySet Name="galleries" EntityType="gpwModel.gallery" />
-          <EntitySet Name="friends_mobile" EntityType="gpwModel.friends_mobile" />
-          <EntitySet Name="user_news" EntityType="gpwModel.user_news" />
-          <EntitySet Name="user_family_tree_mobile" EntityType="gpwModel.user_family_tree_mobile" />
           <EntitySet Name="user_family_tree" EntityType="gpwModel.user_family_tree" />
+          <EntitySet Name="user_family_tree_mobile" EntityType="gpwModel.user_family_tree_mobile" />
+          <EntitySet Name="user_news" EntityType="gpwModel.user_news" />
+          <EntitySet Name="UserClaims" EntityType="gpwModel.UserClaim" />
+          <EntitySet Name="UserLogins" EntityType="gpwModel.UserLogin" />
+          <EntitySet Name="UserRoles" EntityType="gpwModel.UserRole" />
+          <EntitySet Name="Users" EntityType="gpwModel.User" />
         </EntityContainer>
+        <EntityType Name="business">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="website" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="image" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="cat">
           <Key>
             <PropertyRef Name="id" />
@@ -300,6 +394,13 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="cat_name" Type="String" MaxLength="505" FixedLength="false" Unicode="true" />
           <Property Name="cat_url" Type="String" MaxLength="505" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="cats_all_name">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="151" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="friend">
           <Key>
@@ -310,6 +411,52 @@
           <Property Name="user2" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="quan_he_id" Type="Int32" />
           <Property Name="do_sau" Type="Int32" />
+        </EntityType>
+        <EntityType Name="friends_mobile">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="number_1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="number_2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="date_time" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="gallery">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
+          <Property Name="image" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="gia_pha">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="thanh_vien_id" Type="Int64" />
+          <Property Name="name1" Type="String" MaxLength="505" FixedLength="false" Unicode="true" />
+          <Property Name="name2" Type="String" MaxLength="505" FixedLength="false" Unicode="true" />
+          <Property Name="tv_id_1" Type="Int64" />
+          <Property Name="tv_id_2" Type="Int64" />
+          <Property Name="q_h_id" Type="Int32" />
+          <Property Name="auto_id" Type="Int64" />
+          <Property Name="date_time" Type="DateTime" Precision="0" />
+          <Property Name="group_id" Type="Int64" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="title" Type="String" MaxLength="151" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="giapha_des">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="giapha_name" Type="String" MaxLength="551" FixedLength="false" Unicode="true" />
+          <Property Name="des" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="thanhvien_id" Type="Int64" />
+          <Property Name="date_time" Type="DateTime" Precision="0" />
+          <Property Name="status" Type="Int32" />
         </EntityType>
         <EntityType Name="hoc_van">
           <Key>
@@ -332,7 +479,7 @@
           <Property Name="quyen_hang" Type="Int32" />
           <Property Name="trang_thai" Type="Int32" />
           <Property Name="isHot" Type="Byte" />
-          <Property Name="ngay_tao" Type="DateTime" Precision="3" />
+          <Property Name="ngay_tao" Type="DateTime" Precision="0" />
           <Property Name="new_des" Type="String" MaxLength="505" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="nghe_nghiep">
@@ -349,23 +496,6 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ten_quan_he" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
-          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="quan_he_thanh_vien">
           <Key>
             <PropertyRef Name="id" />
@@ -380,29 +510,12 @@
           <Property Name="qq_lat" Type="Double" />
           <Property Name="thanh_vien_qh_id" Type="Int64" />
         </EntityType>
-        <EntityType Name="cats_all_name">
+        <EntityType Name="Role">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="151" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="gia_pha">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="thanh_vien_id" Type="Int64" />
-          <Property Name="name1" Type="String" MaxLength="505" FixedLength="false" Unicode="true" />
-          <Property Name="name2" Type="String" MaxLength="505" FixedLength="false" Unicode="true" />
-          <Property Name="tv_id_1" Type="Int64" />
-          <Property Name="tv_id_2" Type="Int64" />
-          <Property Name="q_h_id" Type="Int32" />
-          <Property Name="auto_id" Type="Int64" />
-          <Property Name="date_time" Type="DateTime" Precision="3" />
-          <Property Name="group_id" Type="Int64" />
-          <Property Name="status" Type="Int32" />
-          <Property Name="title" Type="String" MaxLength="151" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="thanh_vien">
           <Key>
@@ -419,7 +532,7 @@
           <Property Name="doi_thu" Type="Int32" />
           <Property Name="gioi_tinh" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ngay_sinh" Type="DateTime" Precision="0" />
-          <Property Name="ngay_tao" Type="DateTime" Precision="3" />
+          <Property Name="ngay_tao" Type="DateTime" Precision="0" />
           <Property Name="trang_thai" Type="Int32" />
           <Property Name="quyen_han" Type="Int32" />
           <Property Name="lon" Type="Double" />
@@ -432,26 +545,6 @@
           <Property Name="cats_all_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="cats_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="que_quan" Type="String" MaxLength="252" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="giapha_des">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="giapha_name" Type="String" MaxLength="551" FixedLength="false" Unicode="true" />
-          <Property Name="des" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="thanhvien_id" Type="Int64" />
-          <Property Name="date_time" Type="DateTime" Precision="3" />
-          <Property Name="status" Type="Int32" />
-        </EntityType>
-        <EntityType Name="business">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="website" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="image" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="user_business">
           <Key>
@@ -469,56 +562,6 @@
           <Property Name="lon" Type="Double" />
           <Property Name="lat" Type="Double" />
         </EntityType>
-        <EntityType Name="gallery">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
-          <Property Name="image" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="friends_mobile">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="number_1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="number_2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="status" Type="Int32" />
-          <Property Name="date_time" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="user_news">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="title" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
-          <Property Name="des" Type="String" MaxLength="1688" FixedLength="false" Unicode="true" />
-          <Property Name="full_content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="status" Type="Int32" />
-          <Property Name="date_time" Type="DateTime" Precision="3" />
-          <Property Name="user_id" Type="Int64" />
-          <Property Name="user_name" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
-          <Property Name="tags" Type="String" MaxLength="688" FixedLength="false" Unicode="true" />
-          <Property Name="img" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
-          <Property Name="imgthumb" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
-          <Property Name="date_edit" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="user_family_tree_mobile">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="phone_id" Type="Int64" />
-          <Property Name="name_node" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
-          <Property Name="phone_node" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="id_node" Type="Int32" />
-          <Property Name="parent_id_node" Type="Int32" />
-          <Property Name="group_id" Type="Int64" />
-          <Property Name="date_time" Type="DateTime" Precision="3" />
-          <Property Name="status" Type="Int32" />
-          <Property Name="title" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="user_family_tree">
           <Key>
             <PropertyRef Name="id" />
@@ -531,9 +574,91 @@
           <Property Name="id_node" Type="Int32" />
           <Property Name="parent_id_node" Type="Int32" />
           <Property Name="group_id" Type="Int64" />
-          <Property Name="date_time" Type="DateTime" Precision="3" />
+          <Property Name="date_time" Type="DateTime" Precision="0" />
           <Property Name="status" Type="Int32" />
           <Property Name="title" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="user_family_tree_mobile">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="phone_id" Type="Int64" />
+          <Property Name="name_node" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
+          <Property Name="phone_node" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id_node" Type="Int32" />
+          <Property Name="parent_id_node" Type="Int32" />
+          <Property Name="group_id" Type="Int64" />
+          <Property Name="date_time" Type="DateTime" Precision="0" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="title" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="user_news">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
+          <Property Name="des" Type="String" MaxLength="1688" FixedLength="false" Unicode="true" />
+          <Property Name="full_content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="date_time" Type="DateTime" Precision="0" />
+          <Property Name="user_id" Type="Int64" />
+          <Property Name="user_name" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
+          <Property Name="tags" Type="String" MaxLength="688" FixedLength="false" Unicode="true" />
+          <Property Name="img" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
+          <Property Name="imgthumb" Type="String" MaxLength="251" FixedLength="false" Unicode="true" />
+          <Property Name="date_edit" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="UserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="UserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="RoleId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="EmailConfirmed" />
+            <PropertyRef Name="PhoneNumberConfirmed" />
+            <PropertyRef Name="TwoFactorEnabled" />
+            <PropertyRef Name="LockoutEnabled" />
+            <PropertyRef Name="AccessFailedCount" />
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="0" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -541,11 +666,29 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="gpwModelStoreContainer" CdmEntityContainer="gpwEntities">
+          <EntitySetMapping Name="businesses">
+            <EntityTypeMapping TypeName="gpwModel.business">
+              <MappingFragment StoreEntitySet="business">
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="website" ColumnName="website" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="cats">
             <EntityTypeMapping TypeName="gpwModel.cat">
               <MappingFragment StoreEntitySet="cats">
                 <ScalarProperty Name="cat_url" ColumnName="cat_url" />
                 <ScalarProperty Name="cat_name" ColumnName="cat_name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cats_all_name">
+            <EntityTypeMapping TypeName="gpwModel.cats_all_name">
+              <MappingFragment StoreEntitySet="cats_all_name">
+                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -557,6 +700,56 @@
                 <ScalarProperty Name="quan_he_id" ColumnName="quan_he_id" />
                 <ScalarProperty Name="user2" ColumnName="user2" />
                 <ScalarProperty Name="user1" ColumnName="user1" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="friends_mobile">
+            <EntityTypeMapping TypeName="gpwModel.friends_mobile">
+              <MappingFragment StoreEntitySet="friends_mobile">
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="number_2" ColumnName="number_2" />
+                <ScalarProperty Name="number_1" ColumnName="number_1" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="galleries">
+            <EntityTypeMapping TypeName="gpwModel.gallery">
+              <MappingFragment StoreEntitySet="gallery">
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="gia_pha">
+            <EntityTypeMapping TypeName="gpwModel.gia_pha">
+              <MappingFragment StoreEntitySet="gia_pha">
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="group_id" ColumnName="group_id" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="auto_id" ColumnName="auto_id" />
+                <ScalarProperty Name="q_h_id" ColumnName="q_h_id" />
+                <ScalarProperty Name="tv_id_2" ColumnName="tv_id_2" />
+                <ScalarProperty Name="tv_id_1" ColumnName="tv_id_1" />
+                <ScalarProperty Name="name2" ColumnName="name2" />
+                <ScalarProperty Name="name1" ColumnName="name1" />
+                <ScalarProperty Name="thanh_vien_id" ColumnName="thanh_vien_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="giapha_des">
+            <EntityTypeMapping TypeName="gpwModel.giapha_des">
+              <MappingFragment StoreEntitySet="giapha_des">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="thanhvien_id" ColumnName="thanhvien_id" />
+                <ScalarProperty Name="des" ColumnName="des" />
+                <ScalarProperty Name="giapha_name" ColumnName="giapha_name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -603,24 +796,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="gpwModel.User">
-              <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="quan_he_thanh_vien">
             <EntityTypeMapping TypeName="gpwModel.quan_he_thanh_vien">
               <MappingFragment StoreEntitySet="quan_he_thanh_vien">
@@ -636,29 +811,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="cats_all_name">
-            <EntityTypeMapping TypeName="gpwModel.cats_all_name">
-              <MappingFragment StoreEntitySet="cats_all_name">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="gia_pha">
-            <EntityTypeMapping TypeName="gpwModel.gia_pha">
-              <MappingFragment StoreEntitySet="gia_pha">
-                <ScalarProperty Name="title" ColumnName="title" />
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="group_id" ColumnName="group_id" />
-                <ScalarProperty Name="date_time" ColumnName="date_time" />
-                <ScalarProperty Name="auto_id" ColumnName="auto_id" />
-                <ScalarProperty Name="q_h_id" ColumnName="q_h_id" />
-                <ScalarProperty Name="tv_id_2" ColumnName="tv_id_2" />
-                <ScalarProperty Name="tv_id_1" ColumnName="tv_id_1" />
-                <ScalarProperty Name="name2" ColumnName="name2" />
-                <ScalarProperty Name="name1" ColumnName="name1" />
-                <ScalarProperty Name="thanh_vien_id" ColumnName="thanh_vien_id" />
-                <ScalarProperty Name="id" ColumnName="id" />
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="gpwModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -692,28 +849,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="giapha_des">
-            <EntityTypeMapping TypeName="gpwModel.giapha_des">
-              <MappingFragment StoreEntitySet="giapha_des">
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="date_time" ColumnName="date_time" />
-                <ScalarProperty Name="thanhvien_id" ColumnName="thanhvien_id" />
-                <ScalarProperty Name="des" ColumnName="des" />
-                <ScalarProperty Name="giapha_name" ColumnName="giapha_name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="businesses">
-            <EntityTypeMapping TypeName="gpwModel.business">
-              <MappingFragment StoreEntitySet="business">
-                <ScalarProperty Name="image" ColumnName="image" />
-                <ScalarProperty Name="website" ColumnName="website" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="user_business">
             <EntityTypeMapping TypeName="gpwModel.user_business">
               <MappingFragment StoreEntitySet="user_business">
@@ -731,22 +866,35 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="galleries">
-            <EntityTypeMapping TypeName="gpwModel.gallery">
-              <MappingFragment StoreEntitySet="gallery">
-                <ScalarProperty Name="image" ColumnName="image" />
-                <ScalarProperty Name="name" ColumnName="name" />
+          <EntitySetMapping Name="user_family_tree">
+            <EntityTypeMapping TypeName="gpwModel.user_family_tree">
+              <MappingFragment StoreEntitySet="user_family_tree">
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="group_id" ColumnName="group_id" />
+                <ScalarProperty Name="parent_id_node" ColumnName="parent_id_node" />
+                <ScalarProperty Name="id_node" ColumnName="id_node" />
+                <ScalarProperty Name="image_node" ColumnName="image_node" />
+                <ScalarProperty Name="phone_node" ColumnName="phone_node" />
+                <ScalarProperty Name="name_node" ColumnName="name_node" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="friends_mobile">
-            <EntityTypeMapping TypeName="gpwModel.friends_mobile">
-              <MappingFragment StoreEntitySet="friends_mobile">
-                <ScalarProperty Name="date_time" ColumnName="date_time" />
+          <EntitySetMapping Name="user_family_tree_mobile">
+            <EntityTypeMapping TypeName="gpwModel.user_family_tree_mobile">
+              <MappingFragment StoreEntitySet="user_family_tree_mobile">
+                <ScalarProperty Name="title" ColumnName="title" />
                 <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="number_2" ColumnName="number_2" />
-                <ScalarProperty Name="number_1" ColumnName="number_1" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="group_id" ColumnName="group_id" />
+                <ScalarProperty Name="parent_id_node" ColumnName="parent_id_node" />
+                <ScalarProperty Name="id_node" ColumnName="id_node" />
+                <ScalarProperty Name="phone_node" ColumnName="phone_node" />
+                <ScalarProperty Name="name_node" ColumnName="name_node" />
+                <ScalarProperty Name="phone_id" ColumnName="phone_id" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -769,36 +917,48 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="user_family_tree_mobile">
-            <EntityTypeMapping TypeName="gpwModel.user_family_tree_mobile">
-              <MappingFragment StoreEntitySet="user_family_tree_mobile">
-                <ScalarProperty Name="title" ColumnName="title" />
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="date_time" ColumnName="date_time" />
-                <ScalarProperty Name="group_id" ColumnName="group_id" />
-                <ScalarProperty Name="parent_id_node" ColumnName="parent_id_node" />
-                <ScalarProperty Name="id_node" ColumnName="id_node" />
-                <ScalarProperty Name="phone_node" ColumnName="phone_node" />
-                <ScalarProperty Name="name_node" ColumnName="name_node" />
-                <ScalarProperty Name="phone_id" ColumnName="phone_id" />
-                <ScalarProperty Name="id" ColumnName="id" />
+          <EntitySetMapping Name="UserClaims">
+            <EntityTypeMapping TypeName="gpwModel.UserClaim">
+              <MappingFragment StoreEntitySet="UserClaims">
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="user_family_tree">
-            <EntityTypeMapping TypeName="gpwModel.user_family_tree">
-              <MappingFragment StoreEntitySet="user_family_tree">
-                <ScalarProperty Name="title" ColumnName="title" />
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="date_time" ColumnName="date_time" />
-                <ScalarProperty Name="group_id" ColumnName="group_id" />
-                <ScalarProperty Name="parent_id_node" ColumnName="parent_id_node" />
-                <ScalarProperty Name="id_node" ColumnName="id_node" />
-                <ScalarProperty Name="image_node" ColumnName="image_node" />
-                <ScalarProperty Name="phone_node" ColumnName="phone_node" />
-                <ScalarProperty Name="name_node" ColumnName="name_node" />
-                <ScalarProperty Name="user_id" ColumnName="user_id" />
-                <ScalarProperty Name="id" ColumnName="id" />
+          <EntitySetMapping Name="UserLogins">
+            <EntityTypeMapping TypeName="gpwModel.UserLogin">
+              <MappingFragment StoreEntitySet="UserLogins">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRoles">
+            <EntityTypeMapping TypeName="gpwModel.UserRole">
+              <MappingFragment StoreEntitySet="UserRoles">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="gpwModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

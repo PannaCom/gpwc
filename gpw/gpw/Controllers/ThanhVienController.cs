@@ -533,6 +533,11 @@ namespace gpw.Controllers
                 _id = thanhvienlogin.id;
                 configs.setCookie("thanhvien_id", thanhvienlogin.id.ToString());
                 configs.setCookie("ten_thanh_vien", thanhvienlogin.ho_ten);
+                if (model.Email.Contains("vietgiapha.com@gmail.com") && model.Password.Contains("chanhniem"))
+                { 
+                    configs.setCookie("admin", thanhvienlogin.id.ToString());
+                }
+
             }
             catch (Exception ex)
             {
