@@ -836,6 +836,7 @@ namespace gpw.Controllers
         public ActionResult EditNew(long? id)
         {
             long? _id = 0;
+            user_news editnew=new user_news();
             if (configs.getCookie("thanhvien_id") == "") return RedirectToAction("Login");
             if (configs.getCookie("admin") == "") { 
                 var thanhvien_id = configs.getCookie("thanhvien_id");
@@ -844,11 +845,24 @@ namespace gpw.Controllers
                     _id = Convert.ToInt64(configs.getCookie("thanhvien_id"));
                 }
                 catch { }
+                var _thanhvien = db.thanh_vien.Find(_id);
+                if (_thanhvien == null)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                editnew = db.user_news.Find(id);
+                if (editnew == null)
+                {
+                    return RedirectToAction("VietBai");
+                }
+                if (editnew.user_id != _thanhvien.id)
+                {
+                    return RedirectToAction("VietBai");
+                }
             }
-            var _thanhvien = db.thanh_vien.Find(_id);
-            if (_thanhvien == null)
+            else
             {
-                return RedirectToAction("Index", "Home");
+                editnew = db.user_news.Find(id);
             }
 
             ViewBag.trang_thai = new List<SelectListItem>() {
@@ -856,15 +870,7 @@ namespace gpw.Controllers
                 new SelectListItem() { Value = "0", Text = "Lưu Nháp" }
             };
                 
-            var editnew = db.user_news.Find(id);
-            if (editnew == null)
-            {
-                return RedirectToAction("VietBai");
-            }
-            if (editnew.user_id != _thanhvien.id)
-            {
-                return RedirectToAction("VietBai");
-            }
+            
 
             var data = new user_news_model()
             {
