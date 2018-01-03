@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="@ViewBag.des">
+    <meta name="keywords" content="gia phả, mạng xã hội, cây gia phả, thiết kế gia phả,cách lập gia phả, cách viết gia phả, gia phả dòng họ, mẫu gia phả" />
+    <meta name="robots" content="index,follow,noodp" />
+    <meta name="author" content="vietgiapha.com" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Bootstrap 4-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <!--icons-->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="/Content/new/css/style.css" />
+    <script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-92968790-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+    <!-- Facebook Pixel Code -->
+    <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1978093275845674');
+  fbq('track', 'PageView');
+    </script>
+    <noscript>
+        <img height="1" width="1" style="display:none"
+             src="https://www.facebook.com/tr?id=1978093275845674&ev=PageView&noscript=1" />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+</head>
+<body>
+    <!--header-->
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-primary sticky-navigation">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#"><strong>Marketing Online</strong></a>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item mr-3">
+                    <a class="nav-link page-scroll" href="#features">Giới Thiệu <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item mr-3">
+                    <a class="nav-link page-scroll" href="#pricing">Dịch Vụ</a>
+                </li>
+                <li class="nav-item mr-3">
+                    <a class="nav-link page-scroll" href="#download">Tặng Sách</a>
+                </li>
+                <li class="nav-item mr-3">
+                    <a class="nav-link page-scroll" href="#team">Team</a>
+                </li>
+                <li class="nav-item mr-3">
+                    <a class="nav-link page-scroll" href="#contact">Liên Hệ</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>

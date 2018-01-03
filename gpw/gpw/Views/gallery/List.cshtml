@@ -2,10 +2,476 @@
 @using PagedList.Mvc;
 @{
     ViewBag.Title = "Thiết kế gia phả | Mẫu gia phả dòng họ đẹp";//Thiết Kế Gia Phả Dòng Họ - Mẫu phả đồ - Sổ gia phả, tổ tiên, dòng tộc - Phả hệ - Cây gia phả - Mẫu gia phả dòng họ đẹp
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.des = "Thiết kế gia phả, phả đồ, phả hệ theo yêu cầu riêng của mỗi dòng họ, dịch vụ uy tín chuyên nghiệp, giúp khách hàng nắm bắt những thông tin về lịch sử dòng họ của mình";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
+<style>
+    .hotline {
+        position: fixed;
+        bottom: 0;
+        z-index: 10;
+        height: 28px;
+        left: 0;
+        background: #fbe016;
+        width: 100%;
+        text-align: center;
+        color: #fff;
+        line-height: 29px;
+    }
 
-<div class="row" style="background: #fff;">
+    .gallery-title {
+        font-size: 36px;
+        color: #42B32F;
+        text-align: center;
+        font-weight: 500;
+        margin-bottom: 70px;
+    }
+
+        .gallery-title:after {
+            content: "";
+            position: absolute;
+            width: 7.5%;
+            left: 46.5%;
+            height: 45px;
+            border-bottom: 1px solid #5e5e5e;
+        }
+
+    .filter-button {
+        font-size: 18px;
+        border: 1px solid #42B32F;
+        border-radius: 5px;
+        text-align: center;
+        color: #42B32F;
+        margin-bottom: 30px;
+    }
+
+        .filter-button:hover {
+            font-size: 18px;
+            border: 1px solid #42B32F;
+            border-radius: 5px;
+            text-align: center;
+            color: #ffffff;
+            background-color: #42B32F;
+        }
+
+    .btn-default:active .filter-button:active {
+        background-color: #42B32F;
+        color: white;
+    }
+
+    .port-image {
+        width: 100%;
+    }
+
+    .gallery_product {
+        margin-bottom: 30px;
+    }
+</style>
+@*<script src="/Content/js/jquery.js"></script>*@
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $(".filter-button").click(function () {
+            var value = $(this).attr('data-filter');
+
+            if (value == "all") {
+                //$('.filter').removeClass('hidden');
+                $('.filter').show('1000');
+            }
+            else {
+                //            $('.filter[filter-item="'+value+'"]').removeClass('hidden');
+                //            $(".filter").not('.filter[filter-item="'+value+'"]').addClass('hidden');
+                $(".filter").not('.' + value).hide('3000');
+                $('.filter').filter('.' + value).show('3000');
+
+            }
+        });
+
+        if ($(".filter-button").removeClass("active")) {
+            $(this).removeClass("active");
+        }
+        $(this).addClass("active");
+
+    });
+    function goi(stt) {
+        if (stt == 1) {
+            document.getElementById("goi").value = "1";
+        }
+        if (stt == 2) {
+            document.getElementById("goi").value = "2";
+        }
+        if (stt == 3) {
+            document.getElementById("goi").value = "3";
+        }
+        if (stt == 4) {
+            document.getElementById("goi").value = "4";
+        }
+        if (stt == 5) {
+            document.getElementById("goi").value = "5";
+        }
+        if (stt == 6) {
+            document.getElementById("goi").value = "6";
+        }
+    }
+    function muahang() {
+        var sphone = $("#phone").val();
+        var semail = $("#email").val();
+        var sname = $("#name").val();
+        var snotice = $("#goi option:selected").text() + ", " + window.location.href;
+
+        if (sphone == "") {
+            alert("Nhập số điện thoại của bạn");
+            document.getElementById("phone").focus();
+            return;
+        }
+        if (semail == "") {
+            alert("Nhập email của bạn");
+            document.getElementById("email").focus();
+            return;
+        }
+        if (sname == "") {
+            alert("Nhập họ tên (và địa chỉ của bạn để chúng tôi gửi gia phả)");
+            document.getElementById("name").focus();
+            return;
+        }
+
+        $("#sendMessageButton2").html("Đang đăng ký xin đợi");
+
+        $.ajax({
+            url: "/Home/sendmail", type: 'post',
+            data: { phone: sphone, email: semail, name: sname, notice: snotice },
+            success: function (rs) {
+                if (rs == '1') {
+                    alert("Đã nhận được đăng ký của bạn. Chúng tôi sẽ liên hệ sớm nhất để tư vấn! Cảm ơn bạn!");
+                    //location.reload();
+                } else {
+                    alert("Hiện tạm thời chúng tôi chưa thể nhận đăng ký thời điểm này! Xin bạn gọi số 0979776427 để được tư vấn");
+                }
+                $("#sendMessageButton2").html("ĐĂNG KÝ");
+            }
+        });
+    }
+</script>
+<!--main section-->
+<section class="bg-texture hero pt-5">
+    <div class="container">
+        <div class="row d-sm-flex">
+            <div class="col-sm-6 text-white wow fadeIn">
+                <div class="mt-5 pt-5 hidden-sm-down"></div>
+                <h1>Thiết kế gia phả cho gia tộc bạn</h1>
+                <h2>
+                    Lưu trữ, tưởng nhớ và vinh danh dòng tộc của bạn
+                </h2>
+                <p class="mt-4 lead">
+                    Với hàng trăm mẫu gia phả đẹp sang trọng
+                </p>
+                <p>
+                    <b>Khách hàng mới nhất</b>
+                </p>
+                <p>
+                    <a href="#" class="mr-2"><img src="~/Content/new/img/template/1.jpg" class="store-img" style="width:100%;height:100%;" /></a>
+                </p>
+            </div>
+            <div class="col-sm-6 pt-5 hidden-sm-down wow fadeInRight">
+                <img class="img-fluid mx-auto d-block" src="~/Content/new/img/template/logo.png" />
+            </div>
+        </div>
+    </div>
+</section>
+<!--main features-->
+<section class="bg-alt" id="features">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12 text-center wow fadeIn">
+                <h2 class="text-primary">Gia phả dòng họ</h2>
+                <p class="lead">
+                    Thiết kế in ấn gia phả bền đẹp, liên hệ 097 9776427
+                </p>
+            </div>
+        </div>
+        <div class="row d-md-flex mt-4 text-center">
+            <div class="col-sm-3 mt-2">
+                <div class="card border-none wow fadeIn">
+                    <div class="card-block">
+                        <i class="material-icons dp36 icon-box">camera_enhance</i>
+                        <h5 class="card-title text-primary pt-5">Hình ảnh đẹp</h5>
+                        <p class="card-text">Hình ảnh gia phả sắc nét rõ ràng</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 mt-2">
+                <div class="card border-none wow fadeIn">
+                    <div class="card-block">
+                        <i class="material-icons dp36 icon-box">crop</i>
+                        <h5 class="card-title text-primary pt-5">Nội dung đầy đủ</h5>
+                        <p class="card-text">Thông tin gia phả của các chi, các đời rõ ràng đầy đủ</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 mt-2">
+                <div class="card border-none wow fadeIn">
+                    <div class="card-block">
+                        <i class="material-icons dp36 icon-box">cloud_upload</i>
+                        <h5 class="card-title text-primary pt-5">Dễ tìm kiếm sắp xếp</h5>
+                        <p class="card-text">Sắp xếp khoa học dễ tìm, dễ thấy, chia sẻ qua mạng xã hội</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 mt-2">
+                <div class="card border-none wow fadeIn">
+                    <div class="card-block">
+                        <i class="material-icons dp36 icon-box">invert_colors</i>
+                        <h5 class="card-title text-primary pt-5">Trang trọng</h5>
+                        <p class="card-text">Mẫu mà đẹp, trang trọng</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--extra features-->
+@*<section class="bg-inverse text-white" id="extra-features">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12 text-center wow fadeIn">
+                    <h2 class="text-orange">MARKETING ĐA KÊNH</h2>
+                    <p class="lead">
+                        TẠO DỰNG CÁC KÊNH BÁN HÀNG HIỆU QUẢ
+                    </p>
+                </div>
+            </div>
+            <div class="row d-md-flex mt-5">
+                <div class="col-sm-4 wow fadeIn">
+                    <h5 class="text-orange">THIẾT KẾ WEBSITE</h5>
+                    <p>Thiết lập website để quảng bá sản phẩm với hình ảnh đẹp mắt, nội dung hấp dẫn</p>
+                    <h5 class="text-orange pt-5">ZALO MARKETING</h5>
+                    <p>Thiết lập OA, Shop cửa hàng trên zalo</p>
+                    <h5 class="text-orange pt-5">FACEBOOK MARKETING</h5>
+                    <p>Thiết lập fanpage, viết bài, quảng cáo</p>
+                </div>
+                <div class="col-sm-4 wow fadeIn">
+                    <img class="img-fluid mx-auto d-block pb-3" src="~/Content/new/img/kenh.png" alt="Đa Kênh">
+                </div>
+                <div class="col-sm-4 wow fadeIn">
+                    <h5 class="text-orange">Thương mại điện tử</h5>
+                    <p>Thiết lập các shop bán hàng trên các trang thương mại điện tử (lazada, shopee,...)</p>
+                    <h5 class="text-orange pt-5">Adword</h5>
+                    <p>Quảng cáo trên Google Adword để ra đơn hàng ngay</p>
+                    <h5 class="text-orange pt-5">Xây dựng hệ thống đại lý</h5>
+                    <p>Xây dựng đội sales, cộng tác viên, đại lý phân phối</p>
+                </div>
+            </div>
+        </div>
+    </section>*@
+<div class="container">
+    <div class="row">
+        <div class="gallery col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h1 class="gallery-title">Mẫu gia phả</h1>
+        </div>
+        @*<div align="center">
+                <button class="btn btn-default filter-button" data-filter="all">All</button>
+                <button class="btn btn-default filter-button" data-filter="hdpe">Trang 1</button>
+                <button class="btn btn-default filter-button" data-filter="sprinkle">Trang 2</button>
+                <button class="btn btn-default filter-button" data-filter="spray">Trang 3</button>
+                <button class="btn btn-default filter-button" data-filter="irrigation">Trang 4</button>
+            </div>
+            <br />*@
+
+        <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
+            <img src="~/Content/new/img/template/2.jpg" class="img-responsive" style="width:208px;height:295px;">
+        </div>
+        <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter sprinkle">
+            <img src="~/Content/new/img/template/3.jpg" class="img-responsive" style="width:208px;height:295px;">
+        </div>
+        <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
+            <img src="~/Content/new/img/template/4.jpg" class="img-responsive" style="width:208px;height:295px;">
+        </div>
+        <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter irrigation">
+            <img src="~/Content/new/img/template/5.jpg" class="img-responsive" style="width:208px;height:295px;">
+        </div>
+        <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter spray">
+            <img src="~/Content/new/img/template/6.jpg" class="img-responsive" style="width:208px;height:295px;">
+        </div>
+        <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter irrigation">
+            <img src="~/Content/new/img/template/7.jpg" class="img-responsive" style="width:208px;height:295px;">
+        </div>
+        <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter spray">
+            <img src="~/Content/new/img/template/8.jpg" class="img-responsive" style="width:208px;height:295px;">
+        </div>
+        <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter irrigation">
+            <img src="~/Content/new/img/template/9.jpg" class="img-responsive" style="width:208px;height:295px;">
+        </div>
+        <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter irrigation">
+            <img src="~/Content/new/img/template/10.jpg" class="img-responsive" style="width:208px;height:295px;">
+        </div>        
+    </div>
+</div>
+<!--pricing-->
+<section class="bg-alt" id="pricing">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12 text-center">
+                <h2 class="text-primary">LỰA CHỌN GÓI DỊCH VỤ</h2>
+                <p class="lead">
+                    Từ miễn phí đến cao cấp
+                </p>
+            </div>
+        </div>
+        <div class="row d-md-flex mt-4 text-center">
+            <div class="col-sm-4 mt-2 wow fadeIn">
+                <div class="card card-outline-primary">
+                    <div class="card-block" style="min-height:632px;">
+                        <h5 class="card-title pt-4 text-orange">Gói 1: Miễn phí</h5>
+                        <h3 class="card-title text-orange pt-4"><sup>vnđ</sup> 0 </h3>
+                        <p class="card-text text-muted pb-3 border-bottom">Gia Phả Lưu Trữ Online</p>
+                        <ul class="list-unstyled pricing-list">
+                            <li>- Đăng ký account</li>
+                            <li>- Tạo gia phả online bằng phần mềm chạy trên web</li>
+                            <li>- Chia sẻ cho người thân, họ hàng, bạn bè và mạng xã hội</li>
+                            <li>- Xuất bản web lên internet</li>
+                            <li>- Hoàn toàn miễn phí</li>
+                        </ul>
+                        <a href="/ThanhVien/Create" target="_blank" class="btn btn-primary btn-radius" >Đăng Ký</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 mt-2 wow fadeIn">
+                <div class="card card-outline-primary bg-primary text-white">
+                    <div class="card-block" style="min-height:632px;">
+                        <h5 class="card-title pt-4 text-white">Gói 2: Tiêu Chuẩn</h5>
+                        <h3 class="card-title text-orange pt-4"><sup>vnđ</sup> 1.490.000 (Phả đồ in treo tường)</h3>                        
+                        <p class="card-text text-muted pb-3 border-bottom">Từ 100 đến 200 người trên phả đồ</p>
+                        <ul class="list-unstyled pricing-list">
+                            <li>- Với hàng trăm mẫu mã để bạn lựa chọn</li>
+                            <li>- In giấy lụa hoặc bạt khổ A0</li>
+                            <li>- Đóng khung treo tường hoặc cuộn tròn lưu giữ</li>
+                            <li>- Giao diện đẹp, tiện ích</li>
+                            <li>- Thêm từ 50 đến 100 người cộng thêm phí 500.000</li>
+                            <li>- Miễn phí giao nhận</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-white btn-radius" onclick="goi(2);">Đăng Ký</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 mt-2 wow fadeIn">
+                <div class="card card-outline-primary">
+                    <div class="card-block" style="min-height:632px;">
+                        <h5 class="card-title pt-4 text-orange">Gói 3: Nâng Cao</h5>
+                        <h3 class="card-title text-orange pt-4"><sup>vnđ</sup> 2.190.000 (Sổ gia phả)</h3>
+                        <p class="card-text text-muted pb-3 border-bottom">Từ 100 đến 200 trang</p>
+                        <ul class="list-unstyled pricing-list">
+                            <li>- Với hàng trăm mẫu mã để bạn lựa chọn</li>
+                            <li>- In màu đóng bìa khổ A4</li>
+                            <li>- Biên tập nội dung dựa trên khách cung cấp</li>
+                            <li>- Giao diện đẹp, tiện ích</li>
+                            <li>- Thêm từ 50 đến 100 trang cộng thêm phí 600.000</li>
+                            <li>- Miễn phí giao nhận</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-primary btn-radius" onclick="goi(3);">Đăng Ký</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+<section class="bg-orange" id="contact">
+    <div class="container">
+        <div class="row d-md-flex mt-4 text-center">
+            <div class="col-md-12 text-center">
+                <h2 class="text-primary">Đăng Ký Dịch Vụ</h2>
+                <p class="mt-4 lead">
+                    <input class="form-control" name="phone" id="phone" placeholder="Nhập số điện thoại" type="text">
+                </p>
+                <p class="mt-5">
+                    <input class="form-control" name="email" id="email" placeholder="Nhập email" type="text">
+                </p>
+                <p class="mt-5">
+                    <input class="form-control" name="name" id="name" placeholder="Nhập Họ tên và địa chỉ gửi thư nếu có (ví dụ: Nguyễn Văn A, CT1, Bắc Linh Đàm, Hoàng Mai, Hà Nội)" type="text">
+                </p>
+                <p class="mt-5">
+                    <select id="goi" name="goi" class="form-control" style="display:block;float:left;position:relative;" multiple>                       
+                        <option value="2" selected>Gói 2: Tiêu chuẩn</option>
+                        <option value="3">Gói 3: Nâng cao</option>
+                    </select>
+                    <br /><br /><br />
+                    <a href="#contact" class="btn btn-white btn-radius" id="sendMessageButton2" onclick="muahang();">Đăng Ký</a>
+                </p>
+                <p>Với các yêu cầu chuyển khoản xin chuyển đến: Vietcombank, số tài khoản 0011000661562, chi nhánh Sở Giao Dịch, Chủ tài khoản: Nguyen Viet Huy</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="bg-alt" id="team">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12 text-center">
+                <h2 class="text-primary">Các Chuyên Gia</h2>
+                <p class="lead">
+                    Chúng tôi bao gồm các chuyên gia kinh nghiệm ở lĩnh vực công nghệ, thiết kế đồ họa
+                </p>
+            </div>
+        </div>
+        <div class="row d-md-flex mt-4 text-center">
+            <div class="col-sm-4 mt-2 wow fadeIn">
+                <div class="card border-none">
+                    <div class="card-block">
+                        <img src="~/Content/new/img/avatar.png" alt="Male" class="img-team img-fluid rounded-circle" />
+                        <h5 class="card-title text-primary pt-4">Nguyễn Viết Huy</h5>
+                        <p class="card-text">CEO - Giám Đốc Điều Hành</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 mt-2 wow fadeIn">
+                <div class="card border-none">
+                    <div class="card-block">
+                        <img src="~/Content/new/img/thuy.jpg" alt="Male" class="img-team img-fluid rounded-circle" />
+                        <h5 class="card-title text-primary pt-4">Nguyễn Diệu Thùy</h5>
+                        <p class="card-text">Giám đốc Marketing</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 mt-2 wow fadeIn">
+                <div class="card border-none">
+                    <div class="card-block">
+                        <img src="~/Content/new/img/lien.jpg" alt="Male" class="img-team img-fluid rounded-circle" />
+                        <h5 class="card-title text-primary pt-4">Đỗ Hoàng Liên</h5>
+                        <p class="card-text">Thiết kế đồ họa</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fweb.facebook.com%2FGia-Ph%25E1%25BA%25A3-Vi%25E1%25BB%2587t-Nam-2246778925547661%2F&tabs=timeline&width=500&height=300&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" width="500" height="300" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+<!--contact-->
+<section class="bg-texture-collage p-0" id="contact">
+    <div class="container">
+        <div class="row d-md-flex text-white text-center wow fadeIn">
+            <div class="col-sm-4 p-5">
+                <p><em class="material-icons dp36">phone</em></p>
+                <p class="lead">+0979776427</p>
+            </div>
+            <div class="col-sm-4 p-5">
+                <p><em class="material-icons dp36">email</em></p>
+                <p class="lead">vnnvh80@gmail.com</p>
+            </div>
+            <div class="col-sm-4 p-5">
+                <p><em class="material-icons dp36">location_on</em></p>
+                <p class="lead">Linh Đàm, Hoàng Mai, Hà Nội</p>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="hotline" style="display:block;">
+    <div class="container">
+        <div class="iconcall">
+            <a href="tel:0979776427" class="phonenummber " style="color:blue;">Gọi 097 977 6427</a>
+        </div>
+    </div>
+</div>
+@*<div class="row" style="background: #fff;">
     <div class="page-header">
         <h1 class="text-center" style="color: red;">Mẫu gia phả</h1>
     </div>
@@ -35,4 +501,4 @@
         </div>
 
     </div>
-</div>
+</div>*@

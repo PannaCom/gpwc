@@ -327,5 +327,34 @@ namespace gpw.Controllers
             var model = db.thanh_vien.OrderByDescending(o => o.ngay_tao).Take(4).ToList();//Select(x => x)
             return PartialView("_LoadThanhVien", model);
         }
+        [HttpPost]
+        public string sendmail(string phone, string name, string email, string notice)
+        {
+            try
+            {
+                //customer ct = new customer();
+                //ct.date_time = DateTime.Now;
+                //ct.name = name;
+                //ct.phone = phone;
+                //ct.email = email;
+                //db.customers.Add(ct);
+                //db.SaveChanges();
+                string mailuser = "mistermynz@gmail.com";
+                string mailpass = "13062015";
+                if (Config.Sendmail(mailuser, mailpass, "vnnvh80@gmail.com", "Thiết kế gia phả " + name + ", điện thoại " + phone, "Khách hàng: " + name + ", Điện thoại: " + phone + ", Email: " + email + "<br>" + notice))
+                {
+                    return "1";
+                }
+                else
+                {
+                    return "0";
+                }
+
+            }
+            catch
+            {
+                return "0";
+            }
+        }
     }
 }
